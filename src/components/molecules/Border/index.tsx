@@ -7,8 +7,8 @@ interface Props {
 }
 export const Border = (props: Props) => {
     const target = props.target
-    const [borderWidth, setBorderWidth] = useGetValue(target, 'border-width')
-    const [borderColor, setBorderColor] = useGetValue(target, 'border-color')
+    const [borderWidth, setBorderWidth] = useGetValue('border-width')
+    const [borderColor, setBorderColor] = useGetValue('border-color')
 
     return (
         <div className="attribute">

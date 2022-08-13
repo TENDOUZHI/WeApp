@@ -20,6 +20,8 @@ export const Canvas = () => {
         newSource.addEventListener('click',(e: MouseEvent) => {
             // capture the target that clicked
             dispatch(targetSliceAction.captureTarget(e.target))
+            // console.log(e.target);
+            
         })
         newSource.classList.add(newSource.nodeName + num)
         setNum(num  + 1)

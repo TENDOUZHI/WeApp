@@ -1,17 +1,19 @@
+import { selectTarget } from "@/store/target.slice"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 
 
-export const useGetValue = (target: HTMLElement, prop: string): [string, (value: string) => void] => {
-
-
+export const useGetValue = (prop: string): [string, (value: string) => void] => {
     const [value, setValue] = useState<string>('')
+    let target = useSelector(selectTarget) as HTMLElement
+    const dispatch = useDispatch()
     useEffect(() => {
         if (target !== null) {
             const newValue = getComputedStyle(target).getPropertyValue(prop)
-            // setValue(newValue.substring(0, newValue.length - 2))
             setValue(newValue)
         }
-    }, [target])
+    },[target])
     // transfer to camel name
 
     const setValues = (value: string) => {
@@ -28,6 +30,7 @@ export const useGetValue = (target: HTMLElement, prop: string): [string, (value:
             }
             target.style[camel] = value
         }
+
     }
 
     return [value, setValues];

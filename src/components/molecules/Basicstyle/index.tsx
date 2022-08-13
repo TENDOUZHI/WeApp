@@ -8,10 +8,9 @@ interface Props {
 export const Basicstyle = (props: Props) => {
     // width height border-radious angel margin padding
     const target = props.target
-    const [width,setWidth] = useGetValue(target, 'width')
-    const [height,setHeight] = useGetValue(target, 'height')
-    const [borderRadius,setBorderRadius] = useGetValue(target, 'border-radius')
-
+    const [width,setWidth] = useGetValue('width')
+    const [height,setHeight] = useGetValue('height')
+    const [borderRadius,setBorderRadius] = useGetValue('border-radius')
     return (
         <div className="attribute">
             <div className='attribute-title'>布局</div>

@@ -7,10 +7,10 @@ interface Props {
 export const Padding = (props: Props) => {
     // align row column center
     const target = props.target
-    const [paddingTop, setpaddingTop] = useGetValue(target, 'padding-top')
-    const [paddingBottom, setpaddingBottom] = useGetValue(target, 'padding-bottom')
-    const [paddingLeft,setpaddingLeft] = useGetValue(target, 'padding-left')
-    const [paddingRight, setpaddingRight] = useGetValue(target, 'padding-right')
+    const [paddingTop, setpaddingTop] = useGetValue('padding-top')
+    const [paddingBottom, setpaddingBottom] = useGetValue('padding-bottom')
+    const [paddingLeft,setpaddingLeft] = useGetValue('padding-left')
+    const [paddingRight, setpaddingRight] = useGetValue('padding-right')
     return (
         <div className="attribute">
             <div className='attribute-title'>内边距</div>
