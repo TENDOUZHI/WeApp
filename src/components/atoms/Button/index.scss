@@ -1,0 +1,13 @@
+#button {
+    width: 75px;
+    height: 25px;
+    outline: none;
+    transition: all .3s;
+    border-radius: 5px;
+    &:active {
+        transform: scale(95%);
+    }
+    &:hover {
+        border: none;
+    }
+}

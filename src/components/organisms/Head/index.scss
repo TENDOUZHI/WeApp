@@ -1,0 +1,12 @@
+$height: 50px;
+
+.head {
+    width: 100%;
+    height: $height;
+    background-color: rgb(32, 32, 32);
+    color: #fff;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

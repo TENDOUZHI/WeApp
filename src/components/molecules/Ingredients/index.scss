@@ -1,0 +1,13 @@
+.ingredients {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    &-wrapper {
+        height: 120px;
+        width: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+}
