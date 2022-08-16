@@ -1,12 +1,18 @@
 import './index.scss'
-import { DragEvent, useState } from 'react'
+import { DragEvent, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
 import { selectTarget, targetSliceAction } from '@/store/target.slice'
+import { useCompile } from '@/hooks/useCompile'
+interface vNode {
+    tag: string,
+    children: Array<string>
+}
 export const Canvas = () => {
     const source = useSelector(selectSource)
     const dispatch = useDispatch()
+    const root = useRef<any>(null)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
     // record the number of element in canvas
@@ -17,20 +23,19 @@ export const Canvas = () => {
     const drop = (e: DragEvent) => {
         const target = e.target as HTMLElement
         newSource.draggable = false
-        newSource.addEventListener('click',(e: MouseEvent) => {
-            // capture the target that clicked
+        newSource.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
-            // console.log(e.target);
-            
         })
         newSource.classList.add(newSource.nodeName + num)
-        setNum(num  + 1)
+        setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
+        useCompile(root.current)
+
     }
-    return(
+    return (
         <div className="canvas-wrapper">
-            <div className="device" onDragOver={drag} onDrop={drop}></div>
+            <div className="device" ref={root} onDragOver={drag} onDrop={drop}></div>
         </div>
     )
 }

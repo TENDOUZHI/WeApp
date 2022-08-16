@@ -11,14 +11,6 @@ import { useSelector } from 'react-redux'
 import './index.scss'
 export const RighttList = () => {
     let target = useSelector(selectTarget) as HTMLElement
-    // const [status, setStatus] = useState<string>('')
-    // if (target !== null) {
-    //     setStatus(getComputedStyle(target).getPropertyValue('display'))
-    // }
-    // console.log(status);
-    
-
-
     return (
         <div className="rightlist-wrapper">
             <Basicstyle target={target} />
