@@ -9,9 +9,47 @@
     display: flex;
     margin-top: 8px;
     margin-left: 8px;
-    transition: all .3s;
+    transition: all 0.3s;
+    .tip {
+      width: 56px;
+      height: 28px;
+      font-size: 10px;
+      color: #fff;
+      position: absolute;
+      background-color: #000;
+      border-radius: 6px;
+      transition: all 0.3s;
+      transform: translateY(30px);
+      display: none;
+      opacity: 0;
+      &::before {
+        content: '';
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        top: -10px;
+        left: 5px;
+        border: 5px solid #000;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+    }
     &:hover {
-      background-color: #fff;
+      .tip {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: op-out 0.3s ease-in-out forwards;
+      }
+    }
+    @keyframes op-out {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
   }
   &-title {

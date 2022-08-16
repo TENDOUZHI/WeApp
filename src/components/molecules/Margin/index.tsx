@@ -15,10 +15,10 @@ export const Margin = (props: Props) => {
         <div className="attribute">
             <div className='attribute-title'>外边距</div>
             <div className="attribute-content">
-                <StyleInput title='MT' value={marginTop} changeValue={setMarginTop} />
-                <StyleInput title='MB' value={marginBottom} changeValue={setMarginBottom} />
-                <StyleInput title='ML' value={marginLeft} changeValue={setMarginLeft} />
-                <StyleInput title='MR' value={marginRight} changeValue={setMarginRight} />
+                <StyleInput tip='上边距' title='MT' value={marginTop} changeValue={setMarginTop} />
+                <StyleInput tip='下边距' title='MB' value={marginBottom} changeValue={setMarginBottom} />
+                <StyleInput tip='左边距' title='ML' value={marginLeft} changeValue={setMarginLeft} />
+                <StyleInput tip='右边距' title='MR' value={marginRight} changeValue={setMarginRight} />
             </div>
 
         </div>

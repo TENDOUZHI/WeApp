@@ -18,12 +18,12 @@ export const Basicstyle = (props: Props) => {
         <div className="attribute">
             <div className='attribute-title'>布局</div>
             <div className="attribute-content">
-                <StyleInput title='W' value={width} changeValue={setWidth} />
-                <StyleInput title='H' value={height} changeValue={setHeight} />
-                <StyleInput title='R' value={borderRadius} changeValue={setBorderRadius} />
-                <StyleInput title='FZ' value={fontSize} changeValue={setFontSize} />
-                <StyleInput title='FC' value={color} changeValue={setColor} />
-                <StyleInput title='C' value={content} changeValue={setContent} />
+                <StyleInput tip='宽度' title='W' value={width} changeValue={setWidth} />
+                <StyleInput tip='高度' title='H' value={height} changeValue={setHeight} />
+                <StyleInput tip='圆角' title='R' value={borderRadius} changeValue={setBorderRadius} />
+                <StyleInput tip='字体' title='FZ' value={fontSize} changeValue={setFontSize} />
+                <StyleInput tip='颜色' title='FC' value={color} changeValue={setColor} />
+                <StyleInput tip='内容' title='C' value={content} changeValue={setContent} />
             </div>
 
         </div>

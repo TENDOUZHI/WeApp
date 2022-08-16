@@ -5,6 +5,7 @@ import './index.scss'
 interface Props {
     title: string
     value: string
+    tip: string
     changeValue: ((value: string) => void)
     ifValue?: ((value: string) => void)
 }
@@ -42,6 +43,7 @@ export const StyleInput = (props: Props) => {
         <div className="input-wrapper" ref={wrapper}>
             <div className="input-title">{props.title}</div>
             <input type="text" className='input-item' value={Ivalue} onChange={updateValue} onFocus={focusInput} onBlur={blurInput} />
+            <div className="tip">{props.tip}</div>
         </div>
     )
 }

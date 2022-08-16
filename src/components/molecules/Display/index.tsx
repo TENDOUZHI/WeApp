@@ -30,15 +30,15 @@ export const Display = (props: Props) => {
         <div className="attribute">
             <div className='attribute-title'>放置</div>
             <div className="attribute-content">
-                <StyleInput title='Ds' value={display} changeValue={setDisplay} ifValue={updateDis} />
+                <StyleInput tip='display' title='Ds' value={display} changeValue={setDisplay} ifValue={updateDis} />
                 {
                     status === 'flex' &&
                     <>
-                        <StyleInput title='JC' value={flexDirection} changeValue={setFlexDirection} />
-                        <StyleInput title='JC' value={justifyContent} changeValue={setJustiContent} />
-                        <StyleInput title='JI' value={justifyItems} changeValue={setJustifyItems} />
-                        <StyleInput title='AI' value={alignItems} changeValue={setAlignItems} />
-                        <StyleInput title='AC' value={alignContent} changeValue={setAlignContent} />
+                        <StyleInput tip='弹性方向' title='JC' value={flexDirection} changeValue={setFlexDirection} />
+                        <StyleInput tip='横向内容' title='JC' value={justifyContent} changeValue={setJustiContent} />
+                        <StyleInput tip='横向单位' title='JI' value={justifyItems} changeValue={setJustifyItems} />
+                        <StyleInput tip='纵向单位' title='AI' value={alignItems} changeValue={setAlignItems} />
+                        <StyleInput tip='纵向内容' title='AC' value={alignContent} changeValue={setAlignContent} />
                     </>
                 }
             </div>

@@ -15,10 +15,10 @@ export const Padding = (props: Props) => {
         <div className="attribute">
             <div className='attribute-title'>内边距</div>
             <div className="attribute-content">
-                <StyleInput title='PT' value={paddingTop} changeValue={setpaddingTop} />
-                <StyleInput title='PB' value={paddingBottom} changeValue={setpaddingBottom} />
-                <StyleInput title='PL' value={paddingLeft} changeValue={setpaddingLeft} />
-                <StyleInput title='PR' value={paddingRight} changeValue={setpaddingRight} />
+                <StyleInput tip='上内距' title='PT' value={paddingTop} changeValue={setpaddingTop} />
+                <StyleInput tip='下内距' title='PB' value={paddingBottom} changeValue={setpaddingBottom} />
+                <StyleInput tip='左内距' title='PL' value={paddingLeft} changeValue={setpaddingLeft} />
+                <StyleInput tip='右内距' title='PR' value={paddingRight} changeValue={setpaddingRight} />
             </div>
 
         </div>
