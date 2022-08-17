@@ -1,7 +1,7 @@
 import './index.scss'
-import { DragEvent, useRef, useState } from 'react'
+import { DragEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectSource, sourceSliceAction } from '@/store/source.slice'
+import { selectRoot, selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
 import { selectTarget, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
@@ -20,6 +20,9 @@ export const Canvas = () => {
     const drag = (e: DragEvent) => {
         e.preventDefault()
     }
+    useEffect(() => {
+        dispatch(sourceSliceAction.initialRoot(root.current))
+    }, [])
     const drop = (e: DragEvent) => {
         const target = e.target as HTMLElement
         newSource.draggable = false
@@ -30,7 +33,8 @@ export const Canvas = () => {
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
-        useCompile(root.current)
+        
+        // useCompile(root.current)
 
     }
     return (
