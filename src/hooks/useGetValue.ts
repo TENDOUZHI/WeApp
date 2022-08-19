@@ -10,7 +10,7 @@ export const useGetValue = (prop: string): [string, (value: string) => void] => 
     useEffect(() => {
         if (target !== null) {
             if (prop === 'content') {
-                const newValue = target.innerHTML
+                const newValue = target.innerText
                 setValue(newValue)
             } else {
                 const newValue = getComputedStyle(target).getPropertyValue(prop)

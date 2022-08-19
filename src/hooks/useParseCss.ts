@@ -27,6 +27,8 @@ export interface Style {
 }
 
 export const useParseCss = (el: HTMLElement): Style => {
+
+    
     const style: Style = {
         width: window.getComputedStyle(el).width,
         height: window.getComputedStyle(el).height,

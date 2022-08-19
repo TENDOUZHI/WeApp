@@ -11,7 +11,11 @@ export default defineConfig({
     }
   },
   server: {
-    open: '/'
+    host: '0.0.0.0',
+    open: '/',
+    // port: 8000,
+    https: false,
+    proxy: {},
   }, css: {
     /* CSS 预处理器 */
     preprocessorOptions: {

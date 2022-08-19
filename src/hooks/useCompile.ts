@@ -5,22 +5,23 @@ import { Style } from "util";
 import { useParseCss } from "./useParseCss";
 
 interface vNode {
-    tag: string,
-    type: string,
+    name: string,
     style: Style | object,
+    content: string | null,
     children: Array<vNode>
 }
 
 export const useCompile = (rootNode: any) => {
     // inital the virtual dom
     let vNode: vNode = {
-        tag: rootNode.nodeName,
-        type: 'root',
-        style:{},
-        children:[]
+        name: 'root',
+        style: useParseCss(rootNode),
+        content: rootNode.nodeValue,
+        children: []
     }
-    dfs(rootNode,vNode)
-    console.log(vNode);
+    dfs(rootNode, vNode)
+    // console.log(vNode);
+    return vNode;
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
@@ -29,12 +30,15 @@ const dfs = (rootNode: any, vNode: any) => {
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         // 同步到vNode的子节点
         const node: vNode = {
-            tag: el.nodeName,
-            type: el.id,
+            name: el.id,
             style: useParseCss(el),
+            content: el.innerText,
             children: []
         }
         vNode.children.push(node)
-        dfs(el,vNode.children[index])
+        if(el.innerText === '') {
+            dfs(el, vNode.children[index])
+        }
+        
     });
 }
