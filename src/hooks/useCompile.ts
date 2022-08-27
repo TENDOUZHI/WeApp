@@ -11,21 +11,21 @@ interface vNode {
     children: Array<vNode>
 }
 
-export const useCompile = (rootNode: any) => {
+export const useCompile = (rootNode: any, width: number) => {
     // inital the virtual dom
     let vNode: vNode = {
         name: 'root',
-        style: useParseCss(rootNode),
+        style: useParseCss(rootNode,width),
         content: rootNode.nodeValue,
         children: []
     }
-    dfs(rootNode, vNode)
+    dfs(rootNode, vNode, width)
     // console.log(vNode);
     return vNode;
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
-const dfs = (rootNode: any, vNode: any) => {
+const dfs = (rootNode: any, vNode: any, width: number) => {
     // 对rootNode的子节点进行遍历
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         // 同步到vNode的子节点
@@ -33,7 +33,7 @@ const dfs = (rootNode: any, vNode: any) => {
         if (el.innerText === undefined) {
             styles = null
         } else {
-            styles = useParseCss(el)
+            styles = useParseCss(el,width)
         }
         const node: vNode = {
             name: el.id,
@@ -43,7 +43,7 @@ const dfs = (rootNode: any, vNode: any) => {
         }
         if (el.innerText !== undefined) {
             vNode.children.push(node)
-            dfs(el, vNode.children[index])
+            dfs(el, vNode.children[index], width)
         }
         
 

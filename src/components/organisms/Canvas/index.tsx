@@ -33,8 +33,6 @@ export const Canvas = () => {
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
-        
-        // useCompile(root.current)
 
     }
     return (
