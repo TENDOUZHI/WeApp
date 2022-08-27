@@ -1,3 +1,4 @@
+import { useRpx } from "./useRpx"
 
 export interface Style {
     width: string
@@ -53,6 +54,20 @@ export const useParseCss = (el: HTMLElement): Style => {
         justifyItems:window.getComputedStyle(el).justifyItems,
         alignContent:window.getComputedStyle(el).alignContent,
         alignItems:window.getComputedStyle(el).alignItems
+    }
+    for (let key in style) {
+        // @ts-ignore
+        const value: string = style[key]
+        let tail = value[value.length - 2] + value[value.length - 1]
+        if (tail === 'px') {
+            const px = Number(value.substring(0,value.length - 2))
+            const rpx = useRpx(px,375)  
+            const value_rpx = rpx.toString() + 'rpx'
+            // @ts-ignore
+            style[key] = value_rpx
+        }
+        
+        
     }
     return style
 }

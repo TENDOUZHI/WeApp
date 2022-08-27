@@ -6,7 +6,7 @@ import { useParseCss } from "./useParseCss";
 
 interface vNode {
     name: string,
-    style: Style | object,
+    style: Style | object | null,
     content: string | null,
     children: Array<vNode>
 }
@@ -29,16 +29,23 @@ const dfs = (rootNode: any, vNode: any) => {
     // 对rootNode的子节点进行遍历
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         // 同步到vNode的子节点
+        let styles;
+        if (el.innerText === undefined) {
+            styles = null
+        } else {
+            styles = useParseCss(el)
+        }
         const node: vNode = {
             name: el.id,
-            style: useParseCss(el),
+            style: styles,
             content: el.innerText,
             children: []
         }
-        vNode.children.push(node)
-        if(el.innerText === '') {
+        if (el.innerText !== undefined) {
+            vNode.children.push(node)
             dfs(el, vNode.children[index])
         }
         
+
     });
 }

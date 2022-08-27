@@ -7,6 +7,8 @@ export const Head = () => {
     const root = useSelector(selectRoot)
     const click = () => {
         const payload = useCompile(root)
+        // console.log(payload);
+        
         axios.post('/vnode', payload).then(res => {
             console.log(res);
         })
