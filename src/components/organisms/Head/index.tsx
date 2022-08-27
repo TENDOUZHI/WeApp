@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux'
 import './index.scss'
 export const Head = () => {
     const root = useSelector(selectRoot)
+    const device = useSelector(selectDevice)
     const click = () => {
-        const device = useSelector(selectDevice)
-        const payload = useCompile(root,device.width)
+        let width = device.width
+        const payload = useCompile(root,width)
         
         axios.post('/vnode', payload).then(res => {
             console.log(res);

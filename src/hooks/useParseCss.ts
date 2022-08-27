@@ -61,7 +61,7 @@ export const useParseCss = (el: HTMLElement,width: number): Style => {
         let tail = value[value.length - 2] + value[value.length - 1]
         if (tail === 'px') {
             const px = Number(value.substring(0,value.length - 2))
-            const rpx = useRpx(px,width)  
+            const rpx = useRpx(px,width)
             const value_rpx = rpx.toString() + 'rpx'
             // @ts-ignore
             style[key] = value_rpx
