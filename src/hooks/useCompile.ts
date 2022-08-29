@@ -1,17 +1,30 @@
+import { routes, vNode } from "@/store/routes.slice";
 import { selectSource, sourceSlice } from "@/store/source.slice";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Style } from "util";
 import { useParseCss } from "./useParseCss";
 
-interface vNode {
-    name: string,
-    style: Style | object | null,
-    content: string | null,
-    children: Array<vNode>
+interface Vapp {
+    project_name: string,
+    routes: Array<routes>
 }
 
+//  to do list
+//  first: finish auto save of current page
+//  second: use redux to record vNode of every page, in order to impl create page 
+//  third: merge them into one json stream
+
 export const useCompile = (rootNode: any, width: number) => {
+    // create project
+    let Vapp: Vapp = {
+        project_name: '',
+        routes:[]
+    }
+    // initial routes
+    let routes = [
+
+    ]
     // inital the virtual dom
     let vNode: vNode = {
         name: 'root',

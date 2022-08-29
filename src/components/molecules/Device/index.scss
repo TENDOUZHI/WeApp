@@ -16,8 +16,15 @@ $list-length: 19;
   overflow: visible;
   user-select: none;
   border-radius: .3rem;
+  transition: all .3s;
+  &:hover {
+      background-color: rgb(230, 230, 230);
+  }
   &-title {
+    width: 100%;
     color: #000;
+    display: flex;
+    justify-content: center;
   }
   &-choice {
     width: 20rem;

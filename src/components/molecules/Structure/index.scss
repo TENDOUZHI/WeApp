@@ -1,0 +1,44 @@
+.page-structure {
+  width: 100%;
+  margin-top: 24px;
+  overflow-y: scroll;
+  padding: 0;
+  &-create {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgb(60, 60, 60);
+    }
+  }
+  &-wrapper {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    &-item {
+      width: 100%;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 4px;
+      user-select: none;
+      &:hover {
+        background-color: rgb(60, 60, 60);
+      }
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgb(40, 40, 40);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(18, 18, 18);
+    border-radius: 10px;
+  }
+}

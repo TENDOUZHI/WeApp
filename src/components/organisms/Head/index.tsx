@@ -11,10 +11,11 @@ export const Head = () => {
     const click = () => {
         let width = device.width
         const payload = useCompile(root,width)
+        console.log(payload);
         
-        axios.post('/vnode', payload).then(res => {
-            console.log(res);
-        })
+        // axios.post('/vnode', payload).then(res => {
+        //     console.log(res);
+        // })
     }
 
     return (
