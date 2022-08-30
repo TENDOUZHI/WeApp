@@ -1,14 +1,5 @@
-import { routes, vNode } from "@/store/routes.slice";
-import { selectSource, sourceSlice } from "@/store/source.slice";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Style } from "util";
+import { routes, vNode, Vapp } from "@/store/routes.slice";
 import { useParseCss } from "./useParseCss";
-
-interface Vapp {
-    project_name: string,
-    routes: Array<routes>
-}
 
 //  to do list
 //  first: finish auto save of current page

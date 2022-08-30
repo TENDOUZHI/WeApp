@@ -5,13 +5,11 @@ import { selectRoot, selectSource, sourceSliceAction } from '@/store/source.slic
 import { useDispatch } from 'react-redux'
 import { selectTarget, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
-interface vNode {
-    tag: string,
-    children: Array<string>
-}
+import { selectCurRoutes } from '@/store/routes.slice'
 export const Canvas = () => {
     const source = useSelector(selectSource)
     const dispatch = useDispatch()
+    const current = useSelector(selectCurRoutes)
     const root = useRef<any>(null)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
@@ -33,8 +31,9 @@ export const Canvas = () => {
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
-
     }
+    // console.log(current,'qq');
+    
     return (
         <div className="canvas-wrapper">
             <div className="device" ref={root} onDragOver={drag} onDrop={drop}></div>
