@@ -1,4 +1,5 @@
 import { routesSliceAction, selectRoutes } from '@/store/routes.slice'
+import { selectRoot } from '@/store/source.slice'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -6,13 +7,14 @@ import './index.scss'
 export const Structure = () => {
     const dispatch = useDispatch()
     const route = useSelector(selectRoutes)
+    const root = useSelector(selectRoot)
     const routeDom = useRef<Array<any>>([])
     const createPage = () => {
         const name = 'logs'
         dispatch(routesSliceAction.appendRoutes(name))
     }
     const changeRoute = (name: string, id: number) => {
-        dispatch(routesSliceAction.changeRoutes(name))
+        dispatch(routesSliceAction.changeRoutes({name,id}))
         routeDom.current.forEach((dom: HTMLElement, index: number) => {
             if (index !== id) {
                 dom.classList.remove('selected')
@@ -20,7 +22,9 @@ export const Structure = () => {
                 dom.classList.add('selected')
             }
         })
-
+        // clear main display
+        console.log(root?.innerHTML)
+        // root?.removeChild
     }
     return (
         <div className='page-structure'>

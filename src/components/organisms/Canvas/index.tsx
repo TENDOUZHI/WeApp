@@ -1,15 +1,18 @@
 import './index.scss'
 import { DragEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectRoot, selectSource, sourceSliceAction } from '@/store/source.slice'
+import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
-import { selectTarget, targetSliceAction } from '@/store/target.slice'
+import { targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
-import { selectCurRoutes } from '@/store/routes.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes } from '@/store/routes.slice'
+import { selectDevice } from '@/store/device.slice'
 export const Canvas = () => {
-    const source = useSelector(selectSource)
     const dispatch = useDispatch()
     const current = useSelector(selectCurRoutes)
+    const source = useSelector(selectSource)
+    const device = useSelector(selectDevice)
+    const route = useSelector(selectRoutes)
     const root = useRef<any>(null)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
@@ -31,8 +34,15 @@ export const Canvas = () => {
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
+        // update route vNode to redux
+        const curVnode = {
+            id: current.id,
+            vNode: useCompile(root.current,device.width)
+        }
+        dispatch(routesSliceAction.updateVnode(curVnode))
+        // console.log(root.current.innerHTML)
+        
     }
-    // console.log(current,'qq');
     
     return (
         <div className="canvas-wrapper">

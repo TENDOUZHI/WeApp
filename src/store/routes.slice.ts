@@ -21,12 +21,18 @@ export interface vNode {
 }
 
 interface State {
-    current: string,
+    current: {
+        id: number,
+        name: string
+    },
     routes: Array<routes>
 }
 
 const initialState: State = {
-    current: '',
+    current: {
+        id: 0,
+        name: 'index'
+    },
     routes: [
         {
             id: 0,
@@ -57,7 +63,6 @@ export const routesSlice = createSlice({
                 name: payload.payload,
                 vNode: vNode
             }
-            
             state.routes.push(route)
         },
         updateVnode(state, payload) {
