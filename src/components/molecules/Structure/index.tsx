@@ -1,4 +1,7 @@
-import { routesSliceAction, selectRoutes } from '@/store/routes.slice'
+import { useCompile } from '@/hooks/useCompile'
+import { useRenderer } from '@/hooks/useRenderer'
+import { selectDevice } from '@/store/device.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes, vNode } from '@/store/routes.slice'
 import { selectRoot } from '@/store/source.slice'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -8,13 +11,31 @@ export const Structure = () => {
     const dispatch = useDispatch()
     const route = useSelector(selectRoutes)
     const root = useSelector(selectRoot)
+    const device = useSelector(selectDevice)
+    const current = useSelector(selectCurRoutes)
     const routeDom = useRef<Array<any>>([])
     const createPage = () => {
         const name = 'logs'
         dispatch(routesSliceAction.appendRoutes(name))
     }
     const changeRoute = (name: string, id: number) => {
-        dispatch(routesSliceAction.changeRoutes({name,id}))
+        // update vNode before switch route
+        updateVNode()
+        // change leftlist item style
+        changeStyle(name,id)
+        // switch route
+        switchRoute(name,id)
+
+    }
+    const updateVNode = () => {
+        const curVnode = {
+            id: current.id,
+            vNode: useCompile(root, device.width, false)
+        }
+        dispatch(routesSliceAction.updateVnode(curVnode))
+    }
+    const changeStyle = (name: string, id: number) => {
+        dispatch(routesSliceAction.changeRoutes({ name, id }))
         routeDom.current.forEach((dom: HTMLElement, index: number) => {
             if (index !== id) {
                 dom.classList.remove('selected')
@@ -22,9 +43,21 @@ export const Structure = () => {
                 dom.classList.add('selected')
             }
         })
-        // clear main display
-        console.log(root?.innerHTML)
-        // root?.removeChild
+    }
+    const switchRoute = (name: string, id: number) => {
+        const len = root?.childNodes.length as number
+        const childs = root?.childNodes
+        // judge whether user click cur route
+        // if is nothing changed
+        if (id !== current.id) {
+            // clear main display
+            for (let i = len - 1; i >= 0; i--) {
+                // @ts-ignore
+                root?.removeChild(childs[i])
+            }
+            // render dom
+            useRenderer(root as HTMLElement, route[id].vNode as vNode, dispatch)
+        }
     }
     return (
         <div className='page-structure'>

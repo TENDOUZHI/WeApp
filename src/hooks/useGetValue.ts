@@ -1,6 +1,5 @@
 import { selectTarget } from "@/store/target.slice"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
 

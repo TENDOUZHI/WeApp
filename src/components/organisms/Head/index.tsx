@@ -10,12 +10,8 @@ export const Head = () => {
     const device = useSelector(selectDevice)
     const click = () => {
         let width = device.width
-        const payload = useCompile(root,width)
+        const payload = useCompile(root,width,true)
         console.log(payload);
-        
-        // axios.post('/vnode', payload).then(res => {
-        //     console.log(res);
-        // })
     }
 
     return (

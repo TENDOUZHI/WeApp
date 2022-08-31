@@ -15,7 +15,9 @@ export interface routes {
 
 export interface vNode {
     name: string,
-    style: Style | object | null,
+    tagName: string,
+    class: string | null,
+    style: Style | null,
     content: string | null,
     children: Array<vNode>
 }
@@ -39,6 +41,8 @@ const initialState: State = {
             name: 'index',
             vNode: {
                 name: 'root',
+                class:'',
+                tagName:'div',
                 style: null,
                 content: null,
                 children: []
@@ -54,6 +58,8 @@ export const routesSlice = createSlice({
         appendRoutes(state, payload) {
             const vNode: vNode = {
                 name: 'root',
+                class:'',
+                tagName:'div',
                 style: null,
                 content: null,
                 children: []

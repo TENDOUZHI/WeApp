@@ -21,10 +21,30 @@ export const Canvas = () => {
     const drag = (e: DragEvent) => {
         e.preventDefault()
     }
+    // initial root dom at the first time of render
     useEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
     }, [])
     const drop = (e: DragEvent) => {
+        createDom(e)
+        // const target = e.target as HTMLElement
+        // newSource.draggable = false
+        // newSource.addEventListener('click', (e: MouseEvent) => {
+        //     dispatch(targetSliceAction.captureTarget(e.target))
+        // })
+        // newSource.classList.add(newSource.nodeName + num)
+        // setNum(num + 1)
+        // target.appendChild(newSource as Node)
+        // dispatch(sourceSliceAction.clearSource())
+        
+        // update route vNode to redux
+        const curVnode = {
+            id: current.id,
+            vNode: useCompile(root.current,device.width,false)
+        }
+        dispatch(routesSliceAction.updateVnode(curVnode))
+    }
+    const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
         newSource.draggable = false
         newSource.addEventListener('click', (e: MouseEvent) => {
@@ -34,14 +54,6 @@ export const Canvas = () => {
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
-        // update route vNode to redux
-        const curVnode = {
-            id: current.id,
-            vNode: useCompile(root.current,device.width)
-        }
-        dispatch(routesSliceAction.updateVnode(curVnode))
-        // console.log(root.current.innerHTML)
-        
     }
     
     return (
