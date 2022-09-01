@@ -1,4 +1,4 @@
-import { routes, vNode, Vapp } from "@/store/routes.slice";
+import { routes, vNode, Vapp } from "@/store/ast";
 import { useParseCss } from "./useParseCss";
 
 //  to do list

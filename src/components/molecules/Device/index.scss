@@ -25,6 +25,7 @@ $list-length: 19;
     color: #000;
     display: flex;
     justify-content: center;
+    z-index: 10;
   }
   &-choice {
     width: 20rem;
@@ -34,6 +35,7 @@ $list-length: 19;
     transition: all .2s;
     opacity: 0;
     border-radius: .3rem;
+    z-index: 10;
     ul {
         opacity: 0;
         li {
@@ -58,6 +60,14 @@ $list-length: 19;
             }
         }
     }
+  }
+  .layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
   }
 }
 .none {

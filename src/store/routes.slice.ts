@@ -1,39 +1,39 @@
-import { Style } from "@/hooks/useParseCss";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
+import { routes, Vapp,vNode } from "./ast";
 
-export interface Vapp {
-    project_name: string,
-    routes: Array<routes>
-}
 
-export interface routes {
-    id: number,
-    name: string,
-    vNode: vNode | null
-}
-
-export interface vNode {
-    name: string,
-    tagName: string,
-    class: string | null,
-    style: Style | null,
-    content: string | null,
-    children: Array<vNode>
-}
 
 interface State {
     current: {
         id: number,
         name: string
     },
-    routes: Array<routes>
+    routes: Array<routes>,
+    Vapp: Vapp
 }
 
 const initialState: State = {
     current: {
         id: 0,
         name: 'index'
+    },
+    Vapp: {
+        project_name:'Title',
+        routes: [
+            {
+                id: 0,
+                name: 'index',
+                vNode: {
+                    name: 'root',
+                    class:'',
+                    tagName:'div',
+                    style: null,
+                    content: null,
+                    children: []
+                }
+            }
+        ]
     },
     routes: [
         {
@@ -65,14 +65,14 @@ export const routesSlice = createSlice({
                 children: []
             }
             const route: routes = {
-                id: state.routes.length,
+                id: state.Vapp.routes.length,
                 name: payload.payload,
                 vNode: vNode
             }
-            state.routes.push(route)
+            state.Vapp.routes.push(route)
         },
         updateVnode(state, payload) {
-            state.routes.forEach((route: routes) => {
+            state.Vapp.routes.forEach((route: routes) => {
                 if (route.id === payload.payload.id) {
                     route.vNode = payload.payload.vNode
                 }
@@ -86,5 +86,6 @@ export const routesSlice = createSlice({
 
 export const routesSliceAction = routesSlice.actions
 
-export const selectRoutes = (state: RootState) => state.routesElement.routes
+export const selectRoutes = (state: RootState) => state.routesElement.Vapp.routes
 export const selectCurRoutes = (state: RootState) => state.routesElement.current
+export const selectVapp = (state: RootState) => state.routesElement.Vapp

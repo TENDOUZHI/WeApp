@@ -1,31 +1,5 @@
+import { Style } from "@/store/ast"
 import { useRpx } from "./useRpx"
-
-export interface Style {
-    width: string
-    height: string
-    fontSize: string
-    color: string
-    marginTop: string
-    marginBottom: string
-    marginLeft: string
-    marginRight: string
-    paddingTop: string
-    paddingBottom: string
-    paddingLeft: string
-    paddingRight: string
-    borderRadius: string
-    borderWidth: string
-    borderColor: string
-    backgroundColor: string
-    opacity: string
-    display: string
-    flexDirection: string
-    justifyContent: string
-    justifyItems: string
-    alignContent: string
-    alignItems: string
-
-}
 
 export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolean): Style => {
 

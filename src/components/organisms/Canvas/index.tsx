@@ -5,14 +5,14 @@ import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
 import { targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
-import { routesSliceAction, selectCurRoutes, selectRoutes } from '@/store/routes.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
 import { selectDevice } from '@/store/device.slice'
 export const Canvas = () => {
     const dispatch = useDispatch()
     const current = useSelector(selectCurRoutes)
     const source = useSelector(selectSource)
     const device = useSelector(selectDevice)
-    const route = useSelector(selectRoutes)
+    const Vapp = useSelector(selectVapp)
     const root = useRef<any>(null)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
@@ -27,22 +27,13 @@ export const Canvas = () => {
     }, [])
     const drop = (e: DragEvent) => {
         createDom(e)
-        // const target = e.target as HTMLElement
-        // newSource.draggable = false
-        // newSource.addEventListener('click', (e: MouseEvent) => {
-        //     dispatch(targetSliceAction.captureTarget(e.target))
-        // })
-        // newSource.classList.add(newSource.nodeName + num)
-        // setNum(num + 1)
-        // target.appendChild(newSource as Node)
-        // dispatch(sourceSliceAction.clearSource())
-        
         // update route vNode to redux
         const curVnode = {
             id: current.id,
             vNode: useCompile(root.current,device.width,false)
         }
         dispatch(routesSliceAction.updateVnode(curVnode))
+        localStorage.setItem('vapp',JSON.stringify(Vapp))
     }
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
