@@ -36,13 +36,10 @@ export const Canvas = () => {
         const childs = root?.current.childNodes
 
         return (() => {
-            console.log('dismout');
             // clear main display
             for (let i = len - 1; i >= 0; i--) {
                 // @ts-ignore
                 root?.current.removeChild(childs[i])
-                
-                
             }
         })
     }, [])
@@ -61,6 +58,16 @@ export const Canvas = () => {
         newSource.draggable = false
         newSource.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
+            console.log(e.which);
+            
+        })
+        newSource.onkeyup = () => {
+            console.log(231);
+            
+        }
+        newSource.addEventListener('keydown',() => {
+            console.log('a');
+            
         })
         newSource.classList.add(newSource.nodeName + num)
         setNum(num + 1)
