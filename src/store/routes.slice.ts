@@ -77,9 +77,14 @@ export const routesSlice = createSlice({
                     route.vNode = payload.payload.vNode
                 }
             })
+            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
         },
         changeRoutes(state, payload) {
             state.current = payload.payload
+        },
+        retriveDom(state) {
+            const json = localStorage.getItem('vapp')
+            state.Vapp = JSON.parse(json as string)
         }
     }
 })

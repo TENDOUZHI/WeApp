@@ -1,6 +1,6 @@
-import { vNode } from "@/store/routes.slice";
 import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
+import {vNode} from '@/store/ast'
 
 
 export const useRenderer = (root: HTMLElement, vNode: vNode, dispatch: Dispatch) => {

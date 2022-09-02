@@ -14,12 +14,18 @@ export const Head = () => {
         console.log(payload);
     }
 
+    const clear = () => {
+        localStorage.clear()
+        location.reload()
+    }
+
     return (
         <>
             <div className="head">
                 <div>Title</div>
                 <button className='btn' onClick={click}>Shoe Log</button>
                 <Device/>
+                <div className='clear' onClick={clear}>clear</div>
             </div>
         </>
     )

@@ -7,6 +7,8 @@ import { targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
 import { selectDevice } from '@/store/device.slice'
+import { useRenderer } from '@/hooks/useRenderer'
+import { Vapp, vNode } from '@/store/ast'
 export const Canvas = () => {
     const dispatch = useDispatch()
     const current = useSelector(selectCurRoutes)
@@ -24,16 +26,35 @@ export const Canvas = () => {
     // initial root dom at the first time of render
     useEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
+        const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+        if (data !== null) {
+            dispatch(routesSliceAction.retriveDom())
+            const index = data.routes[0].vNode
+            useRenderer(root.current, index as vNode, dispatch)
+        }
+        const len = root?.current.childNodes.length as number
+        const childs = root?.current.childNodes
+
+        return (() => {
+            console.log('dismout');
+            // clear main display
+            for (let i = len - 1; i >= 0; i--) {
+                // @ts-ignore
+                root?.current.removeChild(childs[i])
+                
+                
+            }
+        })
     }, [])
+
     const drop = (e: DragEvent) => {
         createDom(e)
         // update route vNode to redux
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root.current,device.width,false)
+            vNode: useCompile(root.current, device.width, false)
         }
         dispatch(routesSliceAction.updateVnode(curVnode))
-        localStorage.setItem('vapp',JSON.stringify(Vapp))
     }
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
@@ -46,7 +67,8 @@ export const Canvas = () => {
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
     }
-    
+
+
     return (
         <div className="canvas-wrapper">
             <div className="device" ref={root} onDragOver={drag} onDrop={drop}></div>
