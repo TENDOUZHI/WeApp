@@ -41,7 +41,7 @@ export const StyleInput = (props: Props) => {
     }
 
     const resetTarget = () => {
-        dispatch(targetSliceAction.captureTarget(null))
+        dispatch(targetSliceAction.updateState(false))
     }
 
     return (

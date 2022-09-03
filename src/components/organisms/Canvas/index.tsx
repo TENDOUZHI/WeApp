@@ -3,7 +3,7 @@ import { DragEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
-import { targetSliceAction } from '@/store/target.slice'
+import { selectState, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
 import {selectTarget} from '@/store/target.slice'
@@ -16,6 +16,7 @@ export const Canvas = () => {
     const source = useSelector(selectSource)
     const device = useSelector(selectDevice)
     const target = useSelector(selectTarget)
+    const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
     const root = useRef<any>(null)
     // clone the HTMLElement
@@ -60,6 +61,7 @@ export const Canvas = () => {
         newSource.draggable = false
         newSource.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
+            dispatch(targetSliceAction.updateState(true))
         })
         newSource.onkeyup = () => {
             console.log(231);
@@ -75,7 +77,7 @@ export const Canvas = () => {
         dispatch(sourceSliceAction.clearSource())
     }
     document.onkeydown = (e: KeyboardEvent) => {
-        if(e.key === 'Backspace') {
+        if(e.key === 'Backspace' && state) {
             target?.remove()
             const curVnode = {
                 id: current.id,
