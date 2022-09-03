@@ -10,6 +10,7 @@ interface Props {
     ifValue?: ((value: string) => void)
 }
 export const StyleInput = (props: Props) => {
+    const dispatch = useDispatch()
     const wrapper = useRef<any>(null)
     const [Ivalue, setValue] = useState<string>(props.value)
     let target = useSelector(selectTarget) as HTMLElement
@@ -39,8 +40,12 @@ export const StyleInput = (props: Props) => {
         // props.changeValue(e.target.value)
     }
 
+    const resetTarget = () => {
+        dispatch(targetSliceAction.captureTarget(null))
+    }
+
     return (
-        <div className="input-wrapper" ref={wrapper}>
+        <div className="input-wrapper" ref={wrapper} onClick={resetTarget}>
             <div className="input-title">{props.title}</div>
             <input type="text" className='input-item' value={Ivalue} onChange={updateValue} onFocus={focusInput} onBlur={blurInput} />
             <div className="tip">{props.tip}</div>
