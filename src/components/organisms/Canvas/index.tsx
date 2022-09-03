@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
+import {selectTarget} from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
 import { Vapp, vNode } from '@/store/ast'
@@ -14,6 +15,7 @@ export const Canvas = () => {
     const current = useSelector(selectCurRoutes)
     const source = useSelector(selectSource)
     const device = useSelector(selectDevice)
+    const target = useSelector(selectTarget)
     const Vapp = useSelector(selectVapp)
     const root = useRef<any>(null)
     // clone the HTMLElement
@@ -58,8 +60,6 @@ export const Canvas = () => {
         newSource.draggable = false
         newSource.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
-            console.log(e.which);
-            
         })
         newSource.onkeyup = () => {
             console.log(231);
@@ -74,7 +74,16 @@ export const Canvas = () => {
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
     }
-
+    document.onkeydown = (e: KeyboardEvent) => {
+        if(e.key === 'Backspace') {
+            target?.remove()
+            const curVnode = {
+                id: current.id,
+                vNode: useCompile(root.current, device.width, false)
+            }
+            dispatch(routesSliceAction.updateVnode(curVnode))
+        }
+    }
 
     return (
         <div className="canvas-wrapper">
