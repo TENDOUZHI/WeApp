@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { selectState, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
-import {selectTarget} from '@/store/target.slice'
+import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
 import { Vapp, vNode } from '@/store/ast'
@@ -32,7 +32,7 @@ export const Canvas = () => {
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             dispatch(routesSliceAction.retriveDom())
-            const index = data.routes[0].vNode
+            const index = data.routes[0].vnode
             useRenderer(root.current, index as vNode, dispatch)
         }
         const len = root?.current.childNodes.length as number
@@ -63,21 +63,14 @@ export const Canvas = () => {
             dispatch(targetSliceAction.captureTarget(e.target))
             dispatch(targetSliceAction.updateState(true))
         })
-        newSource.onkeyup = () => {
-            console.log(231);
-            
-        }
-        newSource.addEventListener('keydown',() => {
-            console.log('a');
-            
-        })
         newSource.classList.add(newSource.nodeName + num)
         setNum(num + 1)
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
     }
+    // delete element
     document.onkeydown = (e: KeyboardEvent) => {
-        if(e.key === 'Backspace' && state) {
+        if (e.key === 'Backspace' && state) {
             target?.remove()
             const curVnode = {
                 id: current.id,

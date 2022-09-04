@@ -1,19 +1,21 @@
 import { StyleInput } from '@/components/atoms/StyleInput'
 import { useGetValue } from '@/hooks/useGetValue'
+import { Dispatch } from '@reduxjs/toolkit'
 import { useEffect, useState } from 'react'
 import './index.scss'
 interface Props {
-    target: HTMLElement
+    target: HTMLElement,
+    dispatch: Dispatch
 }
 export const Basicstyle = (props: Props) => {
     // width height border-radious angel margin padding
     // const target = props.target.style.content
-    const [width,setWidth] = useGetValue('width')
-    const [height,setHeight] = useGetValue('height')
-    const [borderRadius,setBorderRadius] = useGetValue('border-radius')
-    const [fontSize, setFontSize] = useGetValue('font-size')
-    const [color, setColor] = useGetValue('color')
-    const [content, setContent] = useGetValue('content')
+    const [width,setWidth] = useGetValue('width',props.dispatch)
+    const [height,setHeight] = useGetValue('height',props.dispatch)
+    const [borderRadius,setBorderRadius] = useGetValue('border-radius',props.dispatch)
+    const [fontSize, setFontSize] = useGetValue('font-size',props.dispatch)
+    const [color, setColor] = useGetValue('color',props.dispatch)
+    const [content, setContent] = useGetValue('content',props.dispatch)
     return (
         <div className="attribute">
             <div className='attribute-title'>布局</div>

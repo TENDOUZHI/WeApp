@@ -57,7 +57,7 @@ export const Structure = () => {
                 root?.removeChild(childs[i])
             }
             // render dom
-            useRenderer(root as HTMLElement, route[id].vNode as vNode, dispatch)
+            useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
         }
     }
     return (

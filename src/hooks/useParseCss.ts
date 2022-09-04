@@ -2,8 +2,6 @@ import { Style } from "@/store/ast"
 import { useRpx } from "./useRpx"
 
 export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolean): Style => {
-
-
     const style: Style = {
         width: window.getComputedStyle(el).width,
         height: window.getComputedStyle(el).height,

@@ -1,16 +1,18 @@
 import { StyleInput } from '@/components/atoms/StyleInput'
 import { useGetValue } from '@/hooks/useGetValue'
+import { Dispatch } from '@reduxjs/toolkit'
 import './index.scss'
 interface Props {
-    target: HTMLElement
+    target: HTMLElement,
+    dispatch: Dispatch
 }
 export const Margin = (props: Props) => {
     // align row column center
     const target = props.target
-    const [marginTop, setMarginTop] = useGetValue('margin-top')
-    const [marginBottom, setMarginBottom] = useGetValue('margin-bottom')
-    const [marginLeft,setMarginLeft] = useGetValue('margin-left')
-    const [marginRight, setMarginRight] = useGetValue('margin-right')
+    const [marginTop, setMarginTop] = useGetValue('margin-top',props.dispatch)
+    const [marginBottom, setMarginBottom] = useGetValue('margin-bottom',props.dispatch)
+    const [marginLeft,setMarginLeft] = useGetValue('margin-left',props.dispatch)
+    const [marginRight, setMarginRight] = useGetValue('margin-right',props.dispatch)
     return (
         <div className="attribute">
             <div className='attribute-title'>外边距</div>

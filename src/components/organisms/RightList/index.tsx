@@ -7,18 +7,20 @@ import { Margin } from '@/components/molecules/Margin'
 import { Padding } from '@/components/molecules/Padding'
 import { selectTarget } from '@/store/target.slice'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import './index.scss'
 export const RighttList = () => {
     let target = useSelector(selectTarget) as HTMLElement
+    const dispatch = useDispatch()
     return (
         <div className="rightlist-wrapper">
-            <Basicstyle target={target} />
-            <Margin target={target} />
-            <Padding target={target} />
-            <Border target={target} />
-            <Bgc target={target} />
-            <Display target={target} />
+            <Basicstyle target={target} dispatch={dispatch}/>
+            <Margin target={target} dispatch={dispatch}/>
+            <Padding target={target} dispatch={dispatch}/>
+            <Border target={target} dispatch={dispatch}/>
+            <Bgc target={target} dispatch={dispatch}/>
+            <Display target={target} dispatch={dispatch}/>
         </div>
     )
 }

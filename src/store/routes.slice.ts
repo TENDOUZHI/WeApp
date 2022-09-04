@@ -24,10 +24,10 @@ const initialState: State = {
             {
                 id: 0,
                 name: 'index',
-                vNode: {
+                vnode: {
                     name: 'root',
                     class:'',
-                    tagName:'div',
+                    tag_name:'div',
                     style: null,
                     content: null,
                     children: []
@@ -39,10 +39,10 @@ const initialState: State = {
         {
             id: 0,
             name: 'index',
-            vNode: {
+            vnode: {
                 name: 'root',
                 class:'',
-                tagName:'div',
+                tag_name:'div',
                 style: null,
                 content: null,
                 children: []
@@ -59,7 +59,7 @@ export const routesSlice = createSlice({
             const vNode: vNode = {
                 name: 'root',
                 class:'',
-                tagName:'div',
+                tag_name:'div',
                 style: null,
                 content: null,
                 children: []
@@ -67,14 +67,14 @@ export const routesSlice = createSlice({
             const route: routes = {
                 id: state.Vapp.routes.length,
                 name: payload.payload,
-                vNode: vNode
+                vnode: vNode
             }
             state.Vapp.routes.push(route)
         },
         updateVnode(state, payload) {
             state.Vapp.routes.forEach((route: routes) => {
                 if (route.id === payload.payload.id) {
-                    route.vNode = payload.payload.vNode
+                    route.vnode = payload.payload.vNode
                 }
             })
             localStorage.setItem('vapp', JSON.stringify(state.Vapp))

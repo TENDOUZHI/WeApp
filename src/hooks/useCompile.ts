@@ -20,7 +20,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
     let vNode: vNode = {
         name: 'root',
         class: rootNode.classList[0],
-        tagName: rootNode.tagName,
+        tag_name: rootNode.tagName,
         style: useParseCss(rootNode, width, isRpx),
         content: rootNode.nodeValue,
         children: []
@@ -47,7 +47,7 @@ const dfs = (rootNode: any, vNode: vNode, width: number, isRpx: boolean) => {
         const node: vNode = {
             name: el.id,
             class: curClass,
-            tagName: el.tagName,
+            tag_name: el.tagName,
             style: styles,
             content: el.innerText,
             children: []

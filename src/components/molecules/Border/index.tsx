@@ -1,14 +1,16 @@
 import { StyleInput } from "@/components/atoms/StyleInput"
 import { useGetValue } from "@/hooks/useGetValue"
+import { Dispatch } from "@reduxjs/toolkit"
 import './index.scss'
 
 interface Props {
-    target: HTMLElement
+    target: HTMLElement,
+    dispatch: Dispatch
 }
 export const Border = (props: Props) => {
     const target = props.target
-    const [borderWidth, setBorderWidth] = useGetValue('border-width')
-    const [borderColor, setBorderColor] = useGetValue('border-color')
+    const [borderWidth, setBorderWidth] = useGetValue('border-width',props.dispatch)
+    const [borderColor, setBorderColor] = useGetValue('border-color',props.dispatch)
 
     return (
         <div className="attribute">

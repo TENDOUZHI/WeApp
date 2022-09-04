@@ -6,12 +6,12 @@ export interface Vapp {
 export interface routes {
     id: number,
     name: string,
-    vNode: vNode | null
+    vnode: vNode
 }
 
 export interface vNode {
     name: string,
-    tagName: string,
+    tag_name: string,
     class: string | null,
     style: Style | null,
     content: string | null,

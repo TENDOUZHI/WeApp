@@ -16,7 +16,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: vNode, dispatch: Dispatch) => 
 }
 
 const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
-    const curNode = document.createElement(vNode.tagName)
+    const curNode = document.createElement(vNode.tag_name)
     curNode.id = vNode.name
     curNode.innerText = vNode.content as string
     curNode.draggable = false

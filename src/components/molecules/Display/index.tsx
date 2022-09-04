@@ -1,20 +1,22 @@
 import { StyleInput } from '@/components/atoms/StyleInput'
 import { useGetValue } from '@/hooks/useGetValue'
+import { Dispatch } from '@reduxjs/toolkit'
 import { useEffect, useState } from 'react'
 import './index.scss'
 
 interface Props {
-    target: HTMLElement
+    target: HTMLElement,
+    dispatch: Dispatch
 }
 export const Display = (props: Props) => {
     const target = props.target
     const [status, setStatus] = useState<string>('')
-    const [display, setDisplay] = useGetValue('display')
-    const [flexDirection, setFlexDirection] = useGetValue('flex-direction')
-    const [justifyContent, setJustiContent] = useGetValue('justify-content')
-    const [justifyItems, setJustifyItems] = useGetValue('justify-items')
-    const [alignItems, setAlignItems] = useGetValue('align-items')
-    const [alignContent, setAlignContent] = useGetValue('align-content')
+    const [display, setDisplay] = useGetValue('display',props.dispatch)
+    const [flexDirection, setFlexDirection] = useGetValue('flex-direction',props.dispatch)
+    const [justifyContent, setJustiContent] = useGetValue('justify-content',props.dispatch)
+    const [justifyItems, setJustifyItems] = useGetValue('justify-items',props.dispatch)
+    const [alignItems, setAlignItems] = useGetValue('align-items',props.dispatch)
+    const [alignContent, setAlignContent] = useGetValue('align-content',props.dispatch)
     const updateDis = (value: string) => {
         console.log(display);
         setStatus(value)
