@@ -1,4 +1,4 @@
-import { Style } from "@/store/ast"
+import { Style, vNode } from "@/store/ast"
 import { useRpx } from "./useRpx"
 
 export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolean): Style => {

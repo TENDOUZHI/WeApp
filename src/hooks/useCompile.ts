@@ -7,15 +7,6 @@ import { useParseCss } from "./useParseCss";
 //  third: merge them into one json stream
 
 export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
-    // create project
-    let Vapp: Vapp = {
-        project_name: '',
-        routes: []
-    }
-    // initial routes
-    let routes = [
-
-    ]
     // inital the virtual dom
     let vNode: vNode = {
         name: 'root',

@@ -15,10 +15,10 @@ $list-length: 19;
   align-items: center;
   overflow: visible;
   user-select: none;
-  border-radius: .3rem;
-  transition: all .3s;
+  border-radius: 0.3rem;
+  transition: all 0.3s;
   &:hover {
-      background-color: rgb(230, 230, 230);
+    background-color: rgb(230, 230, 230);
   }
   &-title {
     width: 100%;
@@ -32,33 +32,33 @@ $list-length: 19;
     height: 0;
     background-color: #fff;
     z-index: 9;
-    transition: all .2s;
+    transition: all 0.2s;
     opacity: 0;
-    border-radius: .3rem;
+    border-radius: 0.3rem;
     z-index: 10;
     ul {
+      opacity: 0;
+      li {
         opacity: 0;
-        li {
-            opacity: 0;
-            height: $li-height;
-            font-size: 14px;
-            color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all .4s;
-            &:hover {
-                background-color: rgb(147, 147, 147);
-            }
-            &:nth-child(1) {
-                border-top-right-radius: .3rem;
-                border-top-left-radius: .3rem;
-            }
-            &:last-child {
-                border-bottom-right-radius: .3rem;
-                border-bottom-left-radius: .3rem;
-            }
+        height: $li-height;
+        font-size: 14px;
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.4s;
+        &:hover {
+          background-color: rgb(147, 147, 147);
         }
+        &:nth-child(1) {
+          border-top-right-radius: 0.3rem;
+          border-top-left-radius: 0.3rem;
+        }
+        &:last-child {
+          border-bottom-right-radius: 0.3rem;
+          border-bottom-left-radius: 0.3rem;
+        }
+      }
     }
   }
   .layer {
@@ -71,19 +71,30 @@ $list-length: 19;
   }
 }
 .none {
-    display: none;
+  display: none;
 }
 @for $i from 1 through $list-length {
-    $choice-height:$choice-height + $li-height;
+  $choice-height: $choice-height + $li-height;
 }
 .show-choice {
+  opacity: 1;
+  height: $choice-height;
+  transform: translateY(1rem);
+//   animation: li-show 0.5s forwards;
+  ul {
     opacity: 1;
-    height: $choice-height;
-    transform: translateY(1rem);
-    ul {
-        opacity: 1;
-        li {
-            opacity: 1;
-        }
+    li {
+      opacity: 1;
     }
+  }
+}
+@keyframes li-show {
+  0% {
+    opacity: 0.5;
+    transform: translateY(-3%) scale(97%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(1rem);
+  }
 }

@@ -1,37 +1,54 @@
 import { Device } from '@/components/molecules/Device'
-import { useCompile } from '@/hooks/useCompile'
-import { selectDevice } from '@/store/device.slice'
-import { selectVapp } from '@/store/routes.slice'
-import { selectRoot } from '@/store/source.slice'
+import { Vapp } from '@/store/ast'
+import { routesSliceAction, selectCurRoutes, selectVapp, selectWapp } from '@/store/vapp.slice'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import './index.scss'
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 export const Head = () => {
-    const root = useSelector(selectRoot)
-    const device = useSelector(selectDevice)
+    const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
-    const click = () => {
-        let width = device.width
-        const payload = useCompile(root, width, true)
-        // console.log(payload);
-        // axios.post('/vnode', payload).then((res) => {
-        //     console.log(res);
-        // })
-        console.log(vapp);
-        axios.post('/vapp', vapp).then((res) => {
+    const wapp = useSelector(selectWapp)
+    const bar = useRef<any>()
+    const [title, setTitle] = useState<string>(vapp.project_name)
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+        setTitle(data.project_name)
+    }, [])
+    const click = async () => {
+        // let width = device.width
+        console.log(wapp);
+        await axios.post('/vapp', wapp).then((res) => {
             console.log(res);
         })
     }
-
     const clear = () => {
         localStorage.clear()
         location.reload()
+    }
+    const selectTitle = () => {
+        bar.current.classList.add('show-bar')
+    }
+    const blurTitle = () => {
+        bar.current.classList.remove('show-bar')
+        dispatch(routesSliceAction.updateProjectName(title))
+    }
+    const updateTitle = (e: { target: { value: any } }) => {
+        setTitle(e.target.value)
     }
 
     return (
         <>
             <div className="head">
-                <div>Title</div>
+                <div className='head-title'>
+                    <input className='head-title-input' type="text"
+                        value={title}
+                        onChange={updateTitle}
+                        onFocus={selectTitle}
+                        onBlur={blurTitle} />
+                    <div className="bar" ref={bar}></div>
+                </div>
                 <button className='btn' onClick={click}>Shoe Log</button>
                 <Device />
                 <div className='clear' onClick={clear}>clear</div>

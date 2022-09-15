@@ -1,4 +1,7 @@
+import { useCompile } from '@/hooks/useCompile'
 import { device, deviceSliceAction, selectDevice, selectDeviceList } from '@/store/device.slice'
+import { selectRoot } from '@/store/source.slice'
+import { routesSliceAction, selectCurRoutes } from '@/store/vapp.slice'
 import { MouseEvent, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -7,10 +10,13 @@ export const Device = () => {
     const dispatch = useDispatch()
     const device = useSelector(selectDevice)
     const deviceList = useSelector(selectDeviceList)
+    const current = useSelector(selectCurRoutes)
+    const root = useSelector(selectRoot)
     const choice = useRef<any>()
     const layer = useRef<any>()
-    const listItem = deviceList.map((item) => <li onClick={(e) => { updateDevice(item); toggle(e) }}
-        className='device-list-clasic'
+    const listItem = deviceList.map((item) => <li
+        onClick={(e) => { updateDevice(item); toggle(e) }}
+        className=''
         key={item.id}
     >{item.name}</li>)
     const [show, setShow] = useState<boolean>(false)
@@ -28,9 +34,21 @@ export const Device = () => {
             layer.current.classList.remove('none')
             setTimeout(() => {
                 choice.current.classList.add('show-choice')
+                const curVnode = {
+                    id: current.id,
+                    vNode: useCompile(root, device.width, false)
+                }
+                const curWnode = {
+                    id: current.id,
+                    vNode: useCompile(root, device.width, true)
+                }
+                dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
             }, 10)
+
         }
     }
+
+
     const updateDevice = (device: device) => {
         dispatch(deviceSliceAction.captureDevice(device))
     }

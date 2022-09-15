@@ -1,5 +1,5 @@
 import { selectTarget } from "@/store/target.slice"
-import { routesSliceAction, selectCurRoutes, selectVapp } from "@/store/routes.slice"
+import { routesSliceAction, selectCurRoutes, selectVapp } from "@/store/vapp.slice"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { selectRoot } from "@/store/source.slice"
@@ -47,14 +47,17 @@ export const useGetValue = (prop: string, dispatch: Dispatch): [string, (value: 
         }
         // update element when change their attribute
         setTimeout(() => {
-        const curVnode = {
-            id: current.id,
-            vNode: useCompile(root, device.width, false)
-        }
-        dispatch(routesSliceAction.updateVnode(curVnode))
-        console.log('set element attribute', curVnode.vNode.children);    
-        },300)
-        
+            const curVnode = {
+                id: current.id,
+                vNode: useCompile(root, device.width, false)
+            }
+            const curWnode = {
+                id: current.id,
+                vNode: useCompile(root, device.width, false)
+            }
+            dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
+        }, 300)
+
     }
 
     return [value, setValues];

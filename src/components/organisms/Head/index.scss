@@ -7,8 +7,37 @@ $height: 50px;
     color: #fff;
     font-size: 30px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    &-title {
+        width: 15%;
+        height: 80%;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        &-input {
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            // color: rgb(134, 134, 134);
+            outline: none;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid rgb(104, 104, 104);
+        }
+        .bar {
+            width: 0;
+            height: 1.5px;
+            transition: all .3s;
+            transform: translateY(-1px);
+        }
+        .show-bar {
+            width: 100%;
+            background-color: #fff;
+        }
+    }
     .btn {
         width: 50px;
         height: 50px;

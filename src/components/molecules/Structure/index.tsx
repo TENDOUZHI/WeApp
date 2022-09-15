@@ -2,7 +2,7 @@ import { useCompile } from '@/hooks/useCompile'
 import { useRenderer } from '@/hooks/useRenderer'
 import { vNode } from '@/store/ast'
 import { selectDevice } from '@/store/device.slice'
-import { routesSliceAction, selectCurRoutes, selectRoutes } from '@/store/routes.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes } from '@/store/vapp.slice'
 import { selectRoot } from '@/store/source.slice'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -33,7 +33,11 @@ export const Structure = () => {
             id: current.id,
             vNode: useCompile(root, device.width, false)
         }
-        dispatch(routesSliceAction.updateVnode(curVnode))
+        const curWnode = {
+            id: current.id,
+            vNode: useCompile(root, device.width, true)
+        }
+        dispatch(routesSliceAction.updateVnode({curVnode,curWnode}))
     }
     const changeStyle = (name: string, id: number) => {
         dispatch(routesSliceAction.changeRoutes({ name, id }))

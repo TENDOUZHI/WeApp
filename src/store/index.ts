@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { deviceSlice } from "./device.slice";
-import { routesSlice } from "./routes.slice";
+import { routesSlice } from "./vapp.slice";
 import { sourceSlice } from "./source.slice";
 import { targetSlice } from "./target.slice";
 

@@ -16,7 +16,7 @@ export const Bgc = (props: Props) => {
         <div className="attribute">
             <div className='attribute-title'>填充</div>
             <div className="attribute-content">
-                <StyleInput tip='背景颜色' title="Bgc" value={bgc} changeValue={setBgc}/>
+                <StyleInput type="color" tip='背景颜色' title="Bgc" value={bgc} changeValue={setBgc}/>
                 <StyleInput tip='透明度' title="op" value={opacity} changeValue={setOpacity}/>
             </div>
         </div>

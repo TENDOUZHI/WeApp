@@ -5,7 +5,7 @@ import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
 import { selectState, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
-import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/routes.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/vapp.slice'
 import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
@@ -54,7 +54,11 @@ export const Canvas = () => {
             id: current.id,
             vNode: useCompile(root.current, device.width, false)
         }
-        dispatch(routesSliceAction.updateVnode(curVnode))
+        const curWnode = {
+            id: current.id,
+            vNode: useCompile(root.current, device.width, true)
+        }
+        dispatch(routesSliceAction.updateVnode({curVnode,curWnode}))
     }
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
@@ -76,7 +80,11 @@ export const Canvas = () => {
                 id: current.id,
                 vNode: useCompile(root.current, device.width, false)
             }
-            dispatch(routesSliceAction.updateVnode(curVnode))
+            const curWnode = {
+                id: current.id,
+                vNode: useCompile(root.current, device.width, true)
+            }
+            dispatch(routesSliceAction.updateVnode({curVnode,curWnode}))
         }
     }
 

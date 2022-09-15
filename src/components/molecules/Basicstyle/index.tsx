@@ -24,7 +24,7 @@ export const Basicstyle = (props: Props) => {
                 <StyleInput tip='高度' title='H' value={height} changeValue={setHeight} />
                 <StyleInput tip='圆角' title='R' value={borderRadius} changeValue={setBorderRadius} />
                 <StyleInput tip='字体' title='FZ' value={fontSize} changeValue={setFontSize} />
-                <StyleInput tip='颜色' title='FC' value={color} changeValue={setColor} />
+                <StyleInput tip='颜色' title='FC' type='color' value={color} changeValue={setColor} />
                 <StyleInput tip='内容' title='C' value={content} changeValue={setContent} />
             </div>
 
