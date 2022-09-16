@@ -1,5 +1,5 @@
 import './index.scss'
-import { DragEvent, useEffect, useRef, useState } from 'react'
+import { DragEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
@@ -52,7 +52,7 @@ export const Canvas = () => {
         // update route vNode to redux
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root.current, device.width, false)
+            vNode:  useCompile(root.current, device.width, false)
         }
         const curWnode = {
             id: current.id,

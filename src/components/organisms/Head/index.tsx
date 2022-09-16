@@ -14,10 +14,11 @@ export const Head = () => {
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-        setTitle(data.project_name)
+        if (data !== null) {
+            setTitle(data.project_name)
+        }
     }, [])
     const click = async () => {
-        // let width = device.width
         console.log(wapp);
         await axios.post('/vapp', wapp).then((res) => {
             console.log(res);
@@ -49,9 +50,14 @@ export const Head = () => {
                         onBlur={blurTitle} />
                     <div className="bar" ref={bar}></div>
                 </div>
-                <button className='btn' onClick={click}>Shoe Log</button>
-                <Device />
-                <div className='clear' onClick={clear}>clear</div>
+                <div className="device">
+                    <Device />
+                </div>
+                <div className="etc">
+                    <button className='btn' onClick={click}>Shoe Log</button>
+                    <div className='clear' onClick={clear}>clear</div>
+                </div>
+
             </div>
         </>
     )
