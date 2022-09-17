@@ -2,11 +2,12 @@ import { useCompile } from '@/hooks/useCompile'
 import { useRenderer } from '@/hooks/useRenderer'
 import { vNode } from '@/store/ast'
 import { selectDevice } from '@/store/device.slice'
-import { routesSliceAction, selectCurRoutes, selectRoutes } from '@/store/vapp.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes, selectRouteSize } from '@/store/vapp.slice'
 import { selectRoot } from '@/store/source.slice'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import arrow from '@/assets/arrow.png'
 import './index.scss'
 export const Structure = () => {
     const dispatch = useDispatch()
@@ -14,18 +15,28 @@ export const Structure = () => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const current = useSelector(selectCurRoutes)
+    const size = useSelector(selectRouteSize)
     const routeDom = useRef<Array<any>>([])
+    const optionUl = useRef<Array<any>>([])
+    const arrowRef = useRef<Array<any>>([])
+    const layer = useRef<any>()
+    useEffect(() => {
+        dispatch(routesSliceAction.retriveSize())
+    }, [])
     const createPage = () => {
-        const name = 'logs'
+        const name = 'new route'
         dispatch(routesSliceAction.appendRoutes(name))
+    }
+    const deletePage = (id: number) => {
+        dispatch(routesSliceAction.deleteRoute(id))
     }
     const changeRoute = (name: string, id: number) => {
         // update vNode before switch route
         updateVNode()
         // change leftlist item style
-        changeStyle(name,id)
+        changeStyle(name, id)
         // switch route
-        switchRoute(name,id)
+        switchRoute(name, id)
 
     }
     const updateVNode = () => {
@@ -37,15 +48,20 @@ export const Structure = () => {
             id: current.id,
             vNode: useCompile(root, device.width, true)
         }
-        dispatch(routesSliceAction.updateVnode({curVnode,curWnode}))
+        dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
     }
     const changeStyle = (name: string, id: number) => {
         dispatch(routesSliceAction.changeRoutes({ name, id }))
         routeDom.current.forEach((dom: HTMLElement, index: number) => {
-            if (index !== id) {
-                dom.classList.remove('selected')
+            if (index !== id && dom) {
+                try {
+                    dom.classList.remove('selected')
+                } catch (error) {}
             } else {
-                dom.classList.add('selected')
+                try {
+                    dom.classList.add('selected')
+                } catch (error) {}
+                
             }
         })
     }
@@ -64,15 +80,48 @@ export const Structure = () => {
             useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
         }
     }
+    const [show, setShow] = useState<boolean>(false)
+    const switchOption = (id: number) => {
+        if (!show) {
+            optionUl.current[id].classList.remove('none')
+            optionUl.current[id].classList.add('block')
+            arrowRef.current[id].classList.add('rotate')
+            setTimeout(() => {
+                optionUl.current[id].classList.add('show-ul')
+            })
+            layer.current.classList.remove('none')
+            setShow(true)
+        } else {
+            optionUl.current[id].classList.add('none')
+            optionUl.current[id].classList.remove('block')
+            optionUl.current[id].classList.remove('show-ul')
+            arrowRef.current[id].classList.remove('rotate')
+            setShow(false)
+        }
+
+
+    }
     return (
         <div className='page-structure'>
+            <div className="page-structure-layer none" ref={layer}></div>
             <div className='page-structure-create' onClick={createPage}>create page + </div>
             <ul className='page-structure-wrapper'>
-                {route.map(item => <li className="page-structure-wrapper-item"
-                    ref={dom => routeDom.current[item.id] = dom}
-                    onClick={() => changeRoute(item.name, item.id)}
-                    key={item.id}
-                >{item.name}</li>)}
+                {route.map(item =>
+                    item.name !== 'deleted' && <li className="page-structure-wrapper-item"
+                        ref={dom => routeDom.current[item.id] = dom}
+                        onClick={() => changeRoute(item.name, item.id)}
+                        key={item.id}
+                    >{item.name}
+                        <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
+                            <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
+                                src={arrow} alt="" />
+
+                        </div>
+                        <ul className='page-structure-item-ul none' ref={dom => {optionUl.current[item.id] = dom}}>
+                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
+                            <li className='page-structure-item-ul-li' onClick={() => switchOption(item.id)}>rename</li>
+                        </ul>
+                    </li>)}
             </ul>
         </div>
     )

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { routes, Vapp, vNode } from "./ast";
 
@@ -9,6 +9,7 @@ interface State {
         id: number,
         name: string
     },
+    maxSize: number,
     Vapp: Vapp,
     Wapp: Vapp
 }
@@ -18,6 +19,7 @@ const initialState: State = {
         id: 0,
         name: 'index'
     },
+    maxSize: 0,
     Vapp: {
         project_name: '',
         routes: [
@@ -67,13 +69,24 @@ export const routesSlice = createSlice({
                 content: null,
                 children: []
             }
+            state.maxSize += 1
             const route: routes = {
-                id: state.Vapp.routes.length,
+                id: state.maxSize,
                 name: payload.payload,
                 vnode: vNode
             }
             state.Vapp.routes.push(route)
             state.Wapp.routes.push(route)
+            localStorage.setItem('size', JSON.stringify(state.maxSize))
+            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
+            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+        },
+        deleteRoute(state, payload) {
+            // state.Vapp.routes.splice(payload.payload,1)
+            state.Vapp.routes[payload.payload].name = 'deleted'
+            localStorage.setItem('size', JSON.stringify(state.maxSize))
+            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
+            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
         },
         updateVnode(state, payload) {
             state.Vapp.routes.forEach((route: routes) => {
@@ -86,6 +99,7 @@ export const routesSlice = createSlice({
                     route.vnode = payload.payload.curWnode.vNode
                 }
             })
+            localStorage.setItem('size', JSON.stringify(state.maxSize))
             localStorage.setItem('vapp', JSON.stringify(state.Vapp))
             localStorage.setItem('wapp', JSON.stringify(state.Wapp))
         },
@@ -98,9 +112,14 @@ export const routesSlice = createSlice({
             state.Vapp = JSON.parse(Vjson as string)
             state.Wapp = JSON.parse(Wjson as string)
         },
+        retriveSize(state) {
+            const size = localStorage.getItem('size')
+            state.maxSize = JSON.parse(size as string)
+        },
         updateProjectName(state, payload) {
             state.Vapp.project_name = payload.payload
             state.Wapp.project_name = payload.payload
+            localStorage.setItem('size', JSON.stringify(state.maxSize))
             localStorage.setItem('vapp', JSON.stringify(state.Vapp))
             localStorage.setItem('wapp', JSON.stringify(state.Wapp))
         }
@@ -113,3 +132,4 @@ export const selectRoutes = (state: RootState) => state.routesElement.Vapp.route
 export const selectCurRoutes = (state: RootState) => state.routesElement.current
 export const selectVapp = (state: RootState) => state.routesElement.Vapp
 export const selectWapp = (state: RootState) => state.routesElement.Wapp
+export const selectRouteSize = (state: RootState) => state.routesElement.maxSize
