@@ -16,10 +16,11 @@ export const Structure = () => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const current = useSelector(selectCurRoutes)
-    const size = useSelector(selectRouteSize)
     const routeDom = useRef<Array<any>>([])
     const optionUl = useRef<Array<any>>([])
     const arrowRef = useRef<Array<any>>([])
+    const input = useRef<Array<any>>([])
+    const bar = useRef<Array<any>>([])
     const layer = useRef<any>()
     useEffect(() => {
         dispatch(routesSliceAction.retriveSize())
@@ -81,6 +82,7 @@ export const Structure = () => {
             useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
         }
     }
+    // display options
     const [show, setShow] = useState<boolean>(false)
     const switchOption = (id: number) => {
         if (!show) {
@@ -100,8 +102,23 @@ export const Structure = () => {
             dispatch(targetSliceAction.stateLayer(!show))
             setShow(false)
         }
-
-
+    }
+    // rename
+    const updateValue = (e: { target: { value: any } }, id: number) => {
+        dispatch(routesSliceAction.updateRouteName({
+            id: id,
+            name: e.target.value
+        }))
+    }
+    const inputChangeAble = (id: number) => {
+        input.current[id].readOnly = false
+        bar.current[id].style.width = '100%'
+    }
+    const focusInput = (id: number) => {
+    }
+    const blurInput = (id: number) => {
+        input.current[id].readOnly = true
+        bar.current[id].style.width = '0%'
     }
     return (
         <div className='page-structure'>
@@ -110,20 +127,34 @@ export const Structure = () => {
             <ul className='page-structure-wrapper'>
                 {route.map(item =>
                     item.name !== 'deleted' &&
-                        <li className="page-structure-wrapper-item"
-                            ref={dom => routeDom.current[item.id] = dom}
-                            onClick={() => changeRoute(item.name, item.id)}
-                            key={item.id}
-                        >{item.name}
-                            <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
-                                <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
-                                    src={arrow} alt="" />
-                            </div>
-                            <ul className='page-structure-item-ul none' ref={dom => { optionUl.current[item.id] = dom }}>
-                                <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
-                                <li className='page-structure-item-ul-li' onClick={() => switchOption(item.id)}>rename</li>
-                            </ul>
-                        </li>
+                    <li className="page-structure-wrapper-item"
+                        ref={dom => routeDom.current[item.id] = dom}
+                        onClick={() => changeRoute(item.name, item.id)}
+                        key={item.id}
+                    >
+                        {/* {item.name} */}
+                        <div className='page-input-wrapper'>
+                            <input
+                                className='page-structure-wrapper-item-input'
+                                type="text"
+                                value={item.name}
+                                readOnly
+                                onChange={(e) => updateValue(e, item.id)}
+                                onFocus={() => focusInput(item.id)}
+                                onBlur={() => blurInput(item.id)}
+                                ref={dom => input.current[item.id] = dom}
+                            />
+                            <div className="input-bar"ref={dom => bar.current[item.id] = dom}></div>
+                        </div>
+                        <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
+                            <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
+                                src={arrow} alt="" />
+                        </div>
+                        <ul className='page-structure-item-ul none' ref={dom => { optionUl.current[item.id] = dom }}>
+                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
+                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), inputChangeAble(item.id) }}>rename</li>
+                        </ul>
+                    </li>
                 )}
             </ul>
         </div>

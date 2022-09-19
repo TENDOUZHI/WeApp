@@ -122,6 +122,9 @@ export const routesSlice = createSlice({
             localStorage.setItem('size', JSON.stringify(state.maxSize))
             localStorage.setItem('vapp', JSON.stringify(state.Vapp))
             localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+        },
+        updateRouteName(state, payload) {
+            state.Vapp.routes[payload.payload.id].name = payload.payload.name 
         }
     }
 })
