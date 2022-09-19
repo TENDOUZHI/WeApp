@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import arrow from '@/assets/arrow.png'
 import './index.scss'
+import { targetSliceAction } from '@/store/target.slice'
 export const Structure = () => {
     const dispatch = useDispatch()
     const route = useSelector(selectRoutes)
@@ -56,12 +57,12 @@ export const Structure = () => {
             if (index !== id && dom) {
                 try {
                     dom.classList.remove('selected')
-                } catch (error) {}
+                } catch (error) { }
             } else {
                 try {
                     dom.classList.add('selected')
-                } catch (error) {}
-                
+                } catch (error) { }
+
             }
         })
     }
@@ -89,13 +90,14 @@ export const Structure = () => {
             setTimeout(() => {
                 optionUl.current[id].classList.add('show-ul')
             })
-            layer.current.classList.remove('none')
+            dispatch(targetSliceAction.stateLayer(!show))
             setShow(true)
         } else {
             optionUl.current[id].classList.add('none')
             optionUl.current[id].classList.remove('block')
             optionUl.current[id].classList.remove('show-ul')
             arrowRef.current[id].classList.remove('rotate')
+            dispatch(targetSliceAction.stateLayer(!show))
             setShow(false)
         }
 
@@ -107,21 +109,22 @@ export const Structure = () => {
             <div className='page-structure-create' onClick={createPage}>create page + </div>
             <ul className='page-structure-wrapper'>
                 {route.map(item =>
-                    item.name !== 'deleted' && <li className="page-structure-wrapper-item"
-                        ref={dom => routeDom.current[item.id] = dom}
-                        onClick={() => changeRoute(item.name, item.id)}
-                        key={item.id}
-                    >{item.name}
-                        <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
-                            <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
-                                src={arrow} alt="" />
-
-                        </div>
-                        <ul className='page-structure-item-ul none' ref={dom => {optionUl.current[item.id] = dom}}>
-                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
-                            <li className='page-structure-item-ul-li' onClick={() => switchOption(item.id)}>rename</li>
-                        </ul>
-                    </li>)}
+                    item.name !== 'deleted' &&
+                        <li className="page-structure-wrapper-item"
+                            ref={dom => routeDom.current[item.id] = dom}
+                            onClick={() => changeRoute(item.name, item.id)}
+                            key={item.id}
+                        >{item.name}
+                            <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
+                                <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
+                                    src={arrow} alt="" />
+                            </div>
+                            <ul className='page-structure-item-ul none' ref={dom => { optionUl.current[item.id] = dom }}>
+                                <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
+                                <li className='page-structure-item-ul-li' onClick={() => switchOption(item.id)}>rename</li>
+                            </ul>
+                        </li>
+                )}
             </ul>
         </div>
     )

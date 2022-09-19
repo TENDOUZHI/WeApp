@@ -9,6 +9,7 @@ $height: 50px;
   display: flex;
   justify-content: left;
   align-items: center;
+  position: relative;
   &-title {
     width: 15%;
     height: 80%;
@@ -75,4 +76,13 @@ $height: 50px;
       transform: scale(95%);
     }
   }
+}
+
+.layer {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
 }

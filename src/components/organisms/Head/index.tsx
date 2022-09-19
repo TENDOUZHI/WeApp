@@ -6,17 +6,20 @@ import { useSelector } from 'react-redux'
 import './index.scss'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { targetSliceAction } from '@/store/target.slice'
 export const Head = () => {
     const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
     const bar = useRef<any>()
+    // const layer = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             setTitle(data.project_name)
         }
+        // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
     const click = async () => {
         console.log(wapp);
@@ -42,6 +45,7 @@ export const Head = () => {
     return (
         <>
             <div className="head">
+                {/* <div className="layer" ref={layer}></div> */}
                 <div className='head-title'>
                     <input className='head-title-input' type="text"
                         value={title}

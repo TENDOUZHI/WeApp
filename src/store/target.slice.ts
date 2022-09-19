@@ -3,12 +3,14 @@ import { RootState } from ".";
 
 interface State {
     target: HTMLElement | null,
-    delete: boolean
+    delete: boolean,
+    layer: HTMLElement | null
 }
 
 const initialState: State = {
     target: null,
-    delete: true
+    delete: true,
+    layer: null
 }
 
 export const targetSlice = createSlice({
@@ -20,6 +22,18 @@ export const targetSlice = createSlice({
         },
         updateState(state, payload) {
             state.delete = payload.payload
+        },
+        initialLayer(state, payload) {
+            state.layer = payload.payload
+        },
+        stateLayer(state, payload) {
+            // true or false
+            // if(payload.payload) {
+            //    state.layer?.setAttribute('style', 'display:block;')
+            // } else {
+            //     state.layer?.setAttribute('style', 'display:none;') 
+            // }
+            
         }
     }
 })
@@ -28,3 +42,4 @@ export const targetSliceAction = targetSlice.actions
 
 export const selectTarget = (state: RootState) => state.targetElement.target
 export const selectState = (state: RootState) => state.targetElement.delete
+export const selectLayer = (state: RootState) => state.targetElement.layer
