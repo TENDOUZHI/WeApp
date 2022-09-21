@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import arrow from '@/assets/arrow.png'
 import './index.scss'
 import { targetSliceAction } from '@/store/target.slice'
+import { RoutePage } from '@/components/atoms/RoutePage'
 export const Structure = () => {
     const dispatch = useDispatch()
     const route = useSelector(selectRoutes)
@@ -29,10 +30,7 @@ export const Structure = () => {
         const name = 'new route'
         dispatch(routesSliceAction.appendRoutes(name))
     }
-    const deletePage = (id: number) => {
-        dispatch(routesSliceAction.deleteRoute(id))
-    }
-    const changeRoute = (name: string, id: number) => {
+    const changeRoute = (name: string, id: number): void => {
         // update vNode before switch route
         updateVNode()
         // change leftlist item style
@@ -82,42 +80,7 @@ export const Structure = () => {
             useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
         }
     }
-    // display options
-    const [show, setShow] = useState<boolean>(false)
-    const switchOption = (id: number) => {
-        if (!show) {
-            optionUl.current[id].classList.remove('none')
-            optionUl.current[id].classList.add('block')
-            arrowRef.current[id].classList.add('rotate')
-            setTimeout(() => {
-                optionUl.current[id].classList.add('show-ul')
-            })
-            dispatch(targetSliceAction.stateLayer(!show))
-            setShow(true)
-        } else {
-            optionUl.current[id].classList.add('none')
-            optionUl.current[id].classList.remove('block')
-            optionUl.current[id].classList.remove('show-ul')
-            arrowRef.current[id].classList.remove('rotate')
-            dispatch(targetSliceAction.stateLayer(!show))
-            setShow(false)
-        }
-    }
-    // rename
-    const updateValue = (e: { target: { value: any } }, id: number) => {
-        dispatch(routesSliceAction.updateRouteName({
-            id: id,
-            name: e.target.value
-        }))
-    }
-    const inputChangeAble = (id: number) => {
-        input.current[id].readOnly = false
-        bar.current[id].style.width = '100%'
-    }
-    const blurInput = (id: number) => {
-        input.current[id].readOnly = true
-        bar.current[id].style.width = '0%'
-    }
+    
     return (
         <div className='page-structure'>
             <div className="page-structure-layer none" ref={layer}></div>
@@ -125,34 +88,9 @@ export const Structure = () => {
             <ul className='page-structure-wrapper'>
                 {route.map(item =>
                     item.name !== 'deleted' &&
-                    <li className="page-structure-wrapper-item"
-                        ref={dom => routeDom.current[item.id] = dom}
-                        onClick={() => changeRoute(item.name, item.id)}
-                        key={item.id}
-                    >
-                        {/* {item.name} */}
-                        <div className='page-input-wrapper'>
-                            <input
-                                className='page-structure-wrapper-item-input'
-                                type="text"
-                                value={item.name}
-                                readOnly
-                                onChange={(e) => updateValue(e, item.id)}
-                                onBlur={() => blurInput(item.id)}
-                                ref={dom => input.current[item.id] = dom}
-                            />
-                            <div className="input-bar"ref={dom => bar.current[item.id] = dom}></div>
-                        </div>
-                        <div className='page-structure-wrapper-item-options' onClick={() => switchOption(item.id)}>
-                            <img className='page-structure-wrapper-item-options-img' ref={dom => arrowRef.current[item.id] = dom}
-                                src={arrow} alt="" />
-                        </div>
-                        <ul className='page-structure-item-ul none' ref={dom => { optionUl.current[item.id] = dom }}>
-                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), deletePage(item.id) }}>delete</li>
-                            <li className='page-structure-item-ul-li' onClick={() => { switchOption(item.id), inputChangeAble(item.id) }}>rename</li>
-                        </ul>
-                    </li>
+                    <RoutePage key={item.id} value={item.name} id={item.id} changeRoute={changeRoute}/>
                 )}
+                
             </ul>
         </div>
     )

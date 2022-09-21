@@ -22,7 +22,6 @@ export const Head = () => {
         // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
     const click = async () => {
-        console.log(wapp);
         await axios.post('/vapp', wapp).then((res) => {
             console.log(res);
         })
