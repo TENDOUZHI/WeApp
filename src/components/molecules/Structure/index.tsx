@@ -114,8 +114,6 @@ export const Structure = () => {
         input.current[id].readOnly = false
         bar.current[id].style.width = '100%'
     }
-    const focusInput = (id: number) => {
-    }
     const blurInput = (id: number) => {
         input.current[id].readOnly = true
         bar.current[id].style.width = '0%'
@@ -140,7 +138,6 @@ export const Structure = () => {
                                 value={item.name}
                                 readOnly
                                 onChange={(e) => updateValue(e, item.id)}
-                                onFocus={() => focusInput(item.id)}
                                 onBlur={() => blurInput(item.id)}
                                 ref={dom => input.current[item.id] = dom}
                             />

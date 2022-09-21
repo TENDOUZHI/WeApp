@@ -1,3 +1,4 @@
+import { useAutoSave } from "@/hooks/useAutoSave";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { routes, Vapp, vNode } from "./ast";
@@ -78,15 +79,12 @@ export const routesSlice = createSlice({
             state.Vapp.routes.push(route)
             state.Wapp.routes.push(route)
             localStorage.setItem('size', JSON.stringify(state.maxSize))
-            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
-            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+            useAutoSave(state.Vapp,state.Wapp)
         },
         deleteRoute(state, payload) {
             // state.Vapp.routes.splice(payload.payload,1)
             state.Vapp.routes[payload.payload].name = 'deleted'
-            localStorage.setItem('size', JSON.stringify(state.maxSize))
-            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
-            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
         },
         updateVnode(state, payload) {
             state.Vapp.routes.forEach((route: routes) => {
@@ -99,9 +97,8 @@ export const routesSlice = createSlice({
                     route.vnode = payload.payload.curWnode.vNode
                 }
             })
-            localStorage.setItem('size', JSON.stringify(state.maxSize))
-            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
-            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+            // localStorage.setItem('size', JSON.stringify(state.maxSize))
+            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
         },
         changeRoutes(state, payload) {
             state.current = payload.payload
@@ -119,12 +116,11 @@ export const routesSlice = createSlice({
         updateProjectName(state, payload) {
             state.Vapp.project_name = payload.payload
             state.Wapp.project_name = payload.payload
-            localStorage.setItem('size', JSON.stringify(state.maxSize))
-            localStorage.setItem('vapp', JSON.stringify(state.Vapp))
-            localStorage.setItem('wapp', JSON.stringify(state.Wapp))
+            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
         },
         updateRouteName(state, payload) {
-            state.Vapp.routes[payload.payload.id].name = payload.payload.name 
+            state.Vapp.routes[payload.payload.id].name = payload.payload.name
+            useAutoSave(state.Vapp,state.Wapp)
         }
     }
 })
