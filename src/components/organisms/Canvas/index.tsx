@@ -33,11 +33,12 @@ export const Canvas = () => {
         if (data !== null) {
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
+            setNum(data.routes[0].size)
             useRenderer(root.current, index as vNode, dispatch)
         }
         const len = root?.current.childNodes.length as number
         const childs = root?.current.childNodes
-
+        
         return (() => {
             // clear main display
             for (let i = len - 1; i >= 0; i--) {
@@ -68,9 +69,12 @@ export const Canvas = () => {
             dispatch(targetSliceAction.updateState(true))
         })
         newSource.classList.add(newSource.nodeName + num)
-        setNum(num + 1)
+        setNum(num+1)
+        // console.log(num);
+        dispatch(routesSliceAction.updateRouteSize({id: current.id,size: num+1}))
         target.appendChild(newSource as Node)
         dispatch(sourceSliceAction.clearSource())
+        
     }
     // delete element
     document.onkeydown = (e: KeyboardEvent) => {

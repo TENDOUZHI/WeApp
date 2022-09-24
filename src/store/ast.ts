@@ -6,7 +6,9 @@ export interface Vapp {
 export interface routes {
     id: number,
     name: string,
-    vnode: vNode
+    state: 0 | -1,
+    size: number,
+    vnode: vNode,
 }
 
 export interface vNode {

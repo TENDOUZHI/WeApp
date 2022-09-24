@@ -52,24 +52,29 @@ export const RoutePage = (props: Props) => {
         dispatch(routesSliceAction.deleteRoute(props.id))
     }
     const autoHide = (e: MouseEvent) => {
-        // console.log(e.target);
         if ((
             e.target !== arrowWrap.current ||
             e.target !== arrowWrap.current.childNodes[0] ||
             e.target !== option.current.childNodes[0] ||
             e.target !== option.current.childNodes[1])
         ) {
-            option.current.classList.add('none')
-            option.current.classList.remove('block')
-            option.current.classList.remove('show-ul')
-            arrowRef.current.classList.remove('rotate')
-            dispatch(targetSliceAction.stateLayer(!show))
-            setShow(false)
-            document.removeEventListener('click', autoHide)
+            try {
+                option.current.classList.add('none')
+                option.current.classList.remove('block')
+                option.current.classList.remove('show-ul')
+                arrowRef.current.classList.remove('rotate')
+                dispatch(targetSliceAction.stateLayer(!show))
+                setShow(false)
+                document.removeEventListener('click', autoHide)
+            } catch (error) {
+
+            }
+
         }
     }
     return (
         <li className="page-item"
+            onClick={() => props.changeRoute(props.value, props.id)}
         >
             <div className='page-input-wrapper'>
                 <input

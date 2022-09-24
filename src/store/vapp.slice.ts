@@ -27,6 +27,8 @@ const initialState: State = {
             {
                 id: 0,
                 name: 'index',
+                state: 0,
+                size: 0,
                 vnode: {
                     name: 'root',
                     class: '',
@@ -44,6 +46,8 @@ const initialState: State = {
             {
                 id: 0,
                 name: 'index',
+                state: 0,
+                size: 0,
                 vnode: {
                     name: 'root',
                     class: '',
@@ -74,17 +78,19 @@ export const routesSlice = createSlice({
             const route: routes = {
                 id: state.maxSize,
                 name: payload.payload,
+                state: 0,
+                size: 0,
                 vnode: vNode
             }
             state.Vapp.routes.push(route)
             state.Wapp.routes.push(route)
             localStorage.setItem('size', JSON.stringify(state.maxSize))
-            useAutoSave(state.Vapp,state.Wapp)
+            useAutoSave(state.Vapp, state.Wapp)
         },
         deleteRoute(state, payload) {
-            // state.Vapp.routes.splice(payload.payload,1)
-            state.Vapp.routes[payload.payload].name = 'deleted'
-            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
+            state.Wapp.routes.splice(payload.payload, 1)
+            state.Vapp.routes[payload.payload].state = -1
+            useAutoSave(state.Vapp, state.Wapp, state.maxSize)
         },
         updateVnode(state, payload) {
             state.Vapp.routes.forEach((route: routes) => {
@@ -98,7 +104,7 @@ export const routesSlice = createSlice({
                 }
             })
             // localStorage.setItem('size', JSON.stringify(state.maxSize))
-            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
+            useAutoSave(state.Vapp, state.Wapp, state.maxSize)
         },
         changeRoutes(state, payload) {
             state.current = payload.payload
@@ -116,11 +122,17 @@ export const routesSlice = createSlice({
         updateProjectName(state, payload) {
             state.Vapp.project_name = payload.payload
             state.Wapp.project_name = payload.payload
-            useAutoSave(state.Vapp,state.Wapp,state.maxSize)
+            useAutoSave(state.Vapp, state.Wapp, state.maxSize)
         },
         updateRouteName(state, payload) {
             state.Vapp.routes[payload.payload.id].name = payload.payload.name
-            useAutoSave(state.Vapp,state.Wapp)
+            state.Wapp.routes[payload.payload.id].name = payload.payload.name
+            useAutoSave(state.Vapp, state.Wapp)
+        },
+        updateRouteSize(state, payload) {
+            state.Vapp.routes[payload.payload.id].size = payload.payload.size
+            state.Wapp.routes[payload.payload.id].size = payload.payload.size
+            useAutoSave(state.Vapp, state.Wapp)
         }
     }
 })

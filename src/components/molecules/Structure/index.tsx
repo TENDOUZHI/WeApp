@@ -2,14 +2,12 @@ import { useCompile } from '@/hooks/useCompile'
 import { useRenderer } from '@/hooks/useRenderer'
 import { vNode } from '@/store/ast'
 import { selectDevice } from '@/store/device.slice'
-import { routesSliceAction, selectCurRoutes, selectRoutes, selectRouteSize } from '@/store/vapp.slice'
+import { routesSliceAction, selectCurRoutes, selectRoutes, selectRouteSize, selectVapp, selectWapp } from '@/store/vapp.slice'
 import { selectRoot } from '@/store/source.slice'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import arrow from '@/assets/arrow.png'
 import './index.scss'
-import { targetSliceAction } from '@/store/target.slice'
 import { RoutePage } from '@/components/atoms/RoutePage'
 export const Structure = () => {
     const dispatch = useDispatch()
@@ -17,14 +15,14 @@ export const Structure = () => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const current = useSelector(selectCurRoutes)
+    const vapp = useSelector(selectVapp)
+    const wapp = useSelector(selectWapp)
     const routeDom = useRef<Array<any>>([])
-    const optionUl = useRef<Array<any>>([])
-    const arrowRef = useRef<Array<any>>([])
-    const input = useRef<Array<any>>([])
-    const bar = useRef<Array<any>>([])
     const layer = useRef<any>()
     useEffect(() => {
         dispatch(routesSliceAction.retriveSize())
+        console.log(vapp);
+
     }, [])
     const createPage = () => {
         const name = 'new route'
@@ -80,17 +78,17 @@ export const Structure = () => {
             useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
         }
     }
-    
+
     return (
         <div className='page-structure'>
             <div className="page-structure-layer none" ref={layer}></div>
             <div className='page-structure-create' onClick={createPage}>create page + </div>
             <ul className='page-structure-wrapper'>
                 {route.map(item =>
-                    item.name !== 'deleted' &&
-                    <RoutePage key={item.id} value={item.name} id={item.id} changeRoute={changeRoute}/>
+                    item.state === 0 &&
+                    <RoutePage key={item.id} value={item.name} id={item.id} changeRoute={changeRoute} />
                 )}
-                
+
             </ul>
         </div>
     )

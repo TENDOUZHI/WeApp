@@ -1,7 +1,7 @@
 import { selectTarget, targetSliceAction } from '@/store/target.slice'
-import { ChangeEvent, FocusEvent, memo, MouseEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FocusEvent, KeyboardEvent, memo, MouseEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {useHexColor} from '@/hooks/useHexColor'
+import { useHexColor } from '@/hooks/useHexColor'
 import './index.scss'
 interface Props {
     title: string
@@ -41,6 +41,21 @@ export const StyleInput = (props: Props) => {
             // dispatch(targetSliceAction.captureTarget(target))
         }
     }
+    const enterInput = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            wrapper.current.classList.remove('item-focus')
+            if (Ivalue[Ivalue.length - 1] === '%' || Ivalue[0] === '#') {
+                props.changeValue(Ivalue)
+            } else {
+                props.changeValue(Ivalue)
+                if (props.ifValue) {
+                    props.ifValue(Ivalue)
+                }
+            }
+        }
+
+
+    }
     const updateValue = (e: { target: { value: any } }) => {
         setValue(e.target.value)
         // props.changeValue(e.target.value)
@@ -57,7 +72,9 @@ export const StyleInput = (props: Props) => {
                 className='input-item'
                 value={Ivalue}
                 onChange={updateValue} onFocus={focusInput}
-                onBlur={blurInput} />
+                onBlur={blurInput} 
+                onKeyDown={enterInput}
+            />
             <div className="tip">{props.tip}</div>
         </div>
     )
