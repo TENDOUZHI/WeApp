@@ -33,7 +33,8 @@ export const Canvas = () => {
         if (data !== null) {
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
-            setNum(data.routes[0].size)
+            console.log(data.routes[current.id].size);
+            setNum(data.routes[current.id].size)
             useRenderer(root.current, index as vNode, dispatch)
         }
         const len = root?.current.childNodes.length as number

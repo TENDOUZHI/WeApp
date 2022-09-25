@@ -2,13 +2,14 @@ $li-height: 2rem;
 $choice-height: 0rem;
 $list-length: 19;
 .device-list {
-  width: 20rem;
+  min-width: 20rem;
   height: 1.5rem;
-  background-color: #fff;
+  background-color: rgb(43, 43, 43);
   margin-left: 10px;
   cursor: pointer;
   font-size: 16px;
-  color: #000;
+  border: 1px solid rgb(75, 75, 75);
+  // color: rgb(156, 156, 156);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,23 +19,45 @@ $list-length: 19;
   border-radius: 0.3rem;
   transition: all 0.3s;
   &:hover {
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(71, 71, 71);
   }
   &-title {
     width: 100%;
-    color: #000;
+    // color: #000;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
     z-index: 10;
+    transition: all .3s ease-in-out;
+    &-main{
+      // width: 80%;
+      height: 100%;
+      margin-left: 1rem;
+      margin-right: .5rem;
+    }
+    &-img{
+      width: 16px;
+      height: 20px;
+      margin-right: 1rem;
+      margin-left: .5rem;
+      transition: all .3s ease-in-out;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
   &-choice {
     width: 20rem;
     height: 0;
-    background-color: #fff;
+    background-color: rgb(43, 43, 43);
     z-index: 9;
     transition: all 0.2s;
     opacity: 0;
     border-radius: 0.3rem;
+    border: 1px solid rgb(75, 75, 75);
+    box-shadow: 1px 1px 10px rgb(21, 21, 21);
     z-index: 10;
     ul {
       opacity: 0;
@@ -42,13 +65,13 @@ $list-length: 19;
         opacity: 0;
         height: $li-height;
         font-size: 14px;
-        color: #000;
+        // color: #000;
         display: flex;
         justify-content: center;
         align-items: center;
         transition: all 0.4s;
         &:hover {
-          background-color: rgb(147, 147, 147);
+          background-color: rgb(71, 71, 71);
         }
         &:nth-child(1) {
           border-top-right-radius: 0.3rem;
@@ -72,6 +95,9 @@ $list-length: 19;
 }
 .none {
   display: none;
+}
+.rotate{
+  transform: rotateZ(180deg);
 }
 @for $i from 1 through $list-length {
   $choice-height: $choice-height + $li-height;

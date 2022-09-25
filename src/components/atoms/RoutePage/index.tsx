@@ -56,7 +56,8 @@ export const RoutePage = (props: Props) => {
             e.target !== arrowWrap.current ||
             e.target !== arrowWrap.current.childNodes[0] ||
             e.target !== option.current.childNodes[0] ||
-            e.target !== option.current.childNodes[1])
+            e.target !== option.current.childNodes[1]
+        )
         ) {
             try {
                 option.current.classList.add('none')
