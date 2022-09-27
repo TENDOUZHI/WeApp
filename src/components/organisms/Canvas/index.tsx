@@ -33,7 +33,7 @@ export const Canvas = () => {
         if (data !== null) {
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
-            console.log(data.routes[current.id].size);
+            // console.log(data.routes[current.id].size);
             setNum(data.routes[current.id].size)
             useRenderer(root.current, index as vNode, dispatch)
         }
@@ -65,15 +65,22 @@ export const Canvas = () => {
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
         newSource.draggable = false
+        newSource.classList.add(newSource.nodeName + num)
+        setNum(num+1)
+        dispatch(routesSliceAction.updateRouteSize({id: current.id,size: num+1}))
+        target.appendChild(newSource as Node)
+        const cacheBorder = getComputedStyle(newSource).border
+        // heighlight element 
         newSource.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
             dispatch(targetSliceAction.updateState(true))
+            // newSource.style.border = 'solid 4px #6188de'
         })
-        newSource.classList.add(newSource.nodeName + num)
-        setNum(num+1)
-        // console.log(num);
-        dispatch(routesSliceAction.updateRouteSize({id: current.id,size: num+1}))
-        target.appendChild(newSource as Node)
+        // document.addEventListener('click',(e: MouseEvent) => {
+        //     if(e.target !== newSource) {
+        //         newSource.style.border = cacheBorder
+        //     }
+        // })
         dispatch(sourceSliceAction.clearSource())
         
     }

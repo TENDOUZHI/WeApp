@@ -12,7 +12,6 @@ export const Head = () => {
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
     const bar = useRef<any>()
-    // const layer = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
@@ -22,8 +21,17 @@ export const Head = () => {
         // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
     const click = async () => {
-        await axios.post('/vapp', wapp).then((res) => {
-            console.log(res);
+        await axios.post('/vapp', wapp,{responseType:'blob'}).then((res) => {
+            // console.log(res);
+            const blob = new Blob([res.data], { type: 'application/zip' })
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const name = wapp.project_name + '.zip'
+            link.setAttribute('download', name);
+            document.body.appendChild(link);
+            link.click();
+            URL.revokeObjectURL(url) //realease memory
         })
     }
     const clear = () => {
@@ -44,7 +52,6 @@ export const Head = () => {
     return (
         <>
             <div className="head">
-                {/* <div className="layer" ref={layer}></div> */}
                 <div className='head-title'>
                     <input className='head-title-input' type="text"
                         value={title}

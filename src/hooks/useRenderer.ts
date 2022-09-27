@@ -1,6 +1,7 @@
-import { targetSliceAction } from "@/store/target.slice";
+import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import {vNode} from '@/store/ast'
+import { useSelector } from "react-redux";
 
 
 export const useRenderer = (root: HTMLElement, vNode: vNode, dispatch: Dispatch) => {
@@ -23,6 +24,7 @@ const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
     curNode.classList.add(vNode.class as string)
     curNode.addEventListener('click', (e: MouseEvent) => {
         dispatch(targetSliceAction.captureTarget(e.target))
+        // curNode.style.border = 'solid 2px #6188de'
     })
     for (const key in vNode.style) {
         if (Object.prototype.hasOwnProperty.call(vNode.style, key)) {
@@ -30,8 +32,16 @@ const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
             curNode.style[key] = vNode.style[key]
         }
     }
-    // curNode.style.width = vNode.style?.width as string
-    // console.log(vNode.style?.width);
+    // setTimeout(() => {
+    //     const cacheBorder = window.getComputedStyle(curNode).border
+    //     // console.log(cacheBorder);
+    //     document.addEventListener('click',(e: MouseEvent) => {
+    //         if(e.target !== curNode) {
+    //             curNode.style.border = cacheBorder
+    //         }
+    //     })
+    // });
+    
     
     return curNode
 }

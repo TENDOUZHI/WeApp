@@ -22,7 +22,7 @@ const initialState: State = {
     },
     maxSize: 0,
     Vapp: {
-        project_name: '',
+        project_name: 'New Project',
         routes: [
             {
                 id: 0,
@@ -41,7 +41,7 @@ const initialState: State = {
         ]
     },
     Wapp: {
-        project_name: '',
+        project_name: 'New Project',
         routes: [
             {
                 id: 0,
