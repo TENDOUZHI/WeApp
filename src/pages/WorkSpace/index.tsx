@@ -3,7 +3,7 @@ import { Head } from '@/components/organisms/Head'
 import { LeftList } from '@/components/organisms/LeftList'
 import { RighttList } from '@/components/organisms/RightList'
 import './index.scss'
-export const Home = () => {
+export const WorkSpace = () => {
     // auto hide jump layer
     // document.onclick = (e: MouseEvent) => {
         
