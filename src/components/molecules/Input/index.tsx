@@ -11,6 +11,7 @@ interface Props {
     passcode: boolean
     msg: string,
     status: Status
+    head?: boolean
 }
 export const Input = (props: Props) => {
     const frame = useRef<any>()
@@ -27,7 +28,6 @@ export const Input = (props: Props) => {
         }
         if(props.status === 'normal') {
             normalStatus()
-            
         }
     }, [props])
     useEffect(() => {
@@ -56,7 +56,6 @@ export const Input = (props: Props) => {
         frame.current.classList.remove('hover')
     }
     const blurInput = (status: Status) => {
-        console.log(status);
         if(status === 'error') {
             errorStatus()
         } else if(status === 'correct') {
