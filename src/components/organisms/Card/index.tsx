@@ -43,6 +43,7 @@ export const Card = () => {
     const [cardType, setCardType] = useState<CardType>('login')
     const [linkMsg, setLinkMsg] = useState<LinkMsg>('立即注册')
     const [btnType, setBtnType] = useState<'登录' | '下一步' | '注册'>('登录')
+    let [second, setSecond] = useState<number>(59)
     const EmailReg = /^[a-zA-Z0-9][a-zA-Z0-9_]+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,5}(\.[a-zA-Z]{2,5})*$/
     const telReg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
     useEffect(() => {
@@ -355,7 +356,7 @@ export const Card = () => {
 
         }
     }
-    const sedPassCode = async () => {
+    const sedPassCode = async (passType: string, setPassType: (value: string) => void, passBtn: HTMLElement) => {
         const payload: PassCodePayload = {
             email_address: '',
             is_login: true
@@ -365,6 +366,20 @@ export const Card = () => {
         }
         await axios.post('/passcode', payload).then((res) => {
             console.log(res);
+            if (res.status === 200) {
+                let counter = setInterval(() => {
+                    passBtn.classList.add('pass-disabled')
+                    setPassType(second + 's后重新获取')
+                    setSecond(second = second - 1)
+                    if (second < 0) {
+                        passBtn.classList.remove('pass-disabled')
+                        setPassType('重新获取')
+                        setSecond(second = 59)
+                        clearInterval(counter)
+                    }
+                }, 1000)
+
+            }
         })
 
     }
@@ -380,22 +395,22 @@ export const Card = () => {
                 emessage: null,
                 password: null
             }
-            if(loginType==='passcode') {
+            if (loginType === 'passcode') {
                 payload.username = username
                 payload.email = account
                 payload.emessage = cipher
                 payload.password = pwd
-            } else if(loginType === 'password') {
+            } else if (loginType === 'password') {
                 payload.username = username
                 payload.telephone = account
                 payload.password = pwd
             }
-            await axios.post('/register',payload).then((res)=>{
+            await axios.post('/register', payload).then((res) => {
                 console.log(res);
-                
+
             })
-            
-            
+
+
         }
     }
 

@@ -227,6 +227,12 @@
   }
 }
 
+.pass-disabled {
+  color: #86baff;
+  cursor: default;
+  pointer-events: none;
+}
+
 .fade-contnet {
   animation: fade-show 0.5s ease-in-out forwards;
 }

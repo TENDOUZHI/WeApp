@@ -5,7 +5,7 @@ interface Props {
     value: string,
     setValue: ((value: string) => void)
     validateFun: (() => void)
-    passCodeFun?:(()=>void)
+    passCodeFun?: ((passType: string, setPassType: (value: string) => void,passBtn:HTMLElement) => void)
     placeholder: string,
     input_type: string,
     show: boolean,
@@ -19,6 +19,8 @@ export const Input = (props: Props) => {
     const input = useRef<any>()
     const root = useRef<any>()
     const error = useRef<any>()
+    const passBtn = useRef<any>()
+    const [passType, setPassType] = useState<string>('获取验证码')
     useEffect(() => {
         if (props.show) {
             root.current.classList.remove('hide')
@@ -27,7 +29,7 @@ export const Input = (props: Props) => {
             root.current.classList.add('hide')
             root.current.classList.remove('forminput')
         }
-        if(props.status === 'normal') {
+        if (props.status === 'normal') {
             normalStatus()
         }
     }, [props])
@@ -42,8 +44,8 @@ export const Input = (props: Props) => {
         error.current.classList.add('show-error')
     }
     const normalStatus = () => {
-        frame.current.setAttribute('class','forminput-all hover')
-        error.current.setAttribute('class','forminput-error-msg')
+        frame.current.setAttribute('class', 'forminput-all hover')
+        error.current.setAttribute('class', 'forminput-error-msg')
     }
     const correctStatus = () => {
         error.current.classList.remove('show-error')
@@ -57,9 +59,9 @@ export const Input = (props: Props) => {
         frame.current.classList.remove('hover')
     }
     const blurInput = (status: Status) => {
-        if(status === 'error') {
+        if (status === 'error') {
             errorStatus()
-        } else if(status === 'correct') {
+        } else if (status === 'correct') {
             correctStatus()
         }
         if (props.value === '') {
@@ -94,7 +96,8 @@ export const Input = (props: Props) => {
                         placeholder={props.placeholder}
                         type={props.input_type} />
                     {props.passcode && props.show &&
-                        <div className="forminput-all-wrapper-passcode" onClick={props.passCodeFun}>获取验证码</div>}
+                        // @ts-ignore
+                        <div className="forminput-all-wrapper-passcode" ref={passBtn} onClick={() => props.passCodeFun(passType, setPassType,passBtn.current)}>{passType}</div>}
                 </div>
             </div>
             <div className="forminput-error-msg" ref={error}>{props.msg}</div>
