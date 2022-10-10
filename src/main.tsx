@@ -6,6 +6,7 @@ import './index.css'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8080'
 axios.defaults.timeout = 3000
+axios.defaults.withCredentials = true
 // axios.defaults.headers.post['Accept'] = 'application/json'
 // axios.defaults.headers.post['Content-Type'] = 'application/json'
 

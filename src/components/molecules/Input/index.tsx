@@ -5,6 +5,7 @@ interface Props {
     value: string,
     setValue: ((value: string) => void)
     validateFun: (() => void)
+    passCodeFun?:(()=>void)
     placeholder: string,
     input_type: string,
     show: boolean,
@@ -93,7 +94,7 @@ export const Input = (props: Props) => {
                         placeholder={props.placeholder}
                         type={props.input_type} />
                     {props.passcode && props.show &&
-                        <div className="forminput-all-wrapper-passcode">获取验证码</div>}
+                        <div className="forminput-all-wrapper-passcode" onClick={props.passCodeFun}>获取验证码</div>}
                 </div>
             </div>
             <div className="forminput-error-msg" ref={error}>{props.msg}</div>

@@ -46,3 +46,17 @@ export interface Style {
     alignItems: string
 
 }
+
+export interface LoginPayload {
+    username: string | null,
+    telephone: string | null,
+    email: string | null,
+    message: string | null,
+    emessage: string | null,
+    password: string | null
+}
+
+export interface PassCodePayload {
+    email_address: string,
+    is_login: boolean
+}
