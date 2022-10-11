@@ -1,0 +1,64 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(252, 252, 252);
+  &-head {
+    width: 100%;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-logo {
+      width: 20%;
+      height: 100%;
+      color: rgb(69, 69, 69);
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: default;
+    }
+    &-login {
+      width: 20%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button {
+          width: 30%;
+          height: 60%;
+          border-radius: 0.5rem;
+          color: #fff;
+          font-size: 17px;
+        }
+      }
+    }
+    .list-wrapper {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    &-list {
+      //   width: 4rem;
+      padding: 0.5rem 0.5rem;
+      color: rgb(69, 69, 69);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        background-color: rgb(232, 232, 232);
+      }
+    }
+  }
+}

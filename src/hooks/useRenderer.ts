@@ -1,27 +1,35 @@
 import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import {vNode} from '@/store/ast'
+import { vNode } from '@/store/ast'
 import { useSelector } from "react-redux";
 
 
 export const useRenderer = (root: HTMLElement, vNode: vNode, dispatch: Dispatch) => {
-    dfs(root,vNode, dispatch)
+    dfs(root, vNode, dispatch)
 }
 
 const dfs = (rootNode: HTMLElement | Node, vNode: vNode, dispatch: Dispatch) => {
-    vNode.children.forEach((item: vNode,index: number) => {
-        rootNode.appendChild(createNode(item,dispatch))
-        dfs(rootNode.childNodes[index],item,dispatch)
+    vNode.children.forEach((item: vNode, index: number) => {
+        // console.log(item.name,item.tag_name);
+        if (item.name !== '') {
+            rootNode.appendChild(createNode(item, dispatch))
+        }
+        dfs(rootNode.childNodes[index], item, dispatch)
+
     })
-    
+
 }
 
 const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
+    // console.log(vNode);
+    
     const curNode = document.createElement(vNode.tag_name)
     curNode.id = vNode.name
     curNode.innerText = vNode.content as string
     curNode.draggable = false
     curNode.classList.add(vNode.class as string)
+    // console.log(curNode.tagName);
+    
     curNode.addEventListener('click', (e: MouseEvent) => {
         dispatch(targetSliceAction.captureTarget(e.target))
         // curNode.style.border = 'solid 2px #6188de'
@@ -41,7 +49,7 @@ const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
     //         }
     //     })
     // });
-    
-    
+
+
     return curNode
 }

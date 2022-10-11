@@ -28,6 +28,12 @@ const dfs = (rootNode: any, vNode: vNode, width: number, isRpx: boolean) => {
         // 同步到vNode的子节点
         let styles;
         let curClass;
+        let content;
+        if(el.id!=='text'){
+            content = null
+        } else {
+            content = el.innerText
+        }
         if (el.innerText === undefined) {
             styles = null
             curClass = null
@@ -40,9 +46,10 @@ const dfs = (rootNode: any, vNode: vNode, width: number, isRpx: boolean) => {
             class: curClass,
             tag_name: el.tagName,
             style: styles,
-            content: el.innerText,
+            content: content,
             children: []
         }
+        
         if (el.innerText !== undefined) {
             vNode.children.push(node)
             dfs(el, vNode.children[index], width, isRpx)
