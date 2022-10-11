@@ -227,6 +227,18 @@
   }
 }
 
+.slide-bounce {
+  animation: bounce .3s ease-in-out;
+  @keyframes bounce {
+    0%{
+      transform: scaleX(120%);
+    }
+    100%{
+      transform: scaleX(100%);
+    }
+  }
+}
+
 .pass-disabled {
   color: #86baff;
   cursor: default;

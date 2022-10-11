@@ -1,7 +1,10 @@
 import { Input } from '@/components/molecules/Input'
 import { LoginPayload, PassCodePayload } from '@/store/ast'
+import { selectUser, User, userSliceAction } from '@/store/user.slice'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './index.scss'
 
 export const Card = () => {
@@ -10,6 +13,8 @@ export const Card = () => {
     type Status = 'error' | 'normal' | 'correct'
     type CardType = 'login' | 'register'
     type LinkMsg = '立即注册' | '立即登录'
+    const dispatch = useDispatch()
+    const user = useSelector(selectUser)
     const slide = useRef<any>()
     const passcode = useRef<any>()
     const password = useRef<any>()
@@ -210,6 +215,10 @@ export const Card = () => {
     }
 
     const switchPasscode = () => {
+        slide.current.classList.add('slide-bounce')
+        setTimeout(() => {
+            slide.current.classList.remove('slide-bounce')
+        },300)
         btn.current.disabled = true
         passcode.current.classList.add('switch_button')
         password.current.classList.remove('switch_button')
@@ -234,6 +243,10 @@ export const Card = () => {
         setShow(false)
     }
     const switchPassword = () => {
+        slide.current.classList.add('slide-bounce')
+        setTimeout(() => {
+            slide.current.classList.remove('slide-bounce')
+        },300)
         btn.current.disabled = true
         password.current.classList.add('switch_button')
         passcode.current.classList.remove('switch_button')
@@ -350,7 +363,22 @@ export const Card = () => {
                 }
             }
             await axios.post('/login', payload).then((res) => {
-                console.log(res.data);
+                if (res.status === 200) {
+                    const {data} = res
+                    const userInfo: User = {
+                        username: data.username,
+                        avatar: data.avatar,
+                        email: data.email,
+                        telephone: data.telephone,
+                        token: data.token,
+                        isLogin: true
+                    }
+                    dispatch(userSliceAction.synUserData(userInfo))
+                    if (remAcount) {
+                        localStorage.setItem('user', JSON.stringify(res.data))
+                    }
+                    
+                }
 
             })
 
