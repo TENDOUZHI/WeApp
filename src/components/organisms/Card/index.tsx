@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import './index.scss'
 
 export const Card = () => {
@@ -14,6 +15,7 @@ export const Card = () => {
     type CardType = 'login' | 'register'
     type LinkMsg = '立即注册' | '立即登录'
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const user = useSelector(selectUser)
     const slide = useRef<any>()
     const passcode = useRef<any>()
@@ -218,7 +220,7 @@ export const Card = () => {
         slide.current.classList.add('slide-bounce')
         setTimeout(() => {
             slide.current.classList.remove('slide-bounce')
-        },300)
+        }, 300)
         btn.current.disabled = true
         passcode.current.classList.add('switch_button')
         password.current.classList.remove('switch_button')
@@ -246,7 +248,7 @@ export const Card = () => {
         slide.current.classList.add('slide-bounce')
         setTimeout(() => {
             slide.current.classList.remove('slide-bounce')
-        },300)
+        }, 300)
         btn.current.disabled = true
         password.current.classList.add('switch_button')
         passcode.current.classList.remove('switch_button')
@@ -364,7 +366,7 @@ export const Card = () => {
             }
             await axios.post('/login', payload).then((res) => {
                 if (res.status === 200) {
-                    const {data} = res
+                    const { data } = res
                     const userInfo: User = {
                         username: data.username,
                         avatar: data.avatar,
@@ -377,7 +379,7 @@ export const Card = () => {
                     if (remAcount) {
                         localStorage.setItem('user', JSON.stringify(res.data))
                     }
-                    
+                    navigate('/repository')
                 }
 
             })
