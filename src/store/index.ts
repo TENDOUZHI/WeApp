@@ -4,6 +4,7 @@ import { routesSlice } from "./vapp.slice";
 import { sourceSlice } from "./source.slice";
 import { targetSlice } from "./target.slice";
 import { userSlice } from "./user.slice";
+import { repSlice } from "./respository.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -11,6 +12,7 @@ export const rootReducer = {
         deviceElement: deviceSlice.reducer,
         routesElement: routesSlice.reducer,
         userElement: userSlice.reducer,
+        repElement: repSlice.reducer
 }
 
 export const store = configureStore({

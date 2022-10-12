@@ -252,7 +252,7 @@
   animation: show-card 0.7s ease-in-out;
   @keyframes show-card {
     0% {
-      transform: translateX(2%) translateY(30%) scale(90%);
+      transform: translateX(2%) translateY(50%) scale(80%);
       opacity: 0.5;
     }
   }

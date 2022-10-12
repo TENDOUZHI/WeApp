@@ -56,7 +56,13 @@ export const Card = () => {
     useEffect(() => {
         btn.current.disabled = true
         register.current.disabled = true
+        // card.current.style.display = 'none'
+        // setTimeout(() => {
+        //     card.current.style.display = 'none'
+        //     card.current.classList.add('show-card')
+        // },400)
         card.current.classList.add('show-card')
+        
         showContent([
             titleMain.current,
             titleSub.current,
