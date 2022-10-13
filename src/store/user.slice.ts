@@ -2,6 +2,7 @@ import { useAutoSave } from "@/hooks/useAutoSave";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
 export interface User {
+    id: number
     username: string,
     avatar: Blob | null,
     email: string,
@@ -11,6 +12,7 @@ export interface User {
 }
 
 const initialState: User = {
+    id: 0,
     username: "",
     avatar: null,
     email: "",
@@ -25,6 +27,7 @@ export const userSlice = createSlice({
     reducers: {
         synUserData(state,payload) {
             const data = payload.payload
+            state.id = data.id
             state.username = data.username
             state.avatar = data.avatar
             state.email = data.email

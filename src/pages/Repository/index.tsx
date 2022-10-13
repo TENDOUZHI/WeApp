@@ -1,5 +1,8 @@
 import { RepItem } from '@/components/molecules/RepItem'
 import { Item, repSliceAction, selectList } from '@/store/respository.slice'
+import { selectUser } from '@/store/user.slice'
+import axios from 'axios'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import './index.scss'
@@ -7,17 +10,30 @@ import './index.scss'
 export const Repository = () => {
     const dispatch = useDispatch()
     const lists = useSelector(selectList)
-    const createItem = () => {
-        const item: Item = {
-            id: lists.length,
-            name: 'Vivid',
-            lastDate: '10月1日'
-        }
-        dispatch(repSliceAction.appendData(item))
+    const user = useSelector(selectUser)
+    useEffect(() => {
+        selectProgram()
+        console.log(user);
+    }, [])
+    const selectProgram = async () => {
+        await axios.get('/programlist').then((res) => {
+            const { data } = res
+            dispatch(repSliceAction.synListData(data.list))
+        })
     }
-
-
-
+    const createItem = async () => {
+        const date = new Date().toLocaleDateString().replaceAll('/', '-')
+        const item = {
+            user_id: user.id,
+            name: 'New File',
+            lastdate: date
+        }
+        await axios.post('/programlist/insert', item).then((res) => {
+            if (res.status === 200) {
+                selectProgram()
+            }
+        })
+    }
     return (
         <div className="rep">
             <div className="rep-file">
@@ -32,7 +48,7 @@ export const Repository = () => {
                         <div className="rep-file-ul-head-name">名称</div>
                         <div className="rep-file-ul-head-time">更新时间</div>
                     </div>
-                    {lists.map(item => <RepItem key={item.id} name={item.name} time={item.lastDate} />)}
+                    {lists.map(item => <RepItem key={item.id} name={item.name} time={item.lastdate} />)}
                     {/* <RepItem name='Vapp' time='10月11日' />
                     <RepItem name='村口备案' time='9月23日' /> */}
                 </div>

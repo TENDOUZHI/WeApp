@@ -4,7 +4,13 @@ import { RootState } from ".";
 export interface Item {
     id: number,
     name: string,
-    lastDate: string
+    lastdate: string
+}
+
+export interface ProgramInsert {
+    user_id: number,
+    name: string,
+    lastdate: string
 }
 
 interface State {
@@ -26,14 +32,14 @@ export const repSlice = createSlice({
             //     name: payload.payload.name,
             //     lastDate: payload.payload.lastDate
             // }
-            const list = payload.payload.list
+            const list = payload.payload
             state.list = list
         },
         appendData(state, payload) {
             const item: Item = {
                 id: payload.payload.id,
                 name: payload.payload.name,
-                lastDate: payload.payload.lastDate
+                lastdate: payload.payload.lastdate
             }
             state.list.push(item)
         }

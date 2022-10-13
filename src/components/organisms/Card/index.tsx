@@ -374,6 +374,7 @@ export const Card = () => {
                 if (res.status === 200) {
                     const { data } = res
                     const userInfo: User = {
+                        id: data.id,
                         username: data.username,
                         avatar: data.avatar,
                         email: data.email,
