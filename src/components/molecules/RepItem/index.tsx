@@ -1,14 +1,21 @@
 import { useAutoHide } from '@/hooks/useAutoHide'
+import { ProgramDelete } from '@/store/respository.slice'
+import { selectUser } from '@/store/user.slice'
+import axios from 'axios'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './index.scss'
 
 interface Props {
+    id: number,
     name: string,
-    time: string
+    time: string,
+    deleteFun: ((id: number) => void)
 }
 export const RepItem = (props: Props) => {
     const navigate = useNavigate()
+    const user = useSelector(selectUser)
     const [selected, setSelected] = useState<boolean>(false)
     const item = useRef<any>()
     const etc = useRef<any>()
@@ -32,13 +39,17 @@ export const RepItem = (props: Props) => {
                 if (e.target === event.target) {
                     item.current.classList.add('selected-rep-item')
                 } else {
-                    item.current.classList.remove('selected-rep-item')
-                    setSelected(false)
+                    try {
+                        item.current.classList.remove('selected-rep-item')
+                        setSelected(false)
+                    } catch (error) {
+                    }
                 }
 
             })
         }
     }
+
     return (
         <div className="repitem" onClick={selectList}>
             <div className="repitem-item" ref={item}>
@@ -47,7 +58,7 @@ export const RepItem = (props: Props) => {
                 <div className="repitem-item-etc" onClick={() => { switchOption() }} ref={etc}>···</div>
                 <ul className="repitem-item-option" ref={options}>
                     {/* <li className="repitem-item-option-li">重命名</li> */}
-                    <li className="repitem-item-option-li" onClick={() => switchOption()}>删除</li>
+                    <li className="repitem-item-option-li" onClick={() => { switchOption(); props.deleteFun(props.id) }}>删除</li>
                 </ul>
             </div>
 

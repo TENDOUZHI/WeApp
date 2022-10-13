@@ -13,6 +13,11 @@ export interface ProgramInsert {
     lastdate: string
 }
 
+export interface ProgramDelete {
+    id:number,
+    user_id: number,
+}
+
 interface State {
     list: Array<Item>
 }
