@@ -21,6 +21,8 @@ export const Head = () => {
         // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
     const click = async () => {
+        console.log(wapp);
+        
         await axios.post('/vapp', wapp, { responseType: 'blob' }).then((res) => {
             // console.log(res);
             const blob = new Blob([res.data], { type: 'application/zip' })
@@ -67,7 +69,7 @@ export const Head = () => {
                 </div>
                 <div className="etc">
                     
-                    <button className='btn' onClick={click}>Shoe Log</button>
+                    <button className='btn' onClick={click}>Show Log</button>
                     <div className='clear' onClick={clear}>clear</div>
                 </div>
 

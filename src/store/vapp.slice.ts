@@ -1,7 +1,7 @@
 import { useAutoSave } from "@/hooks/useAutoSave";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import { routes, Vapp, vNode } from "./ast";
+import { Routes, Vapp, VNode } from "./ast";
 
 
 
@@ -66,7 +66,7 @@ export const routesSlice = createSlice({
     initialState,
     reducers: {
         appendRoutes(state, payload) {
-            const vNode: vNode = {
+            const vNode: VNode = {
                 name: 'root',
                 class: '',
                 tag_name: 'div',
@@ -75,7 +75,7 @@ export const routesSlice = createSlice({
                 children: []
             }
             state.maxSize += 1
-            const route: routes = {
+            const route: Routes = {
                 id: state.maxSize,
                 name: payload.payload,
                 state: 0,
@@ -93,12 +93,12 @@ export const routesSlice = createSlice({
             useAutoSave(state.Vapp, state.Wapp, state.maxSize)
         },
         updateVnode(state, payload) {
-            state.Vapp.routes.forEach((route: routes) => {
+            state.Vapp.routes.forEach((route: Routes) => {
                 if (route.id === payload.payload.curVnode.id) {
                     route.vnode = payload.payload.curVnode.vNode
                 }
             })
-            state.Wapp.routes.forEach((route: routes) => {
+            state.Wapp.routes.forEach((route: Routes) => {
                 if (route.id === payload.payload.curWnode.id) {
                     route.vnode = payload.payload.curWnode.vNode
                 }

@@ -41,6 +41,7 @@ export const RoutePage = (props: Props) => {
     const inputChangeAble = () => {
         input.current.readOnly = false
         input.current.style.cursor = 'text'
+        input.current.focus()
         bar.current.style.width = '100%'
     }
     const blurInput = () => {

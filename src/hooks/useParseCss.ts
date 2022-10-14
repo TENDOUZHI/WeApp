@@ -1,31 +1,31 @@
-import { Style, vNode } from "@/store/ast"
+import { Style } from "@/store/ast"
 import { useRpx } from "./useRpx"
 
 export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolean): Style => {
     const style: Style = {
         width: window.getComputedStyle(el).width,
         height: window.getComputedStyle(el).height,
-        fontSize: window.getComputedStyle(el).fontSize,
+        font_size: window.getComputedStyle(el).fontSize,
         color: window.getComputedStyle(el).color,
-        marginTop: window.getComputedStyle(el).marginTop,
-        marginBottom: window.getComputedStyle(el).marginBottom,
-        marginLeft: window.getComputedStyle(el).marginLeft,
-        marginRight: window.getComputedStyle(el).marginRight,
-        paddingTop: window.getComputedStyle(el).paddingTop,
-        paddingBottom: window.getComputedStyle(el).paddingBottom,
-        paddingLeft: window.getComputedStyle(el).paddingLeft,
-        paddingRight: window.getComputedStyle(el).paddingRight,
-        borderRadius: window.getComputedStyle(el).borderRadius,
-        borderWidth: window.getComputedStyle(el).borderWidth,
-        borderColor: window.getComputedStyle(el).borderColor,
-        backgroundColor: window.getComputedStyle(el).backgroundColor,
+        margin_top: window.getComputedStyle(el).marginTop,
+        margin_bottom: window.getComputedStyle(el).marginBottom,
+        margin_left: window.getComputedStyle(el).marginLeft,
+        margin_right: window.getComputedStyle(el).marginRight,
+        padding_top: window.getComputedStyle(el).paddingTop,
+        padding_bottom: window.getComputedStyle(el).paddingBottom,
+        padding_left: window.getComputedStyle(el).paddingLeft,
+        padding_right: window.getComputedStyle(el).paddingRight,
+        border_radius: window.getComputedStyle(el).borderRadius,
+        border_width: window.getComputedStyle(el).borderWidth,
+        border_color: window.getComputedStyle(el).borderColor,
+        background_color: window.getComputedStyle(el).backgroundColor,
         opacity: window.getComputedStyle(el).opacity,
         display: window.getComputedStyle(el).opacity,
-        flexDirection: window.getComputedStyle(el).flexDirection,
-        justifyContent: window.getComputedStyle(el).justifyContent,
-        justifyItems: window.getComputedStyle(el).justifyItems,
-        alignContent: window.getComputedStyle(el).alignContent,
-        alignItems: window.getComputedStyle(el).alignItems
+        flex_direction: window.getComputedStyle(el).flexDirection,
+        justify_content: window.getComputedStyle(el).justifyContent,
+        justify_items: window.getComputedStyle(el).justifyItems,
+        align_content: window.getComputedStyle(el).alignContent,
+        align_items: window.getComputedStyle(el).alignItems
     }
     if (isRpx) {
         for (let key in style) {

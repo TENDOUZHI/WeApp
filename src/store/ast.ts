@@ -1,49 +1,49 @@
 export interface Vapp {
     project_name: string,
-    routes: Array<routes>
+    routes: Array<Routes>
 }
 
-export interface routes {
+export interface Routes {
     id: number,
     name: string,
     state: 0 | -1,
     size: number,
-    vnode: vNode,
+    vnode: VNode,
 }
 
-export interface vNode {
+export interface VNode {
     name: string,
     tag_name: string,
     class: string | null,
     style: Style | null,
     content: string | null,
-    children: Array<vNode>
+    children: Array<VNode>
 }
 
 export interface Style {
     width: string
     height: string
-    fontSize: string
+    font_size: string
     color: string
-    marginTop: string
-    marginBottom: string
-    marginLeft: string
-    marginRight: string
-    paddingTop: string
-    paddingBottom: string
-    paddingLeft: string
-    paddingRight: string
-    borderRadius: string
-    borderWidth: string
-    borderColor: string
-    backgroundColor: string
+    margin_top: string
+    margin_bottom: string
+    margin_left: string
+    margin_right: string
+    padding_top: string
+    padding_bottom: string
+    padding_left: string
+    padding_right: string
+    border_radius: string
+    border_width: string
+    border_color: string
+    background_color: string
     opacity: string
     display: string
-    flexDirection: string
-    justifyContent: string
-    justifyItems: string
-    alignContent: string
-    alignItems: string
+    flex_direction: string
+    justify_content: string
+    justify_items: string
+    align_content: string
+    align_items: string
 
 }
 

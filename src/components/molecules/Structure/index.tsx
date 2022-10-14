@@ -1,6 +1,6 @@
 import { useCompile } from '@/hooks/useCompile'
 import { useRenderer } from '@/hooks/useRenderer'
-import { vNode } from '@/store/ast'
+import { VNode } from '@/store/ast'
 import { selectDevice } from '@/store/device.slice'
 import { routesSliceAction, selectCurRoutes, selectRoutes, selectRouteSize, selectVapp, selectWapp } from '@/store/vapp.slice'
 import { selectRoot } from '@/store/source.slice'
@@ -75,7 +75,7 @@ export const Structure = () => {
                 root?.removeChild(childs[i])
             }
             // render dom
-            useRenderer(root as HTMLElement, route[id].vnode as vNode, dispatch)
+            useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch)
         }
     }
 

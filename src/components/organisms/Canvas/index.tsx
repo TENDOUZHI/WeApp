@@ -9,7 +9,7 @@ import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/
 import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
-import { Vapp, vNode } from '@/store/ast'
+import { Vapp, VNode } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
 interface Props {
@@ -47,12 +47,12 @@ export const Canvas = (props: Props) => {
                     if (vapp !== null) {
                         localStorage.setItem('vapp', JSON.stringify(vapp))
                         localStorage.setItem('wapp', JSON.stringify(vapp))
-                        const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-                        if (data !== null) {
+                        // const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+                        if (vapp !== null) {
                             dispatch(routesSliceAction.retriveDom())
-                            const index = data.routes[0].vnode
-                            setNum(data.routes[current.id].size)
-                            useRenderer(root.current, index as vNode, dispatch)
+                            const index = vapp.routes[0].vnode
+                            setNum(vapp.routes[current.id].size)
+                            useRenderer(root.current, index as VNode, dispatch)
                         }
                     }
                 }

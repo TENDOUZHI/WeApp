@@ -1,4 +1,4 @@
-import { vNode } from "@/store/ast";
+import { VNode } from "@/store/ast";
 import { useParseCss } from "./useParseCss";
 
 //  to do list
@@ -8,7 +8,7 @@ import { useParseCss } from "./useParseCss";
 
 export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
     // inital the virtual dom
-    let vNode: vNode = {
+    let vNode: VNode = {
         name: 'root',
         class: rootNode.classList[0],
         tag_name: rootNode.tagName,
@@ -22,7 +22,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
-const dfs = (rootNode: any, vNode: vNode, width: number, isRpx: boolean) => {
+const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
     // 对rootNode的子节点进行遍历
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         // 同步到vNode的子节点
@@ -41,7 +41,7 @@ const dfs = (rootNode: any, vNode: vNode, width: number, isRpx: boolean) => {
             styles = useParseCss(el, width, isRpx)
             curClass = el.classList[0]
         }
-        const node: vNode = {
+        const node: VNode = {
             name: el.id,
             class: curClass,
             tag_name: el.tagName,

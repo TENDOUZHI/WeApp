@@ -1,15 +1,15 @@
 import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { vNode } from '@/store/ast'
+import { VNode } from '@/store/ast'
 import { useSelector } from "react-redux";
 
 
-export const useRenderer = (root: HTMLElement, vNode: vNode, dispatch: Dispatch) => {
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch) => {
     dfs(root, vNode, dispatch)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: vNode, dispatch: Dispatch) => {
-    vNode.children.forEach((item: vNode, index: number) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch) => {
+    vNode.children.forEach((item: VNode, index: number) => {
         // console.log(item.name,item.tag_name);
         if (item.name !== '') {
             rootNode.appendChild(createNode(item, dispatch))
@@ -20,7 +20,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: vNode, dispatch: Dispatch) => 
 
 }
 
-const createNode = (vNode: vNode, dispatch: Dispatch): HTMLElement => {
+const createNode = (vNode: VNode, dispatch: Dispatch): HTMLElement => {
     // console.log(vNode);
     
     const curNode = document.createElement(vNode.tag_name)
