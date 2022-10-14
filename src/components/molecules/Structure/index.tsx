@@ -21,7 +21,7 @@ export const Structure = () => {
     const layer = useRef<any>()
     useEffect(() => {
         dispatch(routesSliceAction.retriveSize())
-        console.log(vapp);
+        // console.log(vapp);
 
     }, [])
     const createPage = () => {

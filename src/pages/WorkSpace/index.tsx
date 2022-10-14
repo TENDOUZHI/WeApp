@@ -16,17 +16,15 @@ export const WorkSpace = () => {
         // const id = location.state.id
         // selectData(programId)
     }, [])
-    
+
     return (
         <div className='home'>
             <Head />
-            {
-                <div className='home-content'>
-                    <LeftList />
-                    <Canvas programData={programData} id={programId} />
-                    <RighttList />
-                </div>
-            }
+            <div className='home-content'>
+                <LeftList />
+                <Canvas programData={programData} id={programId} />
+                <RighttList />
+            </div>
 
         </div>
     )

@@ -14,8 +14,6 @@ export const Head = () => {
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
-        // console.log(JSON.parse('{"name":"123"}'));
-
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             setTitle(data.project_name)
@@ -37,7 +35,8 @@ export const Head = () => {
         })
     }
     const clear = () => {
-        localStorage.clear()
+        localStorage.removeItem('vapp')
+        localStorage.removeItem('wapp')
         location.reload()
     }
     const selectTitle = () => {

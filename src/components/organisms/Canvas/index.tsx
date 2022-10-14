@@ -1,5 +1,5 @@
 import './index.scss'
-import { DragEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { DragEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
@@ -26,6 +26,7 @@ export const Canvas = (props: Props) => {
     const Vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const root = useRef<any>(null)
+    const firstUpdate = useRef(true);
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
     // record the number of element in canvas
@@ -33,7 +34,7 @@ export const Canvas = (props: Props) => {
     const drag = (e: DragEvent) => {
         e.preventDefault()
     }
-    const selectData = async (id: number) => {
+    const selectData = useCallback(async (id: number) => {
         const payload = {
             id
         }
@@ -41,27 +42,46 @@ export const Canvas = (props: Props) => {
             if (res.status === 200) {
                 dispatch(sourceSliceAction.initialRoot(root.current))
                 if (res.data) {
-                    console.log('canvas', JSON.parse(res.data.data));
+                    // console.log('canvas', JSON.parse(res.data.data));
                     const vapp = JSON.parse(res.data.data)
-                    useRenderer(root.current, vapp.routes[0].vnode as vNode, dispatch)
-                } else {
-                    const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-                    if (data !== null) {
-                        dispatch(routesSliceAction.retriveDom())
-                        const index = data.routes[0].vnode
-                        // console.log(data.routes[current.id].size);
-                        setNum(data.routes[current.id].size)
-                        useRenderer(root.current, index as vNode, dispatch)
+                    if (vapp !== null) {
+                        localStorage.setItem('vapp', JSON.stringify(vapp))
+                        localStorage.setItem('wapp', JSON.stringify(vapp))
+                        const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+                        if (data !== null) {
+                            dispatch(routesSliceAction.retriveDom())
+                            const index = data.routes[0].vnode
+                            setNum(data.routes[current.id].size)
+                            useRenderer(root.current, index as vNode, dispatch)
+                        }
                     }
                 }
             }
         })
-    }
+        // if user not login
+        // free try use
+        // if (user.isLogin === false) {
+        //     const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+        //     if (data !== null) {
+        //         dispatch(routesSliceAction.retriveDom())
+        //         const index = data.routes[0].vnode
+        //         // console.log(data.routes[current.id].size);
+        //         setNum(data.routes[current.id].size)
+        //         useRenderer(root.current, index as vNode, dispatch)
+        //     }
+        // }
+    }, [props.id])
     // initial root dom at the first time of render
-    useEffect(() => {
-        selectData(props.id)
+    useLayoutEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        } else {
+            selectData(props.id)
+        }
         const len = root?.current.childNodes.length as number
         const childs = root?.current.childNodes
+
         return (() => {
             // clear main display
             for (let i = len - 1; i >= 0; i--) {
@@ -72,7 +92,7 @@ export const Canvas = (props: Props) => {
 
             }
         })
-    }, [])
+    }, [props])
 
     const drop = (e: DragEvent) => {
         createDom(e)
