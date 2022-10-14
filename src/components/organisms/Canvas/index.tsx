@@ -148,11 +148,13 @@ export const Canvas = (props: Props) => {
         const payload = {
             id: props.id,
             user_id: user.id,
-            data: JSON.stringify(Vapp)
+            data: JSON.stringify(Vapp),
+            program_name:Vapp.project_name,
+            lastdate: new Date().toLocaleDateString().replaceAll('/', '-')
         }
-        console.log(payload);
+        // console.log(payload);
         await axios.post('/programlist/save', payload).then(res => {
-            console.log(res);
+            // console.log(res);
         })
     }
 
