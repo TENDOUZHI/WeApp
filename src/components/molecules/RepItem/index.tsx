@@ -15,33 +15,37 @@ interface Props {
 }
 export const RepItem = (props: Props) => {
     const navigate = useNavigate()
-    const user = useSelector(selectUser)
     const [selected, setSelected] = useState<boolean>(false)
     const item = useRef<any>()
     const etc = useRef<any>()
     const options = useRef<any>()
     const switchOption = useAutoHide(options.current, etc.current, 'rep-show-option')
 
-    useEffect(() => {
-        etc.current.click()
-    }, [])
+    // useEffect(() => {
+    //     etc.current.click()
+    // }, [])
     const selectList = (e: MouseEvent) => {
         if (selected &&
             e.target !== etc.current &&
             e.target !== options.current &&
             e.target !== options.current.childNodes[0]
         ) {
+            // console.log(123);
             setSelected(false)
-            navigate('/workspace', { replace: false, state: { name: 'Vapp' } })
+            navigate('/workspace', { replace: false, state: { id: props.id, name: 'Vapp' } })
         } else {
             setSelected(true)
             document.addEventListener('click', (event) => {
                 if (e.target === event.target) {
-                    item.current.classList.add('selected-rep-item')
+                    try {
+                        item.current.classList.add('selected-rep-item')
+                    } catch (error) {
+                    }
+
                 } else {
                     try {
-                        item.current.classList.remove('selected-rep-item')
                         setSelected(false)
+                        item.current.classList.remove('selected-rep-item')
                     } catch (error) {
                     }
                 }

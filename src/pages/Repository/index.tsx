@@ -13,7 +13,7 @@ export const Repository = () => {
     const user = useSelector(selectUser)
     useEffect(() => {
         selectProgram()
-        console.log(user);
+        // console.log(user);
     }, [])
     const selectProgram = async () => {
         await axios.get('/programlist').then((res) => {
