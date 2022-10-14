@@ -154,7 +154,7 @@ export const Canvas = (props: Props) => {
         }
         // console.log(payload);
         await axios.post('/programlist/save', payload).then(res => {
-            // console.log(res);
+            console.log(res);
         })
     }
 
