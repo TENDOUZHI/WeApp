@@ -14,6 +14,8 @@ export const Head = () => {
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
+        // console.log(JSON.parse('{"name":"123"}'));
+
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             setTitle(data.project_name)
@@ -21,7 +23,7 @@ export const Head = () => {
         // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
     const click = async () => {
-        await axios.post('/vapp', wapp,{responseType:'blob'}).then((res) => {
+        await axios.post('/vapp', wapp, { responseType: 'blob' }).then((res) => {
             // console.log(res);
             const blob = new Blob([res.data], { type: 'application/zip' })
             const url = window.URL.createObjectURL(blob);
@@ -48,6 +50,7 @@ export const Head = () => {
     const updateTitle = (e: { target: { value: any } }) => {
         setTitle(e.target.value)
     }
+    
 
     return (
         <>
@@ -64,6 +67,7 @@ export const Head = () => {
                     <Device />
                 </div>
                 <div className="etc">
+                    
                     <button className='btn' onClick={click}>Shoe Log</button>
                     <div className='clear' onClick={clear}>clear</div>
                 </div>

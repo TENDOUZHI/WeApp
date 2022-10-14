@@ -3,38 +3,30 @@ import { Head } from '@/components/organisms/Head'
 import { LeftList } from '@/components/organisms/LeftList'
 import { RighttList } from '@/components/organisms/RightList'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './index.scss'
 export const WorkSpace = () => {
     const location = useLocation()
-    console.log(location.state);
+    const [programData, setProgramData] = useState<string>('')
+    const [loaded, setLoaded] = useState<boolean>(false)
+    // @ts-ignore
+    const [programId, setProgramId] = useState<number>(location.state.id)
     useEffect(() => {
         // const id = location.state.id
-        // @ts-ignore
-        selectData(location.state.id)
-    })
-    const selectData = async (id:number) => {
-        const payload = {
-            id
-        }
-        await axios.post('/programlist/data',payload).then(res => {
-            console.log(res);
-        })
-    }
-    // auto hide jump layer
-    // document.onclick = (e: MouseEvent) => {
-        
-    //     console.log(e.target);
-    // }
+        // selectData(programId)
+    }, [])
+    
     return (
         <div className='home'>
             <Head />
-            <div className='home-content'>
-                <LeftList />
-                <Canvas />
-                <RighttList />
-            </div>
+            {
+                <div className='home-content'>
+                    <LeftList />
+                    <Canvas programData={programData} id={programId} />
+                    <RighttList />
+                </div>
+            }
 
         </div>
     )

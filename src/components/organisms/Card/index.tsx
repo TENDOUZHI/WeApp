@@ -383,8 +383,8 @@ export const Card = () => {
                         isLogin: true
                     }
                     dispatch(userSliceAction.synUserData(userInfo))
+                    localStorage.setItem('user', JSON.stringify(res.data))
                     if (remAcount) {
-                        localStorage.setItem('user', JSON.stringify(res.data))
                     }
                     navigate('/repository')
                 }
