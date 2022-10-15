@@ -4,13 +4,19 @@ import { useRef, useState } from 'react'
 import './index.scss'
 import arrow from '@/assets/arrow.png'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { selectUser } from '@/store/user.slice'
+import { selectWs } from '@/store/ws.slice'
 interface Props {
     changeRoute: (name: string, id: number) => void
     value: string
-    id: number
+    id: number,
+    program_id: number
 }
 export const RoutePage = (props: Props) => {
     const dispatch = useDispatch()
+    const user = useSelector(selectUser)
+    const ws = useSelector(selectWs)
     const option = useRef<any>()
     const input = useRef<any>()
     const bar = useRef<any>()
@@ -35,7 +41,10 @@ export const RoutePage = (props: Props) => {
     const updateValue = (e: { target: { value: any } }) => {
         dispatch(routesSliceAction.updateRouteName({
             id: props.id,
-            name: e.target.value
+            name: e.target.value,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws
         }))
     }
     const inputChangeAble = () => {
@@ -50,7 +59,12 @@ export const RoutePage = (props: Props) => {
     }
     // delete pages
     const deletePage = () => {
-        dispatch(routesSliceAction.deleteRoute(props.id))
+        dispatch(routesSliceAction.deleteRoute({
+            id:props.id,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws
+        }))
     }
     const autoHide = (e: MouseEvent) => {
         if ((

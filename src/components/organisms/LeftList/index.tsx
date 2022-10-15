@@ -3,7 +3,10 @@ import { Structure } from '@/components/molecules/Structure'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import './index.scss'
-export const LeftList = () => {
+interface Props {
+    program_id: number
+}
+export const LeftList = (props: Props) => {
     const [ingredients, setIngredients] = useState<boolean>(true)
     const [structure, setStructure] = useState<boolean>(false)
 
@@ -35,7 +38,7 @@ export const LeftList = () => {
             </ul>
             <div className="content-wrapper">
                 {ingredients && <Ingredients />}
-                {structure && <Structure />}
+                {structure && <Structure program_id={props.program_id} />}
 
             </div>
         </div>

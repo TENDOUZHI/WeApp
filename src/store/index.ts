@@ -5,6 +5,7 @@ import { sourceSlice } from "./source.slice";
 import { targetSlice } from "./target.slice";
 import { userSlice } from "./user.slice";
 import { repSlice } from "./respository.slice";
+import { wsSlice } from "./ws.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -12,7 +13,8 @@ export const rootReducer = {
         deviceElement: deviceSlice.reducer,
         routesElement: routesSlice.reducer,
         userElement: userSlice.reducer,
-        repElement: repSlice.reducer
+        repElement: repSlice.reducer,
+        wsElemeent: wsSlice.reducer
 }
 
 export const store = configureStore({

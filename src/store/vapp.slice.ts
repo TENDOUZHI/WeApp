@@ -1,4 +1,5 @@
 import { useAutoSave } from "@/hooks/useAutoSave";
+import { useSendWs } from "@/hooks/useSendWs";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { Routes, Vapp, VNode } from "./ast";
@@ -77,7 +78,7 @@ export const routesSlice = createSlice({
             state.maxSize += 1
             const route: Routes = {
                 id: state.maxSize,
-                name: payload.payload,
+                name: payload.payload.name,
                 state: 0,
                 size: 0,
                 vnode: vNode
@@ -86,11 +87,13 @@ export const routesSlice = createSlice({
             state.Wapp.routes.push(route)
             localStorage.setItem('size', JSON.stringify(state.maxSize))
             useAutoSave(state.Vapp, state.Wapp)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         deleteRoute(state, payload) {
-            state.Wapp.routes.splice(payload.payload, 1)
-            state.Vapp.routes[payload.payload].state = -1
+            state.Wapp.routes.splice(payload.payload.id, 1)
+            state.Vapp.routes[payload.payload.id].state = -1
             useAutoSave(state.Vapp, state.Wapp, state.maxSize)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateVnode(state, payload) {
             state.Vapp.routes.forEach((route: Routes) => {
@@ -105,6 +108,7 @@ export const routesSlice = createSlice({
             })
             // localStorage.setItem('size', JSON.stringify(state.maxSize))
             useAutoSave(state.Vapp, state.Wapp, state.maxSize)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         changeRoutes(state, payload) {
             state.current = payload.payload
@@ -120,19 +124,22 @@ export const routesSlice = createSlice({
             state.maxSize = JSON.parse(size as string)
         },
         updateProjectName(state, payload) {
-            state.Vapp.project_name = payload.payload
-            state.Wapp.project_name = payload.payload
+            state.Vapp.project_name = payload.payload.title
+            state.Wapp.project_name = payload.payload.title
             useAutoSave(state.Vapp, state.Wapp, state.maxSize)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateRouteName(state, payload) {
             state.Vapp.routes[payload.payload.id].name = payload.payload.name
             state.Wapp.routes[payload.payload.id].name = payload.payload.name
             useAutoSave(state.Vapp, state.Wapp)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateRouteSize(state, payload) {
             state.Vapp.routes[payload.payload.id].size = payload.payload.size
             state.Wapp.routes[payload.payload.id].size = payload.payload.size
             useAutoSave(state.Vapp, state.Wapp)
+            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         }
     }
 })

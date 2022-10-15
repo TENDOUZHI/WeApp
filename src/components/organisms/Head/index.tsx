@@ -7,13 +7,22 @@ import './index.scss'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { targetSliceAction } from '@/store/target.slice'
-export const Head = () => {
+import { selectUser } from '@/store/user.slice'
+import { selectWs } from '@/store/ws.slice'
+interface Props {
+    id: number
+}
+export const Head = (props: Props) => {
     const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
+    const user = useSelector(selectUser)
+    const ws = useSelector(selectWs)
+    const [message, setMessage] = useState('');
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     useEffect(() => {
+
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             setTitle(data.project_name)
@@ -22,7 +31,7 @@ export const Head = () => {
     }, [])
     const click = async () => {
         console.log(wapp);
-        
+
         await axios.post('/vapp', wapp, { responseType: 'blob' }).then((res) => {
             // console.log(res);
             const blob = new Blob([res.data], { type: 'application/zip' })
@@ -36,22 +45,32 @@ export const Head = () => {
             URL.revokeObjectURL(url) //realease memory
         })
     }
-    const clear = () => {
+    const clear = async () => {
         localStorage.removeItem('vapp')
         localStorage.removeItem('wapp')
         location.reload()
+        // ws.current = new WebSocket('ws://127.0.0.1:8080/program/ws');
+        // ws.current.onopen = (() => {
+        //     console.log('opened');
+        // })
     }
     const selectTitle = () => {
         bar.current.classList.add('show-bar')
     }
     const blurTitle = () => {
         bar.current.classList.remove('show-bar')
-        dispatch(routesSliceAction.updateProjectName(title))
+        const payload = {
+            title: title,
+            ws: ws,
+            user_id: user.id,
+            program_id: props.id
+        }
+        dispatch(routesSliceAction.updateProjectName(payload))
     }
     const updateTitle = (e: { target: { value: any } }) => {
         setTitle(e.target.value)
     }
-    
+
 
     return (
         <>
@@ -68,9 +87,11 @@ export const Head = () => {
                     <Device />
                 </div>
                 <div className="etc">
-                    
+
                     <button className='btn' onClick={click}>Show Log</button>
                     <div className='clear' onClick={clear}>clear</div>
+                    {/* <div className='clear' onClick={sendWs}>send</div>
+                    <div className='clear' onClick={closeWs}>close</div> */}
                 </div>
 
             </div>

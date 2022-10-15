@@ -9,7 +9,12 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import './index.scss'
 import { RoutePage } from '@/components/atoms/RoutePage'
-export const Structure = () => {
+import { selectUser } from '@/store/user.slice'
+import { selectWs } from '@/store/ws.slice'
+interface Props {
+    program_id: number
+}
+export const Structure = (props: Props) => {
     const dispatch = useDispatch()
     const route = useSelector(selectRoutes)
     const root = useSelector(selectRoot)
@@ -17,6 +22,8 @@ export const Structure = () => {
     const current = useSelector(selectCurRoutes)
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
+    const user = useSelector(selectUser)
+    const ws = useSelector(selectWs)
     const routeDom = useRef<Array<any>>([])
     const layer = useRef<any>()
     useEffect(() => {
@@ -26,7 +33,12 @@ export const Structure = () => {
     }, [])
     const createPage = () => {
         const name = 'new route'
-        dispatch(routesSliceAction.appendRoutes(name))
+        dispatch(routesSliceAction.appendRoutes({
+            name: name,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws
+        }))
     }
     const changeRoute = (name: string, id: number): void => {
         // update vNode before switch route
@@ -46,7 +58,12 @@ export const Structure = () => {
             id: current.id,
             vNode: useCompile(root, device.width, true)
         }
-        dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
+        dispatch(routesSliceAction.updateVnode({
+            curVnode, curWnode,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws
+        }))
     }
     const changeStyle = (name: string, id: number) => {
         dispatch(routesSliceAction.changeRoutes({ name, id }))
@@ -86,7 +103,7 @@ export const Structure = () => {
             <ul className='page-structure-wrapper'>
                 {route.map(item =>
                     item.state === 0 &&
-                    <RoutePage key={item.id} value={item.name} id={item.id} changeRoute={changeRoute} />
+                    <RoutePage key={item.id} program_id={props.program_id} value={item.name} id={item.id} changeRoute={changeRoute} />
                 )}
 
             </ul>

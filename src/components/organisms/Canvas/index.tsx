@@ -12,8 +12,9 @@ import { useRenderer } from '@/hooks/useRenderer'
 import { Vapp, VNode } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
+import { selectWs } from '@/store/ws.slice'
 interface Props {
-    id: number,
+    program_id: number,
     programData: string
 }
 export const Canvas = (props: Props) => {
@@ -25,6 +26,7 @@ export const Canvas = (props: Props) => {
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
+    const ws = useSelector(selectWs)
     const root = useRef<any>(null)
     const firstUpdate = useRef(true);
     // clone the HTMLElement
@@ -70,14 +72,14 @@ export const Canvas = (props: Props) => {
         //         useRenderer(root.current, index as vNode, dispatch)
         //     }
         // }
-    }, [props.id])
+    }, [props.program_id])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
             return;
         } else {
-            selectData(props.id)
+            selectData(props.program_id)
         }
         const len = root?.current.childNodes.length as number
         const childs = root?.current.childNodes
@@ -105,14 +107,22 @@ export const Canvas = (props: Props) => {
             id: current.id,
             vNode: useCompile(root.current, device.width, true)
         }
-        dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
+        dispatch(routesSliceAction.updateVnode({
+            curVnode, curWnode,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws
+        }))
     }
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
         newSource.draggable = false
         newSource.classList.add(newSource.nodeName + num)
         setNum(num + 1)
-        dispatch(routesSliceAction.updateRouteSize({ id: current.id, size: num + 1 }))
+        dispatch(routesSliceAction.updateRouteSize({ id: current.id, size: num + 1,
+            user_id: user.id,
+            program_id: props.program_id,
+            ws: ws }))
         target.appendChild(newSource as Node)
         const cacheBorder = getComputedStyle(newSource).border
         // heighlight element 
@@ -141,15 +151,20 @@ export const Canvas = (props: Props) => {
                 id: current.id,
                 vNode: useCompile(root.current, device.width, true)
             }
-            dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
+            dispatch(routesSliceAction.updateVnode({
+                curVnode, curWnode,
+                user_id: user.id,
+                program_id: props.program_id,
+                ws: ws
+            }))
         }
     }
     const saveData = async () => {
         const payload = {
-            id: props.id,
+            id: props.program_id,
             user_id: user.id,
             data: JSON.stringify(Vapp),
-            program_name:Vapp.project_name,
+            program_name: Vapp.project_name,
             lastdate: new Date().toLocaleDateString().replaceAll('/', '-')
         }
         // console.log(payload);
