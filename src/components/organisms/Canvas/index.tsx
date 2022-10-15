@@ -44,18 +44,16 @@ export const Canvas = (props: Props) => {
             if (res.status === 200) {
                 dispatch(sourceSliceAction.initialRoot(root.current))
                 if (res.data) {
-                    // console.log('canvas', JSON.parse(res.data.data));
                     const vapp = JSON.parse(res.data.data)
+                    // console.log('canvas', vapp);
                     if (vapp !== null) {
                         localStorage.setItem('vapp', JSON.stringify(vapp))
                         localStorage.setItem('wapp', JSON.stringify(vapp))
                         // const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-                        if (vapp !== null) {
-                            dispatch(routesSliceAction.retriveDom())
-                            const index = vapp.routes[0].vnode
-                            setNum(vapp.routes[current.id].size)
-                            useRenderer(root.current, index as VNode, dispatch)
-                        }
+                        dispatch(routesSliceAction.retriveDom())
+                        const index = vapp.routes[0].vnode
+                        setNum(vapp.routes[current.id].size)
+                        useRenderer(root.current, index as VNode, dispatch)
                     }
                 }
             }
@@ -119,10 +117,12 @@ export const Canvas = (props: Props) => {
         newSource.draggable = false
         newSource.classList.add(newSource.nodeName + num)
         setNum(num + 1)
-        dispatch(routesSliceAction.updateRouteSize({ id: current.id, size: num + 1,
-            user_id: user.id,
-            program_id: props.program_id,
-            ws: ws }))
+        dispatch(routesSliceAction.updateRouteSize({
+            id: current.id, size: num + 1,
+            // user_id: user.id,
+            // program_id: props.program_id,
+            // ws: ws 
+        }))
         target.appendChild(newSource as Node)
         const cacheBorder = getComputedStyle(newSource).border
         // heighlight element 

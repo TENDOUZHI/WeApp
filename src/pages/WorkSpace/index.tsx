@@ -2,6 +2,7 @@ import { Canvas } from '@/components/organisms/Canvas'
 import { Head } from '@/components/organisms/Head'
 import { LeftList } from '@/components/organisms/LeftList'
 import { RighttList } from '@/components/organisms/RightList'
+import { routesSliceAction } from '@/store/vapp.slice'
 import { wsSliceAction } from '@/store/ws.slice'
 import axios from 'axios'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -17,6 +18,10 @@ export const WorkSpace = () => {
     const [programId, setProgramId] = useState<number>(location.state.id)
     useEffect(() => {
         dispatch(wsSliceAction.initialWs(ws.current))
+        dispatch(routesSliceAction.initialProgramId(programId))
+        // return (()=>{
+        //     ws.current.close()
+        // })
     })
     return (
         <div className='home'>
@@ -24,7 +29,7 @@ export const WorkSpace = () => {
             <div className='home-content'>
                 <LeftList program_id={programId}/>
                 <Canvas programData={programData} program_id={programId}/>
-                <RighttList />
+                <RighttList/>
             </div>
 
         </div>

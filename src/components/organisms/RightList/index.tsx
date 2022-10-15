@@ -10,7 +10,9 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import './index.scss'
-export const RighttList = () => {
+interface Props {
+}
+export const RighttList = (props: Props) => {
     let target = useSelector(selectTarget) as HTMLElement
     const dispatch = useDispatch()
     return (

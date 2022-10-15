@@ -12,6 +12,7 @@ interface State {
         name: string
     },
     maxSize: number,
+    program_id: number,
     Vapp: Vapp,
     Wapp: Vapp
 }
@@ -22,6 +23,7 @@ const initialState: State = {
         name: 'index'
     },
     maxSize: 0,
+    program_id: 0,
     Vapp: {
         project_name: 'New Project',
         routes: [
@@ -139,7 +141,10 @@ export const routesSlice = createSlice({
             state.Vapp.routes[payload.payload.id].size = payload.payload.size
             state.Wapp.routes[payload.payload.id].size = payload.payload.size
             useAutoSave(state.Vapp, state.Wapp)
-            useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
+            // useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
+        },
+        initialProgramId(state,payload){
+            state.program_id = payload.payload
         }
     }
 })
@@ -151,3 +156,4 @@ export const selectCurRoutes = (state: RootState) => state.routesElement.current
 export const selectVapp = (state: RootState) => state.routesElement.Vapp
 export const selectWapp = (state: RootState) => state.routesElement.Wapp
 export const selectRouteSize = (state: RootState) => state.routesElement.maxSize
+export const selectProgramId = (state: RootState) => state.routesElement.program_id
