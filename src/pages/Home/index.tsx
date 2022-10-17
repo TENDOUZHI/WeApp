@@ -6,16 +6,27 @@ import buildPage from '@/assets/build page.png'
 import autoSave from '@/assets/auto save.png'
 import codeSet from '@/assets/code set.png'
 import dataSafe from '@/assets/data safe.png'
+import file from '@/assets/file.png'
+import safepic from '@/assets/safe.png'
+import safeensure from '@/assets/safe ensure.png'
+import certain from '@/assets/certain.png'
+import { useSelector } from 'react-redux'
+import { selectUser, userSliceAction } from '@/store/user.slice'
+import { useDispatch } from 'react-redux'
 
 export const Home = () => {
+    const dispatch = useDispatch()
+    const user = useSelector(selectUser)
     const slide = useRef<any>()
     const slide2 = useRef<any>()
     const slide3 = useRef<any>()
     const slide4 = useRef<any>()
     const title = useRef<any>()
     const board = useRef<any>()
+    const wechat = useRef<any>()
+    const safe = useRef<any>()
+    const btnUl = useRef<any>()
     const container = useRef<any>()
-    const ob = useRef<any>()
     const monitorScroll = () => {
         const scrollTop = Math.round(container.current.scrollTop)
         const target = 1000
@@ -70,11 +81,11 @@ export const Home = () => {
                 ) {
                     setTimeout(() => {
                         v.target.classList.add('cansee')
-                    },100)
+                    }, 100)
                 } else {
                     v.target.classList.add('cansee')
                 }
-                
+
             } else {
                 v.target.classList.remove('cansee')
             }
@@ -88,8 +99,28 @@ export const Home = () => {
         io.observe(slide2.current)
         io.observe(slide3.current)
         io.observe(slide4.current)
-    }, [])
+        io.observe(wechat.current)
+        io.observe(safe.current)
+        console.log(user.isLogin);
 
+    }, [])
+    const btnEnter = () => {
+        btnUl.current.style.display = 'block'
+        setTimeout(() => {
+            btnUl.current.style.opacity = 1
+            btnUl.current.style.top = '90%'
+            btnUl.current.style.transform = 'scale(100%) translateY(10%)'
+        }, 100)
+    }
+    const btnLeave = () => {
+        btnUl.current.style.display = 'none'
+        btnUl.current.style.opacity = 0
+        btnUl.current.style.top = '90%'
+        btnUl.current.style.transform = 'scale(95%) translateY(0%)'
+    }
+    const logout = () => {
+        dispatch(userSliceAction.logout())
+    }
     return (
         <div className='homepage' onScroll={monitorScroll} ref={container}>
             <div className="homepage-head">
@@ -106,7 +137,29 @@ export const Home = () => {
                     </li>
                 </ul>
                 <div className="homepage-head-login">
-                    <Link to={'/login'}><button>登录</button></Link>
+                    {
+                        !user.isLogin
+
+                            ? <div className="login-rep">
+                                <div className="login-rep-main"
+                                    onMouseEnter={btnEnter}
+                                    onMouseLeave={btnLeave}>
+                                    <Link to={'/repository'} className='login-rep-a'>
+                                        <button className='login-rep-btn'>前往工作台</button>
+                                    </Link>
+                                    <ul className='login-rep-btn-ul' ref={btnUl}>
+                                        <li className='login-rep-btn-ul-li' onClick={logout}>退出登录</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+
+                            : <Link to={'/login'}><button>登录</button></Link>
+
+                    }
+
+
                 </div>
             </div>
             <div className="homepage-content">
@@ -149,13 +202,62 @@ export const Home = () => {
                         </div>
                     </div>
                     <div className="sticky-wrapper2">
-                        {/* <div className="sticky-wrapper2-main">
-                            <div className="sticky-wrapper2-main-ob" ref={ob}>hello</div>
-                            <div className="sticky-wrapper2-main-slide" ref={slide2}></div>
-                        </div> */}
+                        <div className="sticky-wrapper2-main">
+                            <div className="sticky-wrapper2-main-wechat" ref={wechat}>
+                                <div className="sticky-wrapper2-main-wechat-title">
+                                    <p className='title-sub'>工具特点</p>
+                                    <p className='title-main'>针对微信小程序进行定向优化</p>
+                                </div>
+                                <div className="sticky-wrapper2-main-wechat-content">
+                                    <div className='wechat'>
+                                        <p className='wechat-content'>直接生成.wxml .wxss文件 以及微信小程序配置文件 及出即用</p>
+                                        <p className='wechat-content'>一键导出并下载文件</p>
+                                    </div>
+
+                                    <div className="wechat-img">
+                                        <img src={file} alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="sticky-wrapper2-main-safe" ref={safe}>
+                                <div className="sticky-wrapper2-main-safe-title">
+                                    <div className="safe-title">
+                                        <p className="safe-title-sub">数据安全</p>
+                                        <p className="safe-title-main">实时存储, 文件数据安全多重保障</p>
+                                        <div className="safe-title-console">
+                                            <div className="safe-title-console-block">
+                                                <span className="safe-title-console-block-icon">
+                                                    <img src={certain} alt="" />
+                                                </span>
+                                                <span className="safe-title-console-block-text">自动保存</span>
+                                            </div>
+                                            <div className="safe-title-console-block">
+                                                <span className="safe-title-console-block-icon">
+                                                    <img src={certain} alt="" />
+                                                </span>
+                                                <span className="safe-title-console-block-text">密码加密</span>
+                                            </div>
+                                            <div className="safe-title-console-block">
+                                                <span className="safe-title-console-block-icon">
+                                                    <img src={certain} alt="" />
+                                                </span>
+                                                <span className="safe-title-console-block-text">保存离线文件</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="sticky-wrapper2-main-safe-content">
+                                    <img src={safepic} alt="" />
+                                    <img src={safeensure} alt="" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <footer className='homepage-foot'>
+                        <div className="homepage-foot-logo">幻想世界</div>
+                    </footer>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

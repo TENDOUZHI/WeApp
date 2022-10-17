@@ -34,6 +34,16 @@ export const userSlice = createSlice({
             state.telephone = data.telephone
             state.token = data.token
             state.isLogin = data.isLogin
+        },
+        logout(state) {
+            state.id = 0
+            state.username = ''
+            state.avatar = null
+            state.email = ''
+            state.telephone = ''
+            state.token = ''
+            state.isLogin = false
+            localStorage.setItem('user',JSON.stringify(state))
         }
     }
 })
