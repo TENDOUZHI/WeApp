@@ -64,9 +64,12 @@ export const Repository = () => {
         }
         const hide = (e: MouseEvent) => {
             const set = new Set()
-            ulList.current.childNodes.forEach((v:any) => {
+            try {
+                ulList.current.childNodes.forEach((v:any) => {
                 set.add(v)                
             })
+            } catch (error) {}
+            
             if(set.has(e.target)) {
                 console.log(321);
                 

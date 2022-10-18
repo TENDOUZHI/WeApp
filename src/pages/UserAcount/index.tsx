@@ -1,7 +1,7 @@
 import { selectUser } from '@/store/user.slice'
 import { useSelector } from 'react-redux'
 import './index.scss'
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import safe from '@/assets/safe.png'
 import tip from '@/assets/tip.png'
 import { editInfo, UserLayer } from '@/components/molecules/UserLayer'
@@ -10,8 +10,9 @@ import { useNavigate } from 'react-router'
 export const UserAccount = () => {
     const navigate = useNavigate()
     const user = useSelector(selectUser)
-    const [mailBind, setMailBind] = useState<boolean>(user.email !== '' || user.email === null)
-    const [telBind, setTelBind] = useState<boolean>(user.telephone !== '' || user.telephone === null)
+    const main = useRef<any>()
+    const [mailBind, setMailBind] = useState<boolean>(false)
+    const [telBind, setTelBind] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const [type, setType] = useState<editInfo>('username')
     useLayoutEffect(() => {
@@ -21,7 +22,20 @@ export const UserAccount = () => {
     const back = () => {
         navigate(-1)
     }
+    const onChangeAvatar = () => {
+        setType('avatar')
+        setEdit(true)
+    }
     const onChangeName = () => {
+        setType('username')
+        setEdit(true)
+    }
+    const onChangeMail = () => {
+        setType('email')
+        setEdit(true)
+    }
+    const onChangeTel = () => {
+        setType('telephone')
         setEdit(true)
     }
     return (
@@ -32,7 +46,7 @@ export const UserAccount = () => {
                     <button className="userpage_header_back_btn" onClick={back}>返回</button>
                 </div>
             </header>
-            <div className="userpage_main">
+            <div className="userpage_main" ref={main}>
                 <div className="userpage_main_content">
                     <div className="userpage_main_content_title">账号设置</div>
                     <div className="userpage_main_content_info">基本信息</div>
@@ -50,7 +64,7 @@ export const UserAccount = () => {
                                 </div>
                                 <div className="userpage_main_content_list_item_left_main">支持 2M 以内的 .JPG .PNG 格式</div>
                             </div>
-                            <div className="userpage_main_content_list_item_right">修改头像</div>
+                            <div className="userpage_main_content_list_item_right" onClick={onChangeAvatar}>修改头像</div>
                         </div>
                         <div className="userpage_main_content_list_item">
                             <div className="userpage_main_content_list_item_left">
@@ -72,8 +86,8 @@ export const UserAccount = () => {
                             <div className="userpage_main_content_list_item_right">
                                 {
                                     mailBind
-                                        ? '解除绑定'
-                                        : '立即绑定'
+                                        ? <span>解除绑定</span>
+                                        : <span onClick={onChangeMail}>立即绑定</span>
                                 }
                             </div>
                         </div>
@@ -90,8 +104,8 @@ export const UserAccount = () => {
                             </div>
                             <div className="userpage_main_content_list_item_right">{
                                 telBind
-                                    ? '解除绑定'
-                                    : '立即绑定'
+                                ? <span>解除绑定</span>
+                                : <span onClick={onChangeTel}>立即绑定</span>
                             }</div>
                         </div>
                     </div>
