@@ -4,20 +4,32 @@ import './index.scss'
 import { useLayoutEffect, useState } from 'react'
 import safe from '@/assets/safe.png'
 import tip from '@/assets/tip.png'
+import { editInfo, UserLayer } from '@/components/molecules/UserLayer'
+import { useNavigate } from 'react-router'
 
 export const UserAccount = () => {
+    const navigate = useNavigate()
     const user = useSelector(selectUser)
     const [mailBind, setMailBind] = useState<boolean>(user.email !== '' || user.email === null)
     const [telBind, setTelBind] = useState<boolean>(user.telephone !== '' || user.telephone === null)
+    const [edit, setEdit] = useState<boolean>(false)
+    const [type, setType] = useState<editInfo>('username')
     useLayoutEffect(() => {
         if (user.email) setMailBind(true)
         if (user.telephone) setTelBind(true)
     })
+    const back = () => {
+        navigate(-1)
+    }
+    const onChangeName = () => {
+        setEdit(true)
+    }
     return (
         <div className='userpage'>
+            {edit && <UserLayer show={edit} setShow={setEdit} type={type}/>}
             <header className='userpage_header'>
                 <div className="userpage_header_back">
-                    <button className="userpage_header_back_btn">返回</button>
+                    <button className="userpage_header_back_btn" onClick={back}>返回</button>
                 </div>
             </header>
             <div className="userpage_main">
@@ -45,7 +57,7 @@ export const UserAccount = () => {
                                 <div className="userpage_main_content_list_item_left_head">姓名</div>
                                 <div className="userpage_main_content_list_item_left_main">{user.username}</div>
                             </div>
-                            <div className="userpage_main_content_list_item_right">编辑姓名</div>
+                            <div className="userpage_main_content_list_item_right" onClick={onChangeName}>编辑姓名</div>
                         </div>
                         <div className="userpage_main_content_list_item">
                             <div className="userpage_main_content_list_item_left">

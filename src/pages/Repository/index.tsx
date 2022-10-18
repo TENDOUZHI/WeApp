@@ -86,11 +86,14 @@ export const Repository = () => {
     const userAccount = () => {
         navigate('/user')
     }
+    const home = () => {
+        navigate('/')
+    }
 
     return (
         <div className="rep">
             <div className="rep-head">
-                <div className="rep-head-logo">Ferris</div>
+                <div className="rep-head-logo" onClick={home}>Ferris</div>
                 <div className="rep-head-user">
                     <div className="rep-head-user-info" ref={userHead} onClick={userList}>
                         <div className="rep-head-user-info-avatar">
