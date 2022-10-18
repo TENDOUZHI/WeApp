@@ -7,7 +7,7 @@ export const Login = () => {
         <div className="login">
             <div className="login-left">
                 <div className="login-left-logo">
-                    幻想世界
+                    Ferris
                 </div>
                 <div className="login-left-main">
                     <div className="login-left-main-title">

@@ -124,7 +124,7 @@ export const Home = () => {
     return (
         <div className='homepage' onScroll={monitorScroll} ref={container}>
             <div className="homepage-head">
-                <div className="homepage-head-logo">幻想世界</div>
+                <div className="homepage-head-logo">Ferris</div>
                 <ul className="homepage-head list-wrapper">
                     <li className="homepage-head-list">
                         优势所在
@@ -138,7 +138,7 @@ export const Home = () => {
                 </ul>
                 <div className="homepage-head-login">
                     {
-                        !user.isLogin
+                        user.isLogin
 
                             ? <div className="login-rep">
                                 <div className="login-rep-main"

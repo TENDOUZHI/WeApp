@@ -7,14 +7,6 @@ function App() {
   return (
     <Provider store={store}>
       <Source/>
-      {/* <Router>
-        <Routes>
-        <Route path='/' element={<Home/>}></Route>
-          <Route path='/login' element={<Login/>}></Route>
-          <Route path='/repository' element={<Repository/>}></Route>
-          <Route path='/workspace' element={<WorkSpace />}></Route>
-        </Routes>
-      </Router> */}
     </Provider>
 
   )

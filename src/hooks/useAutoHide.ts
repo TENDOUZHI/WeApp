@@ -21,11 +21,21 @@ export const useAutoHide = (
         }
     }
     const autoHide = (e: MouseEvent) => {
-        if ((
-            e.target !== parents ||
-            e.target !== dom.childNodes[0] ||
-            e.target !== dom.childNodes[1]
-        )
+        const set = new Set()
+        try {
+            dom.childNodes.forEach((v) => {
+                set.add(v)
+            })
+        } catch (error) {}
+
+        set.add(parents)
+        if (
+            //     (
+            //     e.target !== parents ||
+            //     e.target !== dom.childNodes[0] ||
+            //     e.target !== dom.childNodes[1]
+            // )
+            !set.has(e.target)
         ) {
             try {
                 dom.style.display = 'none'
