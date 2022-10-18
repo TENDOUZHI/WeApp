@@ -49,38 +49,73 @@
       &_list {
         width: 100%;
         &_item {
+          padding: 1rem 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid rgb(229, 229, 229);
+          &_left {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            &_left{
+            flex-direction: column;
+            justify-content: center;
+            align-content: flex-start;
+            &_head {
+              font-size: 18px;
+              color: #243042;
+              &_avatar {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-content: flex-start;
-                &_head {
-                    font-size: 18px;
-                    color: #243042;
+                justify-content: flex-start;
+                align-items: center;
+                &_img {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 20px;
+                  border: 1px solid #000;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  overflow: hidden;
+                  img {
+                    width: 200%;
+                  }
                 }
                 &_main {
-                    margin-top: 8px;
-                    letter-spacing: 1px;
+                  margin-left: 10px;
+                  font-size: 16px;
+                  color: #243042;
                 }
+              }
             }
-            &_right{
-                padding: 0.5rem 1rem;
-                border-radius: 0.5rem;
-                border: 1px solid rgb(216, 216, 216);
-                color: #243042;
-                cursor: pointer;
-                user-select: none;
-                transition: all .3s;
-                &:hover{
-                    border: 1px solid rgb(111, 111, 111);
-                }
-                &:active{
-                    transform: scale(95%);
-                }
+            &_main {
+              color: rgb(137, 137, 137);
+              font-size: 14px;
+              margin-top: 8px;
+              letter-spacing: 1px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &_img{
+                width: 15px;
+                height: 15px;
+                margin-right: 5px;
+              }
             }
+          }
+          &_right {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgb(216, 216, 216);
+            color: #243042;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s;
+            &:hover {
+              border: 1px solid rgb(111, 111, 111);
+            }
+            &:active {
+              transform: scale(95%);
+            }
+          }
         }
       }
     }
