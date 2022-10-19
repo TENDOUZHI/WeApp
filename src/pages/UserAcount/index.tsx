@@ -40,7 +40,7 @@ export const UserAccount = () => {
     }
     return (
         <div className='userpage'>
-            {edit && <UserLayer show={edit} setShow={setEdit} type={type}/>}
+            {edit && <UserLayer show={edit} setShow={setEdit} type={type} />}
             <header className='userpage_header'>
                 <div className="userpage_header_back">
                     <button className="userpage_header_back_btn" onClick={back}>返回</button>
@@ -79,7 +79,9 @@ export const UserAccount = () => {
                                 {
                                     mailBind
                                         ? <div className="userpage_main_content_list_item_left_main">{user.email}</div>
-                                        : <div className="userpage_main_content_list_item_left_main">未绑定</div>
+                                        : <div className="userpage_main_content_list_item_left_main">
+                                            <img className="userpage_main_content_list_item_left_main_img" src={tip} alt="" />
+                                            未绑定</div>
                                 }
 
                             </div>
@@ -104,8 +106,8 @@ export const UserAccount = () => {
                             </div>
                             <div className="userpage_main_content_list_item_right">{
                                 telBind
-                                ? <span>解除绑定</span>
-                                : <span onClick={onChangeTel}>立即绑定</span>
+                                    ? <span>解除绑定</span>
+                                    : <span onClick={onChangeTel}>立即绑定</span>
                             }</div>
                         </div>
                     </div>

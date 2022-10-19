@@ -371,8 +371,8 @@ export const Card = () => {
                 }
             }
             await axios.post('/login', payload).then((res) => {
-                if (res.status === 200) {
-                    const { data } = res
+                const { data } = res
+                if (data.status === 200) {
                     const userInfo: User = {
                         id: data.id,
                         username: data.username,
@@ -444,7 +444,10 @@ export const Card = () => {
             }
             await axios.post('/register', payload).then((res) => {
                 console.log(res);
-
+                if(res.status === 200) {
+                    location.reload()
+                    navigate('/login')
+                }
             })
 
 

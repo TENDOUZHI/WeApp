@@ -13,7 +13,7 @@
     // height: 500px;
     padding: 2rem;
     padding-bottom: 1rem;
-    border-radius: 1rem;
+    border-radius: 0.7rem;
     background-color: #fff;
     position: absolute;
     transform: translateY(-50%) translateX(-50%);
@@ -63,7 +63,26 @@
       &_username {
         width: 100%;
         height: 40px;
+        display: flex;
         margin-top: 1rem;
+        position: relative;
+        &_tip{
+          width: 4rem;
+        }
+        .passcode_btn {
+          font-size: 15px;
+          color: #243042;
+          position: absolute;
+          top: 25%;
+          right: 3%;
+          cursor: pointer;
+          transition: all .2s;
+          user-select: none;
+          z-index: 5;
+          &:hover{
+            color: #4797ff;
+          }
+        }
       }
     }
     &_footer {

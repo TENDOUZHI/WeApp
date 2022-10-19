@@ -254,7 +254,7 @@ export const Home = () => {
                         </div>
                     </div>
                     <footer className='homepage-foot'>
-                        <div className="homepage-foot-logo">幻想世界</div>
+                        <div className="homepage-foot-logo">Feirrs</div>
                     </footer>
                 </div>
             </div>
