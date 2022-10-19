@@ -19,7 +19,7 @@ export const Repository = () => {
     const userHead = useRef<any>()
     const layer = useRef<any>()
     const ulList = useRef<any>()
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         document.title = 'Ferris-我的文件'
         selectProgram()
@@ -29,8 +29,9 @@ export const Repository = () => {
             if (res.status === 200) {
                 const { data } = res
                 dispatch(repSliceAction.synListData(data.list))
-                setTimeout(() => setLoading(false), 1000)
-
+            } else {
+                setLoading(true)
+                setTimeout(() => setLoading(false), 5000)
             }
 
         })

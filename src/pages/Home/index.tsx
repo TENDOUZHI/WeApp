@@ -97,6 +97,13 @@ export const Home = () => {
     }, {
         threshold: [0, 0.25, 0.5, 0.75, 1]
     })
+    useEffect(() => {
+        if (user.id === 0) {
+            setTimeout(() => setLoading(false), 5000)
+        } else {
+            setLoading(false)
+        }
+    },[])
     useLayoutEffect(() => {
         document.title = 'Ferris-首页'
         io.observe(board.current)
@@ -106,11 +113,6 @@ export const Home = () => {
         io.observe(slide4.current)
         io.observe(wechat.current)
         io.observe(safe.current)
-        if (user.id === 0) {
-            setTimeout(() => setLoading(false), 5000)
-        } else {
-            setLoading(false)
-        }
 
     }, [])
     const btnEnter = () => {

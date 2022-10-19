@@ -28,7 +28,8 @@ export const Canvas = (props: Props) => {
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const root = useRef<any>(null)
-    const firstUpdate = useRef(true);
+    // const firstUpdate = useRef<boolean>(true);
+    const [fitst, setFitst] = useState<boolean>(true)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
     // record the number of element in canvas
@@ -71,8 +72,8 @@ export const Canvas = (props: Props) => {
     }, [props.program_id])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
-        if (firstUpdate.current) {
-            firstUpdate.current = false;
+        if (fitst) {
+            setFitst(false);
             return;
         } else {
             selectData(props.program_id)
@@ -91,7 +92,7 @@ export const Canvas = (props: Props) => {
             }
         })
     }, [props])
-    
+
     const drop = (e: DragEvent) => {
         createDom(e)
         // update route vNode to redux

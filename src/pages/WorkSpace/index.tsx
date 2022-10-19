@@ -20,9 +20,9 @@ export const WorkSpace = () => {
     const [programId, setProgramId] = useState<number>(location.state.id)
     useEffect(() => {
         document.title = 'Ferris-工作台'
-        console.log(ws.current);
         ws.current.onopen = () => {
-            setLoading(false)
+            setTimeout(()=>setLoading(false),2000)
+            
         }
         
         dispatch(wsSliceAction.initialWs(ws.current))
