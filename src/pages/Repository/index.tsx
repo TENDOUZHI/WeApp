@@ -74,7 +74,7 @@ export const Repository = () => {
                 console.log(321);
                 
             }
-            layer.current.style.display = 'block'
+            layer.current.style.display = 'none'
             setTimeout(() => {
                 layer.current.classList.remove('show-layer')
             })

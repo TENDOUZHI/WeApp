@@ -1,6 +1,6 @@
 import { useScroll } from '@/hooks/useScroll'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './index.scss'
 import buildPage from '@/assets/build page.png'
 import autoSave from '@/assets/auto save.png'
@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux'
 
 export const Home = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const user = useSelector(selectUser)
     const slide = useRef<any>()
     const slide2 = useRef<any>()
@@ -26,6 +27,7 @@ export const Home = () => {
     const wechat = useRef<any>()
     const safe = useRef<any>()
     const btnUl = useRef<any>()
+    const accountBtn = useRef<any>()
     const container = useRef<any>()
     const monitorScroll = () => {
         const scrollTop = Math.round(container.current.scrollTop)
@@ -106,6 +108,8 @@ export const Home = () => {
     }, [])
     const btnEnter = () => {
         btnUl.current.style.display = 'block'
+        // accountBtn.current.style.height = '43px'
+        // accountBtn.current.style.transform = 'translateY(0%)'
         setTimeout(() => {
             btnUl.current.style.opacity = 1
             btnUl.current.style.top = '90%'
@@ -113,10 +117,15 @@ export const Home = () => {
         }, 100)
     }
     const btnLeave = () => {
+        accountBtn.current.style.height = '43px'
+        accountBtn.current.style.transform = 'translateY(0%)'
         btnUl.current.style.display = 'none'
         btnUl.current.style.opacity = 0
         btnUl.current.style.top = '90%'
         btnUl.current.style.transform = 'scale(95%) translateY(0%)'
+    }
+    const accountSet = () => {
+        navigate('/user')
     }
     const logout = () => {
         dispatch(userSliceAction.logout())
@@ -143,11 +152,14 @@ export const Home = () => {
                             ? <div className="login-rep">
                                 <div className="login-rep-main"
                                     onMouseEnter={btnEnter}
-                                    onMouseLeave={btnLeave}>
+                                    onMouseLeave={btnLeave}
+                                    ref={accountBtn}
+                                    >
                                     <Link to={'/repository'} className='login-rep-a'>
                                         <button className='login-rep-btn'>前往工作台</button>
                                     </Link>
                                     <ul className='login-rep-btn-ul' ref={btnUl}>
+                                        <li className='login-rep-btn-ul-li' onClick={accountSet}>账号设置</li>
                                         <li className='login-rep-btn-ul-li' onClick={logout}>退出登录</li>
                                     </ul>
                                 </div>

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { MouseEvent, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import './index.scss'
-export type editInfo = 'avatar' | 'username' | 'email' | 'telephone'
+export type editInfo = 'avatar' | 'username' | 'email' | 'telephone' | 'disemail' | 'distel'
 interface Props {
     type: editInfo,
     show: boolean,
@@ -29,6 +29,10 @@ export const UserLayer = (props: Props) => {
                 return '绑定邮箱'
             case 'telephone':
                 return '绑定手机号'
+            case 'disemail':
+                return '解绑邮箱'
+            case 'distel':
+                return '解绑手机号'
             default:
                 return ''
         }
@@ -37,7 +41,10 @@ export const UserLayer = (props: Props) => {
         if (e.target !== main.current) {
             props.setShow(false)
         }
-
+    }
+    const operateSucc = () => {
+        props.setShow(false)
+        location.reload()
     }
     useLayoutEffect(() => {
         setTimeout(() => {
@@ -90,7 +97,9 @@ export const UserLayer = (props: Props) => {
             username: username
         }
         await axios.post('/update/username', payload).then(res => {
-            console.log(res);
+            if(res.status===200) {
+                operateSucc()
+            }
         })
     }
     const updateMail = async () => {
@@ -100,8 +109,10 @@ export const UserLayer = (props: Props) => {
             passcode,
             password
         }
-        await axios.post('/update/mail',payload).then(res => {
-            console.log(res);
+        await axios.post('/update/mail', payload).then(res => {
+            if(res.status===200) {
+                operateSucc()
+            }
 
         })
     }
@@ -112,8 +123,44 @@ export const UserLayer = (props: Props) => {
             password
         }
         await axios.post('/update/tel', payload).then(res => {
-            console.log(res);
+            if(res.status===200) {
+                operateSucc()
+            }
 
+        })
+    }
+    const disBind = () => {
+        switch (props.type) {
+            case 'disemail':
+                disBindMail()
+                break;
+            case 'distel':
+                disBindTel()
+                break;
+            default:
+                break;
+        }
+    }
+    const disBindMail = async () => {
+        const payload = {
+            user_id: user.id
+        }
+        await axios.post('/disbind/mail',payload).then(res=>{
+            if(res.status===200) {
+                operateSucc()
+            }
+            
+        })
+    }
+    const disBindTel = async () => {
+        const payload = {
+            user_id: user.id
+        }
+        await axios.post('/disbind/tel',payload).then(res=>{
+            if(res.status===200) {
+                operateSucc()
+            }
+            
         })
     }
     return (
@@ -171,13 +218,32 @@ export const UserLayer = (props: Props) => {
                                     onChange={passwordOnChange} />
                             </div>
                         </>
-
-
+                    }
+                    {
+                        props.type === 'disemail' &&
+                        <>
+                            <div className="userlayer_main_content_disbind">
+                                解绑之后将无法通过该邮箱进行登录, 请谨慎操作!
+                            </div>
+                        </>
+                    }
+                    {
+                        props.type === 'distel' &&
+                        <>
+                            <div className="userlayer_main_content_disbind">
+                                解绑之后将无法通过该手机号进行登录, 请谨慎操作!
+                            </div>
+                        </>
                     }
                 </div>
                 <footer className='userlayer_main_footer'>
                     <div className="userlayer_main_footer_cancel userlayer_main_footer_btn" onClick={hide}>取消</div>
-                    <div className="userlayer_main_footer_certain userlayer_main_footer_btn" onClick={sendRequest}>确定</div>
+                    {
+                        (props.type === 'avatar' || props.type === 'username' || props.type === 'email' || props.type === 'telephone')
+                            ? <div className="userlayer_main_footer_certain userlayer_main_footer_btn" onClick={sendRequest}>确定</div>
+                            : <div className="  userlayer_main_footer_dismiss" onClick={disBind}>仍然解绑</div>
+                    }
+
                 </footer>
             </div>
             <div className="userlayer_shadow" ref={layer} onClick={hide}></div>

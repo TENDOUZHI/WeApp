@@ -38,6 +38,14 @@ export const UserAccount = () => {
         setType('telephone')
         setEdit(true)
     }
+    const disBindMail = () => {
+        setType('disemail')
+        setEdit(true)
+    }
+    const disBindTel = () => {
+        setType('distel')
+        setEdit(true)
+    }
     return (
         <div className='userpage'>
             {edit && <UserLayer show={edit} setShow={setEdit} type={type} />}
@@ -88,14 +96,14 @@ export const UserAccount = () => {
                             <div className="userpage_main_content_list_item_right">
                                 {
                                     mailBind
-                                        ? <span>解除绑定</span>
+                                        ? <span onClick={disBindMail}>解除绑定</span>
                                         : <span onClick={onChangeMail}>立即绑定</span>
                                 }
                             </div>
                         </div>
                         <div className="userpage_main_content_list_item">
                             <div className="userpage_main_content_list_item_left">
-                                <div className="userpage_main_content_list_item_left_head">电话</div>
+                                <div className="userpage_main_content_list_item_left_head">手机</div>
                                 {
                                     telBind
                                         ? <div className="userpage_main_content_list_item_left_main">{user.telephone}</div>
@@ -106,7 +114,7 @@ export const UserAccount = () => {
                             </div>
                             <div className="userpage_main_content_list_item_right">{
                                 telBind
-                                    ? <span>解除绑定</span>
+                                    ? <span onClick={disBindTel}>解除绑定</span>
                                     : <span onClick={onChangeTel}>立即绑定</span>
                             }</div>
                         </div>
