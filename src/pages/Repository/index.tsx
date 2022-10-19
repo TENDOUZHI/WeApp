@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import './index.scss'
 import file from '@/assets/file.png'
 import { useNavigate } from 'react-router'
+import { Loading } from '@/components/organisms/Loading'
 
 export const Repository = () => {
     const dispatch = useDispatch()
@@ -18,14 +19,20 @@ export const Repository = () => {
     const userHead = useRef<any>()
     const layer = useRef<any>()
     const ulList = useRef<any>()
+    const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
         document.title = 'Ferris-我的文件'
         selectProgram()
     }, [])
     const selectProgram = async () => {
         await axios.get('/programlist').then((res) => {
-            const { data } = res
-            dispatch(repSliceAction.synListData(data.list))
+            if (res.status === 200) {
+                const { data } = res
+                dispatch(repSliceAction.synListData(data.list))
+                setTimeout(() => setLoading(false), 1000)
+
+            }
+
         })
     }
     const createItem = async () => {
@@ -66,14 +73,14 @@ export const Repository = () => {
         const hide = (e: MouseEvent) => {
             const set = new Set()
             try {
-                ulList.current.childNodes.forEach((v:any) => {
-                set.add(v)                
-            })
-            } catch (error) {}
-            
-            if(set.has(e.target)) {
+                ulList.current.childNodes.forEach((v: any) => {
+                    set.add(v)
+                })
+            } catch (error) { }
+
+            if (set.has(e.target)) {
                 console.log(321);
-                
+
             }
             layer.current.style.display = 'none'
             setTimeout(() => {
@@ -96,6 +103,7 @@ export const Repository = () => {
 
     return (
         <div className="rep">
+            <Loading loading={loading} />
             <div className="rep-head">
                 <div className="rep-head-logo" onClick={home}>Ferris</div>
                 <div className="rep-head-user">
@@ -130,8 +138,6 @@ export const Repository = () => {
                         <div className="rep-file-ul-head-time">更新时间</div>
                     </div>
                     {lists.map(item => <RepItem key={item.id} id={item.id} name={item.name} time={item.lastdate} deleteFun={deleteItem} />)}
-                    {/* <RepItem name='Vapp' time='10月11日' />
-                    <RepItem name='村口备案' time='9月23日' /> */}
                 </div>
             </div>
         </div>

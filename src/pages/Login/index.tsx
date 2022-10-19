@@ -1,15 +1,20 @@
 import { Input } from '@/components/molecules/Input'
 import { Card } from '@/components/organisms/Card'
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
 import './index.scss'
 export const Login = () => {
+    const navigate = useNavigate()
     useEffect(()=>{
         document.title = 'Ferris-登录/注册'
     })
+    const home = () => {
+        navigate('/')
+    }
     return (
         <div className="login">
             <div className="login-left">
-                <div className="login-left-logo">
+                <div className="login-left-logo" onClick={home}>
                     Ferris
                 </div>
                 <div className="login-left-main">

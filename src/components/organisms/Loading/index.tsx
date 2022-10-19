@@ -16,22 +16,27 @@ export const Loading = (props: Props) => {
         if (!props.loading) {
             try {
                 loading.current.classList.add('loading_fade')
-            } catch (error) { }
+                setTimeout(() => {
+                    setUnmount(true)
+                }, 500)
+            } catch (error) {}
 
-            setTimeout(() => {
-                setUnmount(true)
-            }, 500)
         }
         const timer = setInterval(() => {
-            if (long) {
-                circle.current.classList.add('dot')
-                circle.current.classList.remove('long')
-                setLong(() => false)
-            } else {
-                circle.current.classList.add('long')
-                circle.current.classList.remove('dot')
-                setLong(() => true)
+            try {
+                if (long) {
+                    circle.current.classList.add('dot')
+                    circle.current.classList.remove('long')
+                    setLong(() => false)
+                } else {
+                    circle.current.classList.add('long')
+                    circle.current.classList.remove('dot')
+                    setLong(() => true)
+                }
+            } catch (error) {
+
             }
+
         }, 1500)
         return (() => {
             clearInterval(timer)
@@ -49,11 +54,11 @@ export const Loading = (props: Props) => {
                     <div className="loading_content" >
                         <svg className='svg svg_rotate' ref={svg} height='100%' width='100%'>
                             <linearGradient id="gradient">
-                                <stop offset="0" stop-color="#fe7970" />
-                                <stop offset="25%" stop-color="#ff5c80" />
-                                <stop offset="50%" stop-color="#fead67" />
-                                <stop offset="75%" stop-color="#fccd64" />
-                                <stop offset="100%" stop-color="#f99a7f" />
+                                <stop offset="0" stopColor="#fe7970" />
+                                <stop offset="25%" stopColor="#ff5c80" />
+                                <stop offset="50%" stopColor="#fead67" />
+                                <stop offset="75%" stopColor="#fccd64" />
+                                <stop offset="100%" stopColor="#f99a7f" />
                             </linearGradient>
                             <circle className='svg_item long' stroke='url(#gradient)' ref={circle} cx='50%' cy='50%' r='40'></circle>
 

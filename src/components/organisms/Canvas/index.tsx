@@ -45,11 +45,9 @@ export const Canvas = (props: Props) => {
                 dispatch(sourceSliceAction.initialRoot(root.current))
                 if (res.data) {
                     const vapp = JSON.parse(res.data.data)
-                    // console.log('canvas', vapp);
                     if (vapp !== null) {
                         localStorage.setItem('vapp', JSON.stringify(vapp))
                         localStorage.setItem('wapp', JSON.stringify(vapp))
-                        // const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
                         dispatch(routesSliceAction.retriveDom())
                         const index = vapp.routes[0].vnode
                         setNum(vapp.routes[current.id].size)
@@ -93,7 +91,7 @@ export const Canvas = (props: Props) => {
             }
         })
     }, [props])
-
+    
     const drop = (e: DragEvent) => {
         createDom(e)
         // update route vNode to redux
@@ -169,7 +167,7 @@ export const Canvas = (props: Props) => {
         }
         // console.log(payload);
         await axios.post('/programlist/save', payload).then(res => {
-            console.log(res);
+            // console.log(res);
         })
     }
 

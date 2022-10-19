@@ -23,6 +23,8 @@
       color: #fff;
       font-size: 26px;
       font-weight: bold;
+      user-select: none;
+      cursor: pointer;
     }
     &-main {
       width: 100%;
