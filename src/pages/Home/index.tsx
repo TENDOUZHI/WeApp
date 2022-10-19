@@ -13,6 +13,7 @@ import certain from '@/assets/certain.png'
 import { useSelector } from 'react-redux'
 import { selectUser, userSliceAction } from '@/store/user.slice'
 import { useDispatch } from 'react-redux'
+import { Loading } from '@/components/organisms/Loading'
 
 export const Home = () => {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ export const Home = () => {
     const btnUl = useRef<any>()
     const accountBtn = useRef<any>()
     const container = useRef<any>()
+    const [loading, setLoading] = useState<boolean>(true)
     const monitorScroll = () => {
         const scrollTop = Math.round(container.current.scrollTop)
         const target = 1000
@@ -104,7 +106,11 @@ export const Home = () => {
         io.observe(slide4.current)
         io.observe(wechat.current)
         io.observe(safe.current)
-        console.log(user.isLogin);
+        if (user.id === 0) {
+            setTimeout(() => setLoading(false), 5000)
+        } else {
+            setLoading(false)
+        }
 
     }, [])
     const btnEnter = () => {
@@ -133,6 +139,7 @@ export const Home = () => {
     }
     return (
         <div className='homepage' onScroll={monitorScroll} ref={container}>
+            <Loading loading={loading} title='Welcome to Ferris' />
             <div className="homepage-head">
                 <div className="homepage-head-logo">Ferris</div>
                 <ul className="homepage-head list-wrapper">
@@ -155,7 +162,7 @@ export const Home = () => {
                                     onMouseEnter={btnEnter}
                                     onMouseLeave={btnLeave}
                                     ref={accountBtn}
-                                    >
+                                >
                                     <Link to={'/repository'} className='login-rep-a'>
                                         <button className='login-rep-btn'>前往工作台</button>
                                     </Link>
