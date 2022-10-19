@@ -176,7 +176,7 @@ export const Canvas = (props: Props) => {
     return (
         <div className="canvas-wrapper">
             <div className="device" ref={root} onDragOver={drag} onDrop={drop}></div>
-            <button className='btn' onClick={saveData}>save</button>
+            {/* <button className='btn' onClick={saveData}>save</button> */}
         </div>
     )
 }

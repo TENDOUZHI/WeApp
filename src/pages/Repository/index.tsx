@@ -19,6 +19,7 @@ export const Repository = () => {
     const layer = useRef<any>()
     const ulList = useRef<any>()
     useEffect(() => {
+        document.title = 'Ferris-我的文件'
         selectProgram()
     }, [])
     const selectProgram = async () => {

@@ -96,6 +96,7 @@ export const Home = () => {
         threshold: [0, 0.25, 0.5, 0.75, 1]
     })
     useLayoutEffect(() => {
+        document.title = 'Ferris-首页'
         io.observe(board.current)
         io.observe(slide.current)
         io.observe(slide2.current)
@@ -108,8 +109,8 @@ export const Home = () => {
     }, [])
     const btnEnter = () => {
         btnUl.current.style.display = 'block'
-        // accountBtn.current.style.height = '43px'
-        // accountBtn.current.style.transform = 'translateY(0%)'
+        accountBtn.current.style.height = '100px'
+        accountBtn.current.style.transform = 'translateY(30%)'
         setTimeout(() => {
             btnUl.current.style.opacity = 1
             btnUl.current.style.top = '90%'

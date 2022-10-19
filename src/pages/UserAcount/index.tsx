@@ -16,6 +16,7 @@ export const UserAccount = () => {
     const [edit, setEdit] = useState<boolean>(false)
     const [type, setType] = useState<editInfo>('username')
     useLayoutEffect(() => {
+        document.title = 'Ferris-账号设置'
         if (user.email) setMailBind(true)
         if (user.telephone) setTelBind(true)
     })

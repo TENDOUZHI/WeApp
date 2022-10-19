@@ -17,6 +17,7 @@ export const WorkSpace = () => {
     // @ts-ignore
     const [programId, setProgramId] = useState<number>(location.state.id)
     useEffect(() => {
+        document.title = 'Ferris-工作台'
         dispatch(wsSliceAction.initialWs(ws.current))
         dispatch(routesSliceAction.initialProgramId(programId))
         // return (()=>{

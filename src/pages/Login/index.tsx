@@ -3,6 +3,9 @@ import { Card } from '@/components/organisms/Card'
 import { useEffect, useRef, useState } from 'react'
 import './index.scss'
 export const Login = () => {
+    useEffect(()=>{
+        document.title = 'Ferris-登录/注册'
+    })
     return (
         <div className="login">
             <div className="login-left">
