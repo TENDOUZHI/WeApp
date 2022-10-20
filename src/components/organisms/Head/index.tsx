@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { targetSliceAction } from '@/store/target.slice'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
+import { DownLoad } from '@/components/molecules/DownLoad'
 interface Props {
     id: number
 }
@@ -18,9 +19,11 @@ export const Head = (props: Props) => {
     const wapp = useSelector(selectWapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
+    const [progress, setProgress] = useState<number>(0)
     const [message, setMessage] = useState('');
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
+    const [download, setDownload] = useState<boolean>(false)
     useEffect(() => {
 
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
@@ -29,11 +32,10 @@ export const Head = (props: Props) => {
         }
         // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
-    const click = async () => {
-        console.log(wapp);
 
-        await axios.post('/vapp', wapp, { responseType: 'blob' }).then((res) => {
-            // console.log(res);
+    const click = async () => {
+        setDownload(true)
+        await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             const blob = new Blob([res.data], { type: 'application/zip' })
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -41,18 +43,27 @@ export const Head = (props: Props) => {
             const name = wapp.project_name + '.zip'
             link.setAttribute('download', name);
             document.body.appendChild(link);
-            link.click();
-            URL.revokeObjectURL(url) //realease memory
+            setTimeout(() => {
+                setDownload(false)
+                link.click();
+                URL.revokeObjectURL(url) //realease memory
+            }, 2000)
+
         })
+    }
+    const loadingProgress = (evt: ProgressEvent) => {
+        if (evt.lengthComputable) {
+            setProgress(Math.round((evt.loaded * 100) / evt.total))
+        }
+
+    }
+    const switchDown = () => {
+        setDownload(!download)
     }
     const clear = async () => {
         localStorage.removeItem('vapp')
         localStorage.removeItem('wapp')
         location.reload()
-        // ws.current = new WebSocket('ws://127.0.0.1:8080/program/ws');
-        // ws.current.onopen = (() => {
-        //     console.log('opened');
-        // })
     }
     const selectTitle = () => {
         bar.current.classList.add('show-bar')
@@ -84,14 +95,13 @@ export const Head = (props: Props) => {
                     <div className="bar" ref={bar}></div>
                 </div>
                 <div className="device">
-                    <Device />
+                    <Device program_id={props.id} />
                 </div>
                 <div className="etc">
-
-                    <button className='btn' onClick={click}>Show Log</button>
+                    <div className='download_btn' onClick={click}>
+                        <DownLoad download={download} />
+                    </div>
                     <div className='clear' onClick={clear}>clear</div>
-                    {/* <div className='clear' onClick={sendWs}>send</div>
-                    <div className='clear' onClick={closeWs}>close</div> */}
                 </div>
 
             </div>

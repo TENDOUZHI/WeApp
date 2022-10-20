@@ -21,8 +21,7 @@ export const WorkSpace = () => {
     useEffect(() => {
         document.title = 'Ferris-工作台'
         ws.current.onopen = () => {
-            setTimeout(()=>setLoading(false),2000)
-            
+            setLoading(false)
         }
         
         dispatch(wsSliceAction.initialWs(ws.current))

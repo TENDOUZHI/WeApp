@@ -7,12 +7,19 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import arrow from '@/assets/arrow.png'
 import './index.scss'
-export const Device = () => {
+import { selectUser } from '@/store/user.slice'
+import { selectWs } from '@/store/ws.slice'
+interface Props {
+    program_id: number
+}
+export const Device = (props: Props) => {
     const dispatch = useDispatch()
     const device = useSelector(selectDevice)
     const deviceList = useSelector(selectDeviceList)
     const current = useSelector(selectCurRoutes)
     const root = useSelector(selectRoot)
+    const user = useSelector(selectUser)
+    const ws = useSelector(selectWs)
     const choice = useRef<any>()
     const arrowRef = useRef<any>()
     const listItem = deviceList.map((item) => <li
@@ -25,8 +32,8 @@ export const Device = () => {
         // if show == false ,show list
         if (!show) {
             setShow(true)
-            choice.current.classList.remove('none')
-            arrowRef.current.classList.add('rotate')
+            choice.current.classList.remove('device-none')
+            arrowRef.current.classList.add('device-rotate')
             setTimeout(() => {
                 choice.current.classList.add('show-choice')
                 const curVnode = {
@@ -37,20 +44,25 @@ export const Device = () => {
                     id: current.id,
                     vNode: useCompile(root, device.width, true)
                 }
-                dispatch(routesSliceAction.updateVnode({ curVnode, curWnode }))
-                document.addEventListener('click', autoHide)
+                dispatch(routesSliceAction.updateVnode({
+                    curVnode, curWnode,
+                    user_id: user.id,
+                    program_id: props.program_id,
+                    ws: ws
+                }))
+                document.addEventListener('click', deviceHide)
             }, 10)
         }
     }
-    const autoHide = (e: MouseEvent) => {
+    const deviceHide = (e: MouseEvent) => {
         if (e.target !== choice.current) {
             setShow(false)
-            arrowRef.current.classList.remove('rotate')
+            arrowRef.current.classList.remove('device-rotate')
             choice.current.classList.remove('show-choice')
             setTimeout(() => {
-                choice.current.classList.add('none')
+                choice.current.classList.add('device-none')
             }, 100)
-            document.removeEventListener('click', autoHide)
+            document.removeEventListener('click', deviceHide)
         }
 
     }
@@ -67,7 +79,7 @@ export const Device = () => {
                     <img src={arrow} alt="" />
                 </div>
             </div>
-            <div className="device-list-choice none" ref={choice}>
+            <div className="device-list-choice device-none" ref={choice}>
                 <ul>
                     {listItem}
                 </ul>

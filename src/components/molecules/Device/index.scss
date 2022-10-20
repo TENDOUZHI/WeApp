@@ -93,10 +93,10 @@ $list-length: 19;
     z-index: 9;
   }
 }
-.none {
+.device-none {
   display: none;
 }
-.rotate{
+.device-rotate{
   transform: rotateZ(180deg);
 }
 @for $i from 1 through $list-length {
