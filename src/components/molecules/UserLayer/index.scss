@@ -61,6 +61,77 @@
         outline: none;
         background-color: #f5f5f5;
       }
+      &_avatar {
+        display: flex;
+        position: relative;
+        &_tips {
+          position: absolute;
+          top: 70%;
+          left: 40%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &_main {
+            color: #202020;
+            font-size: 13px;
+            &:hover {
+              .userlayer_main_content_avatar_input {
+                background-color: rgb(231, 231, 231);
+              }
+            }
+          }
+          &_sub {
+            color: #9f9f9f;
+            font-size: 12px;
+            &:hover {
+              .userlayer_main_content_avatar_input {
+                background-color: rgb(231, 231, 231);
+              }
+            }
+          }
+        }
+        &_input {
+          width: 284px;
+          height: 284px;
+          border-radius: 0.5rem;
+          background-color: rgb(242, 242, 242);
+          transition: all 0.3s;
+          color: rgb(242, 242, 242);
+          border: none;
+          outline: none;
+          cursor: pointer;
+          &::-webkit-file-upload-button {
+            display: none;
+          }
+          &:hover {
+            background-color: rgb(231, 231, 231);
+          }
+        }
+        &_forsee {
+          width: 88px;
+          height: 88px;
+          margin-left: 10px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          img{
+            width: 100%;
+            height: 100%;
+            border: none;
+          }
+          &_text {
+            position: absolute;
+            bottom: -40%;
+            color: #a6a6a6;
+            font-size: 14px;
+          }
+        }
+      }
       &_username {
         width: 100%;
         height: 40px;

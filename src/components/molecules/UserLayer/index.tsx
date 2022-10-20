@@ -14,11 +14,14 @@ export const UserLayer = (props: Props) => {
     const user = useSelector(selectUser)
     const layer = useRef<any>()
     const main = useRef<any>()
+    const reader = useRef<FileReader>(new FileReader())
     const [username, setUsername] = useState<string>(user.username)
     const [password, setPassword] = useState<string>('')
     const [passcode, setPasscode] = useState<string>('')
     const [mail, setMail] = useState<string>('')
     const [tel, setTel] = useState<string>('')
+    const [avatar, setAvatar] = useState<any>()
+    const [avatarBuffer, setAvatarBuffer] = useState<any>()
     const [title, setTitle] = useState<string>(() => {
         switch (props.type) {
             case 'avatar':
@@ -51,6 +54,30 @@ export const UserLayer = (props: Props) => {
             main.current.classList.add('main_show')
         })
     })
+    const avatarOnChange = (e: { target: { value: any, files: any } }) => {
+        const file = e.target.files[0]
+
+        if (file.type === 'image/png' || file.type === 'image/jpeg') {
+            reader.current.readAsDataURL(file)
+            setAvatarBuffer(file)
+            reader.current.onload = (res) => {
+                const size = Math.round(res.total / 1024)
+                if (size <= 2000) {
+                    setAvatar(res.target?.result)
+                    console.log(res);
+                } else {
+                    console.error('文件大于2M');
+                }
+
+            }
+        } else {
+            return
+        }
+
+
+
+
+    }
     const usernameOnChange = (e: { target: { value: any } }) => {
         setUsername(e.target.value)
     }
@@ -78,6 +105,9 @@ export const UserLayer = (props: Props) => {
     }
     const sendRequest = () => {
         switch (props.type) {
+            case 'avatar':
+                updateAvatar()
+                break;
             case 'username':
                 updateUsername()
                 break;
@@ -91,13 +121,17 @@ export const UserLayer = (props: Props) => {
                 break;
         }
     }
+    const updateAvatar = async () => {
+        console.log(avatarBuffer);
+        
+    }
     const updateUsername = async () => {
         const payload = {
             user_id: user.id,
             username: username
         }
         await axios.post('/update/username', payload).then(res => {
-            if(res.status===200) {
+            if (res.status === 200) {
                 operateSucc()
             }
         })
@@ -110,7 +144,7 @@ export const UserLayer = (props: Props) => {
             password
         }
         await axios.post('/update/mail', payload).then(res => {
-            if(res.status===200) {
+            if (res.status === 200) {
                 operateSucc()
             }
 
@@ -123,7 +157,7 @@ export const UserLayer = (props: Props) => {
             password
         }
         await axios.post('/update/tel', payload).then(res => {
-            if(res.status===200) {
+            if (res.status === 200) {
                 operateSucc()
             }
 
@@ -145,22 +179,22 @@ export const UserLayer = (props: Props) => {
         const payload = {
             user_id: user.id
         }
-        await axios.post('/disbind/mail',payload).then(res=>{
-            if(res.status===200) {
+        await axios.post('/disbind/mail', payload).then(res => {
+            if (res.status === 200) {
                 operateSucc()
             }
-            
+
         })
     }
     const disBindTel = async () => {
         const payload = {
             user_id: user.id
         }
-        await axios.post('/disbind/tel',payload).then(res=>{
-            if(res.status===200) {
+        await axios.post('/disbind/tel', payload).then(res => {
+            if (res.status === 200) {
                 operateSucc()
             }
-            
+
         })
     }
     return (
@@ -171,6 +205,26 @@ export const UserLayer = (props: Props) => {
                     <div className="userlayer_main_header_btn" onClick={hide}>x</div>
                 </header>
                 <div className="userlayer_main_content">
+                    {
+                        props.type === 'avatar' &&
+                        <div className="userlayer_main_content_avatar">
+                            <div className="userlayer_main_content_avatar_tips">
+                                <p className="userlayer_main_content_avatar_tips_main">点击或拖拽到此处上传</p>
+                                <p className="userlayer_main_content_avatar_tips_sub">支持2M 以内的 .JPG .PNG 图片格式</p>
+                            </div>
+                            <input type="file"
+                                accept="image/png, image/jpeg, image/jpg"
+                                className="userlayer_main_content_avatar_input"
+                                placeholder='321'
+                                onChange={avatarOnChange}
+                            />
+                            <div className="userlayer_main_content_avatar_forsee">
+                                <img src={avatar} alt="" />
+                                <span className="userlayer_main_content_avatar_forsee_text">头像预览</span>
+                            </div>
+
+                        </div>
+                    }
                     {
                         props.type === 'username' &&
                         <div className="userlayer_main_content_username">
