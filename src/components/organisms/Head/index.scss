@@ -46,11 +46,76 @@ $height: 50px;
     justify-content: center;
   }
   .etc {
-    width: 25%;
+    width: 20%;
     display: flex;
-    justify-content: center;
-    // height: 100%;
+    justify-content: space-around;
+    align-items: center;
+    &_user {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      cursor: pointer;
+      margin-right: 40px;
+      &_avtar {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        border: 1px solid #fff;
+        overflow: hidden;
+        img {
+          width: 140%;
+        }
+      }
+      .etc_user_list_move {
+        top: 125%;
+        opacity: 1;
+        transform: translateX(-30%) scale(100%);
+      }
+      &_list {
+        width: 100px;
+        padding: 0.5rem;
+        box-sizing: content-box;
+        position: absolute;
+        top: 100%;
+        transform: translateX(-30%) scale(97%);
+        background-color: rgb(63, 63, 63);
+        box-shadow: 1px 1px 10px rgb(19, 19, 19);
+        border-radius: 4px;
+        opacity: 0;
+        transition: all 0.3s;
+        z-index: 9;
+        &::before{
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          top: -10%;
+          left: 48%;
+          transform: translateX(-50%);
+          border: 10px solid rgb(63, 63, 63);
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-top: 5px solid transparent;
+        }
+        &_li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0.1rem 0.2rem;
+          border-radius: 4px;
+          font-size: 14px;
+          transition: all 0.3s;
+          &:hover {
+            background-color: rgb(91, 91, 91);
+          }
+        }
+      }
+    }
   }
+
   .download_btn {
     width: 130px;
     height: 40px;

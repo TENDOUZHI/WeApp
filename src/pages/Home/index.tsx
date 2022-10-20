@@ -138,6 +138,7 @@ export const Home = () => {
     }
     const logout = () => {
         dispatch(userSliceAction.logout())
+        navigate('/login')
     }
     return (
         <div className='homepage' onScroll={monitorScroll} ref={container}>
