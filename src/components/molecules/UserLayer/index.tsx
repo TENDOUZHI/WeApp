@@ -3,6 +3,7 @@ import { selectUser } from '@/store/user.slice'
 import axios from 'axios'
 import { MouseEvent, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import defaultAvatar from '@/assets/default-avatar.png'
 import './index.scss'
 export type editInfo = 'avatar' | 'username' | 'email' | 'telephone' | 'disemail' | 'distel'
 interface Props {
@@ -20,8 +21,7 @@ export const UserLayer = (props: Props) => {
     const [passcode, setPasscode] = useState<string>('')
     const [mail, setMail] = useState<string>('')
     const [tel, setTel] = useState<string>('')
-    const [avatar, setAvatar] = useState<any>()
-    const [avatarBuffer, setAvatarBuffer] = useState<any>()
+    const [avatar, setAvatar] = useState<string>(defaultAvatar)
     const [title, setTitle] = useState<string>(() => {
         switch (props.type) {
             case 'avatar':
@@ -56,27 +56,19 @@ export const UserLayer = (props: Props) => {
     })
     const avatarOnChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
-
         if (file.type === 'image/png' || file.type === 'image/jpeg') {
             reader.current.readAsDataURL(file)
-            setAvatarBuffer(file)
             reader.current.onload = (res) => {
                 const size = Math.round(res.total / 1024)
                 if (size <= 2000) {
-                    setAvatar(res.target?.result)
-                    console.log(res);
+                    setAvatar(res.target?.result as string)
                 } else {
                     console.error('文件大于2M');
                 }
-
             }
         } else {
             return
         }
-
-
-
-
     }
     const usernameOnChange = (e: { target: { value: any } }) => {
         setUsername(e.target.value)
@@ -122,8 +114,15 @@ export const UserLayer = (props: Props) => {
         }
     }
     const updateAvatar = async () => {
-        console.log(avatarBuffer);
-        
+        const payload = {
+            user_id: user.id,
+            avatar: avatar
+        }
+        await axios.post('/update/avatar',payload).then(res=>{
+            if(res.status === 200) {
+                operateSucc()
+            }
+        })
     }
     const updateUsername = async () => {
         const payload = {
@@ -204,7 +203,7 @@ export const UserLayer = (props: Props) => {
                     <div className="userlayer_main_header_title">{title}</div>
                     <div className="userlayer_main_header_btn" onClick={hide}>x</div>
                 </header>
-                <div className="userlayer_main_content">
+                <div className="userlayer_main_content avatar_content">
                     {
                         props.type === 'avatar' &&
                         <div className="userlayer_main_content_avatar">
@@ -235,7 +234,6 @@ export const UserLayer = (props: Props) => {
                         props.type === 'email' &&
                         <>
                             <div className="userlayer_main_content_username">
-                                {/* <span className="userlayer_main_content_username_tip">邮箱</span> */}
                                 <input type="text" className='content_input'
                                     placeholder='输入邮箱'
                                     value={mail}

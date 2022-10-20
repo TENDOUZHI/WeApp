@@ -2,7 +2,7 @@ import { RepItem } from '@/components/molecules/RepItem'
 import { Item, ProgramDelete, ProgramInsert, repSliceAction, selectList } from '@/store/respository.slice'
 import { selectUser, userSliceAction } from '@/store/user.slice'
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import './index.scss'
@@ -16,14 +16,18 @@ export const Repository = () => {
     const lists = useSelector(selectList)
     const user = useSelector(selectUser)
     const [show, setShow] = useState<boolean>(false)
+    const [userAvatar, setUserAvatar] = useState<string>(user.avatar)
+    const [loading, setLoading] = useState<boolean>(false)
     const userHead = useRef<any>()
     const layer = useRef<any>()
     const ulList = useRef<any>()
-    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         document.title = 'Ferris-我的文件'
         selectProgram()
     }, [])
+    useLayoutEffect(()=>{
+        setUserAvatar(user.avatar)
+    })
     const selectProgram = async () => {
         await axios.get('/programlist').then((res) => {
             if (res.status === 200) {
@@ -110,7 +114,7 @@ export const Repository = () => {
                 <div className="rep-head-user">
                     <div className="rep-head-user-info" ref={userHead} onClick={userList}>
                         <div className="rep-head-user-info-avatar">
-                            <img src={file} alt="" />
+                            <img src={userAvatar} alt="" />
                         </div>
                         <div className="rep-head-user-info-name">{user.username}</div>
                     </div>

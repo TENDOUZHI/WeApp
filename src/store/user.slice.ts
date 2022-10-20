@@ -4,7 +4,7 @@ import { RootState } from ".";
 export interface User {
     id: number
     username: string,
-    avatar: Blob | null,
+    avatar: any,
     email: string,
     telephone: string,
     token: string,

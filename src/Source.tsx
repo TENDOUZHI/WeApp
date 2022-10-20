@@ -36,10 +36,7 @@ export const Source = () => {
         })
     }
     useEffect(() => {
-        // if (localStorage.length === 0) {
             verifyUser()
-        // }
-
     }, [])
     return (
         <Router>

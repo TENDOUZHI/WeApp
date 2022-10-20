@@ -15,10 +15,13 @@ export const UserAccount = () => {
     const [telBind, setTelBind] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const [type, setType] = useState<editInfo>('username')
+    const [userAvatar, setUserAvatar] = useState<string>(user.avatar)
     useLayoutEffect(() => {
         document.title = 'Ferris-账号设置'
         if (user.email) setMailBind(true)
         if (user.telephone) setTelBind(true)
+        setUserAvatar(user.avatar)
+        
     })
     const back = () => {
         navigate(-1)
@@ -65,7 +68,7 @@ export const UserAccount = () => {
                                 <div className="userpage_main_content_list_item_left_head">
                                     <div className="userpage_main_content_list_item_left_head_avatar">
                                         <div className="userpage_main_content_list_item_left_head_avatar_img">
-                                            <img src={safe} alt="" />
+                                            <img src={userAvatar} alt="" />
                                         </div>
                                         <div className="userpage_main_content_list_item_left_head_avatar_main">头像</div>
                                     </div>

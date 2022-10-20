@@ -4,7 +4,7 @@ import { routesSliceAction, selectCurRoutes, selectVapp, selectWapp } from '@/st
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import './index.scss'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { targetSliceAction } from '@/store/target.slice'
 import { selectUser, userSliceAction } from '@/store/user.slice'
@@ -31,14 +31,16 @@ export const Head = (props: Props) => {
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     const [download, setDownload] = useState<boolean>(false)
+    const [avatar, setAvatar] = useState<string>(user.avatar)
     useEffect(() => {
-
         const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
         if (data !== null) {
             setTitle(data.project_name)
         }
-        // dispatch(targetSliceAction.initialLayer(layer.current))
     }, [])
+    useLayoutEffect(()=>{
+        setAvatar(user.avatar)
+    })
 
     const click = async () => {
         setDownload(true)
@@ -57,8 +59,6 @@ export const Head = (props: Props) => {
                     URL.revokeObjectURL(url) //realease memory
                 }, 2000)
             }
-
-
         })
     }
     const loadingProgress = (evt: ProgressEvent) => {
@@ -137,7 +137,7 @@ export const Head = (props: Props) => {
                     </div>
                     <div className="etc_user">
                         <div className="etc_user_avtar" ref={userAvatar} onClick={handleUserList}>
-                            <img draggable={false} src={file} alt="" />
+                            <img draggable={false} src={avatar} alt="" />
                         </div>
                         <ul className="etc_user_list" ref={userList}>
                             <li className="etc_user_list_li" onClick={back}>返回</li>
