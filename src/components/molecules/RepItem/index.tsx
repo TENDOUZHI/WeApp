@@ -32,7 +32,7 @@ export const RepItem = (props: Props) => {
         ) {
             // console.log(123);
             setSelected(false)
-            navigate('/workspace', { replace: false, state: { id: props.id, name: 'Vapp' } })
+            navigate('/workspace', { replace: false, state: { id: props.id, name: props.name } })
         } else {
             setSelected(true)
             document.addEventListener('click', (event) => {

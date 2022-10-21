@@ -48,7 +48,7 @@ export const Canvas = (props: Props) => {
                     const vapp = JSON.parse(res.data.data)
                     if (vapp !== null) {
                         localStorage.setItem('vapp', JSON.stringify(vapp))
-                        localStorage.setItem('wapp', JSON.stringify(vapp))
+                        // localStorage.setItem('wapp', JSON.stringify(vapp))
                         dispatch(routesSliceAction.retriveDom())
                         const index = vapp.routes[0].vnode
                         setNum(vapp.routes[current.id].size)

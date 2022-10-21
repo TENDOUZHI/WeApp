@@ -18,6 +18,8 @@ export const WorkSpace = () => {
     const ws = useRef<WebSocket>(new WebSocket('ws://127.0.0.1:8080/program/ws'));
     // @ts-ignore
     const [programId, setProgramId] = useState<number>(location.state.id)
+    // @ts-ignore
+    const [name, setName] = useState<string>(location.state.name)
     useEffect(() => {
         document.title = 'Ferris-工作台'
         ws.current.onopen = () => {
@@ -30,7 +32,7 @@ export const WorkSpace = () => {
     return (
         <div className='home'>
             <Loading loading={loading}/>
-            <Head id={programId} />
+            <Head id={programId} title={ name}/>
             <div className='home-content'>
                 <LeftList program_id={programId}/>
                 <Canvas programData={programData} program_id={programId}/>

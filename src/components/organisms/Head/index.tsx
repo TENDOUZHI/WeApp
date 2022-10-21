@@ -14,7 +14,8 @@ import { useAutoHide } from '@/hooks/useAutoHide'
 import file from '@/assets/file.png'
 import { useNavigate } from 'react-router'
 interface Props {
-    id: number
+    id: number,
+    title: string
 }
 export const Head = (props: Props) => {
     const dispatch = useDispatch()
@@ -29,14 +30,15 @@ export const Head = (props: Props) => {
     const userAvatar = useRef<any>()
     const userList = useRef<any>()
     const bar = useRef<any>()
-    const [title, setTitle] = useState<string>(vapp.project_name)
+    // const [title, setTitle] = useState<string>(vapp.project_name)
+    const [title, setTitle] = useState<string>(props.title)
     const [download, setDownload] = useState<boolean>(false)
     const [avatar, setAvatar] = useState<string>(user.avatar)
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-        if (data !== null) {
-            setTitle(data.project_name)
-        }
+        // const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
+        // if (data !== null) {
+        //     setTitle(data.project_name)
+        // }
     }, [])
     useLayoutEffect(()=>{
         setAvatar(user.avatar)
@@ -44,6 +46,7 @@ export const Head = (props: Props) => {
 
     const click = async () => {
         setDownload(true)
+        console.log(wapp);
         await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             if (res.status === 200) {
                 const blob = new Blob([res.data], { type: 'application/zip' })

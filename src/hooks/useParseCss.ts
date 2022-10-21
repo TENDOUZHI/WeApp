@@ -20,7 +20,7 @@ export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolea
         border_color: window.getComputedStyle(el).borderColor,
         background_color: window.getComputedStyle(el).backgroundColor,
         opacity: window.getComputedStyle(el).opacity,
-        display: window.getComputedStyle(el).opacity,
+        display: window.getComputedStyle(el).display,
         flex_direction: window.getComputedStyle(el).flexDirection,
         justify_content: window.getComputedStyle(el).justifyContent,
         justify_items: window.getComputedStyle(el).justifyItems,
