@@ -5,6 +5,8 @@ import { MouseEvent, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import defaultAvatar from '@/assets/default-avatar.png'
 import './index.scss'
+import { useDispatch } from 'react-redux'
+import { messageSliceAction } from '@/store/message.slice'
 export type editInfo = 'avatar' | 'username' | 'email' | 'telephone' | 'disemail' | 'distel'
 interface Props {
     type: editInfo,
@@ -13,6 +15,7 @@ interface Props {
 }
 export const UserLayer = (props: Props) => {
     const user = useSelector(selectUser)
+    const dispatch = useDispatch()
     const layer = useRef<any>()
     const main = useRef<any>()
     const reader = useRef<FileReader>(new FileReader())
@@ -46,8 +49,11 @@ export const UserLayer = (props: Props) => {
         }
     }
     const operateSucc = () => {
-        props.setShow(false)
-        location.reload()
+        setTimeout(() => {
+            props.setShow(false)
+            location.reload()
+        }, 500)
+
     }
     useLayoutEffect(() => {
         setTimeout(() => {
@@ -63,6 +69,7 @@ export const UserLayer = (props: Props) => {
                 if (size <= 2000) {
                     setAvatar(res.target?.result as string)
                 } else {
+                    dispatch(messageSliceAction.setError('文件大小不得大于2M'))
                     console.error('文件大于2M');
                 }
             }
@@ -118,9 +125,12 @@ export const UserLayer = (props: Props) => {
             user_id: user.id,
             avatar: avatar
         }
-        await axios.post('/update/avatar',payload).then(res=>{
-            if(res.status === 200) {
+        await axios.post('/update/avatar', payload).then(res => {
+            if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('修改用户头像成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('修改用户头像失败'))
             }
         })
     }
@@ -131,7 +141,10 @@ export const UserLayer = (props: Props) => {
         }
         await axios.post('/update/username', payload).then(res => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('修改用户名成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('修改用户名失败'))
             }
         })
     }
@@ -144,7 +157,10 @@ export const UserLayer = (props: Props) => {
         }
         await axios.post('/update/mail', payload).then(res => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('绑定用户邮箱成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('绑定用户邮箱失败'))
             }
 
         })
@@ -157,7 +173,10 @@ export const UserLayer = (props: Props) => {
         }
         await axios.post('/update/tel', payload).then(res => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('修改手机号成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('修改手机号失败'))
             }
 
         })
@@ -180,7 +199,10 @@ export const UserLayer = (props: Props) => {
         }
         await axios.post('/disbind/mail', payload).then(res => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('解绑用户邮箱成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('解绑用户邮箱失败'))
             }
 
         })
@@ -191,7 +213,10 @@ export const UserLayer = (props: Props) => {
         }
         await axios.post('/disbind/tel', payload).then(res => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('解绑手机号成功'))
                 operateSucc()
+            } else {
+                dispatch(messageSliceAction.setError('解绑手机号失败'))
             }
 
         })

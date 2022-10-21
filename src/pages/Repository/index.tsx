@@ -9,6 +9,7 @@ import './index.scss'
 import file from '@/assets/file.png'
 import { useNavigate } from 'react-router'
 import { Loading } from '@/components/organisms/Loading'
+import { messageSliceAction } from '@/store/message.slice'
 
 export const Repository = () => {
     const dispatch = useDispatch()
@@ -34,6 +35,7 @@ export const Repository = () => {
                 const { data } = res
                 dispatch(repSliceAction.synListData(data.list))
             } else {
+                dispatch(messageSliceAction.setError('获取文件信息失败'))
                 setLoading(true)
                 setTimeout(() => setLoading(false), 5000)
             }
@@ -49,7 +51,10 @@ export const Repository = () => {
         }
         await axios.post('/programlist/insert', payload).then((res) => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('创建项目成功'))
                 selectProgram()
+            } else {
+                dispatch(messageSliceAction.setError('创建项目失败'))
             }
         })
     }
@@ -60,7 +65,10 @@ export const Repository = () => {
         }
         await axios.post('/programlist/delete', payload).then((res) => {
             if (res.status === 200) {
+                dispatch(messageSliceAction.setCorrect('删除项目成功'))
                 selectProgram()
+            } else {
+                dispatch(messageSliceAction.setError('删除项目失败'))
             }
         })
     }

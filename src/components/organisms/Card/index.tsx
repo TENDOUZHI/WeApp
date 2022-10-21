@@ -1,5 +1,6 @@
 import { Input } from '@/components/molecules/Input'
 import { LoginPayload, PassCodePayload } from '@/store/ast'
+import { messageSliceAction } from '@/store/message.slice'
 import { selectUser, User, userSliceAction } from '@/store/user.slice'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
@@ -56,13 +57,8 @@ export const Card = () => {
     useEffect(() => {
         btn.current.disabled = true
         register.current.disabled = true
-        // card.current.style.display = 'none'
-        // setTimeout(() => {
-        //     card.current.style.display = 'none'
-        //     card.current.classList.add('show-card')
-        // },400)
         card.current.classList.add('show-card')
-        
+
         showContent([
             titleMain.current,
             titleSub.current,
@@ -387,6 +383,8 @@ export const Card = () => {
                     if (remAcount) {
                     }
                     navigate('/repository')
+                } else {
+                    dispatch(messageSliceAction.setError(data.message))
                 }
 
             })
@@ -402,7 +400,6 @@ export const Card = () => {
             payload.email_address = account
         }
         await axios.post('/passcode', payload).then((res) => {
-            console.log(res);
             if (res.status === 200) {
                 let counter = setInterval(() => {
                     passBtn.classList.add('pass-disabled')
@@ -417,6 +414,9 @@ export const Card = () => {
                 }, 1000)
 
             }
+        }, (res) => {
+            dispatch(messageSliceAction.setError('发送验证码失败'))
+
         })
 
     }
@@ -443,11 +443,12 @@ export const Card = () => {
                 payload.password = pwd
             }
             await axios.post('/register', payload).then((res) => {
-                console.log(res);
-                if(res.status === 200) {
+                if (res.status === 200) {
                     location.reload()
                     navigate('/login')
                 }
+            }, (res) => {
+                dispatch(messageSliceAction.setError(res.response.data))
             })
 
 

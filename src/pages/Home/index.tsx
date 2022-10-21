@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { selectUser, userSliceAction } from '@/store/user.slice'
 import { useDispatch } from 'react-redux'
 import { Loading } from '@/components/organisms/Loading'
+import { Message } from '@/components/organisms/Message'
 
 export const Home = () => {
     const dispatch = useDispatch()

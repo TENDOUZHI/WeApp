@@ -6,6 +6,7 @@ import safe from '@/assets/safe.png'
 import tip from '@/assets/tip.png'
 import { editInfo, UserLayer } from '@/components/molecules/UserLayer'
 import { useNavigate } from 'react-router'
+import { Message } from '@/components/organisms/Message'
 
 export const UserAccount = () => {
     const navigate = useNavigate()
@@ -21,7 +22,6 @@ export const UserAccount = () => {
         if (user.email) setMailBind(true)
         if (user.telephone) setTelBind(true)
         setUserAvatar(user.avatar)
-        
     })
     const back = () => {
         navigate(-1)
@@ -58,6 +58,7 @@ export const UserAccount = () => {
                     <button className="userpage_header_back_btn" onClick={back}>返回</button>
                 </div>
             </header>
+
             <div className="userpage_main" ref={main}>
                 <div className="userpage_main_content">
                     <div className="userpage_main_content_title">账号设置</div>

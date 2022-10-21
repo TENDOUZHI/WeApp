@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { User, userSliceAction } from './store/user.slice'
 import { UserAccount } from './pages/UserAcount'
+import { Message } from './components/organisms/Message'
 export const Source = () => {
     const dispatch = useDispatch()
     const verifyUser = () => {
@@ -47,6 +48,7 @@ export const Source = () => {
                 <Route path='/workspace' element={<WorkSpace />}></Route>
                 <Route path='/user' element={<UserAccount/>}></Route>
             </Routes>
+            <Message/>
         </Router>
     )
 }
