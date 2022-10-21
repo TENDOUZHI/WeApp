@@ -19,7 +19,7 @@ export const Login = () => {
                 </div>
                 <div className="login-left-main">
                     <div className="login-left-main-title">
-                        <p className="login-left-main-title-text">欢迎来到幻想世界开发平台😀</p>
+                        <p className="login-left-main-title-text">欢迎来到Ferris开发平台😀</p>
                         <p className="login-left-main-title-text">快速的构建微信小程序🚀</p>
                         <p className="login-left-main-title-tip">✅免费 ✅永久开源 ✅设计/开发/底代码</p>
                     </div>
