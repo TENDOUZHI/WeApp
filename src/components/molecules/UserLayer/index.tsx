@@ -129,9 +129,9 @@ export const UserLayer = (props: Props) => {
             if (res.status === 200) {
                 dispatch(messageSliceAction.setCorrect('修改用户头像成功'))
                 operateSucc()
-            } else {
-                dispatch(messageSliceAction.setError('修改用户头像失败'))
             }
+        },(res)=>{
+            dispatch(messageSliceAction.setError('修改用户头像失败'))
         })
     }
     const updateUsername = async () => {

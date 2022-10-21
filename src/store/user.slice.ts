@@ -1,6 +1,7 @@
 import { useAutoSave } from "@/hooks/useAutoSave";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from ".";
+import avatar from '@/assets/avatar.png'
 export interface User {
     id: number
     username: string,
@@ -14,7 +15,7 @@ export interface User {
 const initialState: User = {
     id: 0,
     username: "",
-    avatar: null,
+    avatar: avatar,
     email: "",
     telephone: "",
     token: "",
@@ -29,7 +30,7 @@ export const userSlice = createSlice({
             const data = payload.payload
             state.id = data.id
             state.username = data.username
-            state.avatar = data.avatar
+            state.avatar = null ?  avatar :data.avatar
             state.email = data.email
             state.telephone = data.telephone
             state.token = data.token

@@ -24,13 +24,16 @@ export const Repository = () => {
     const ulList = useRef<any>()
     useEffect(() => {
         document.title = 'Ferris-我的文件'
-        selectProgram()
     }, [])
     useLayoutEffect(()=>{
+        selectProgram()
         setUserAvatar(user.avatar)
-    })
+    },[user])
     const selectProgram = async () => {
-        await axios.get('/programlist').then((res) => {
+        const payload = {
+            user_id: user.id
+        }
+        await axios.post('/programlist',payload).then((res) => {
             if (res.status === 200) {
                 const { data } = res
                 dispatch(repSliceAction.synListData(data.list))
